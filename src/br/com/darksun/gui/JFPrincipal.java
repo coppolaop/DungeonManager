@@ -1,6 +1,7 @@
 package br.com.darksun.gui;
 
 import java.awt.EventQueue;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -18,10 +19,16 @@ public class JFPrincipal extends JFrame
 //				JFPrincipal frame = new JFPrincipal( );
 				
 				PersonagemController pc = new PersonagemController();
-				Personagem igor = pc.carregar( );
-				
-				System.out.println( igor.getNome( ) + " - " + igor.getClasse( ) + " - " + igor.getCa( ) );
+				List<Personagem> PJs = pc.listarPJs( );
+				List<Personagem> PDMs = pc.listarPDMs( );
 
+				for(Personagem personagem : PJs)
+					System.out.println( personagem.getNome( ) + " - " + personagem.getClasse( ) + " - " + personagem.getCa( ) );
+				
+				System.out.println( "-------" );
+				
+				for(Personagem personagem : PDMs)
+					System.out.println( personagem.getNome( ) + " - " + personagem.getClasse( ) + " - " + personagem.getCa( ) );
 			}
 		} );
 	}
