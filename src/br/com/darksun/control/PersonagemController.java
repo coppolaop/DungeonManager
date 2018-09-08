@@ -55,9 +55,6 @@ public class PersonagemController
 			personagem.setHpMaximo( Integer.parseInt( prop.getProperty( "hpMaximo" ) ) );
 			personagem.setHpAtual( Integer.parseInt( prop.getProperty( "hpAtual" ) ) );
 
-			// System.out.println("Personagem " + personagem.getNome( ) + " adicionado a
-			// lista de personagens");
-
 			return personagem;
 
 		} catch ( IOException ex )
