@@ -23,6 +23,8 @@ import br.com.darksun.entity.Personagem;
 public class JFPrincipal extends JFrame
 {
 	private JPanel tela = new JPanel( );
+	private Integer width = 1500;
+	private Integer height = 750;
 
 	public static void main( String[ ] args )
 	{
@@ -44,7 +46,7 @@ public class JFPrincipal extends JFrame
 	public JFPrincipal( )
 	{
 		this.setVisible( true );
-		this.setSize( 1500, 750 );
+		this.setSize( width, height );
 		this.setLocationRelativeTo( null );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
@@ -69,6 +71,9 @@ public class JFPrincipal extends JFrame
 
 		JButton btnAddPJ = new JButton( "Adincionar" );
 		btnAddPJ.setBounds( 50, 130, 100, 30 );
+		
+		JButton btnAddAllPJ = new JButton( "Adincionar Todos" );
+		btnAddAllPJ.setBounds( 200, 130, 150, 30 );
 
 		DefaultListModel PJsSelecionados = new DefaultListModel( );
 		JList listaPJ = new JList( PJsSelecionados );
@@ -80,29 +85,34 @@ public class JFPrincipal extends JFrame
 		btnRemovePJ.setVisible( false );
 
 		JComboBox PDMBox = new JComboBox( listaPDMs );
-		PDMBox.setBounds( 1350, 50, 100, 30 );
+		PDMBox.setBounds( width - 150, 50, 100, 30 );
 
 		JButton btnAddPDM = new JButton( "Adicionar" );
-		btnAddPDM.setBounds( 1350, 130, 100, 30 );
+		btnAddPDM.setBounds( width - 150, 130, 100, 30 );
+		
+		JButton btnAddAllPDM = new JButton( "Adincionar Todos" );
+		btnAddAllPDM.setBounds( width - 350, 130, 150, 30 );
 
 		DefaultListModel PDMsSelecionados = new DefaultListModel( );
 		JList listaPDM = new JList( PDMsSelecionados );
 		listaPDM.setVisible( false );
-		listaPDM.setBounds( 1350, 210, 100, 0 );
+		listaPDM.setBounds( width - 150, 210, 100, 0 );
 
 		JButton btnRemovePDM = new JButton("Remover");
-		btnRemovePDM.setBounds( 1200, 210, 100, 30 );
+		btnRemovePDM.setBounds( width - 300, 210, 100, 30 );
 		btnRemovePDM.setVisible( false );
 		
 		JButton btnIniciarCombate = new JButton( "Iniciar Combate" );
-		btnIniciarCombate.setBounds( 650, 200, 200, 30 );
+		btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
 
 		this.tela.add( PJBox );
 		this.tela.add( btnAddPJ );
+		this.tela.add( btnAddAllPJ );
 		this.tela.add( listaPJ );
 		this.tela.add( btnRemovePJ );
 		this.tela.add( PDMBox );
 		this.tela.add( btnAddPDM );
+		this.tela.add( btnAddAllPDM );
 		this.tela.add( listaPDM );
 		this.tela.add( btnRemovePDM );
 		this.tela.add( btnIniciarCombate );
@@ -112,14 +122,16 @@ public class JFPrincipal extends JFrame
 			@Override
 			public void componentResized( ComponentEvent e )
 			{
-				int width = getBounds( ).width;
-				int height = getBounds( ).height;
+				width = getBounds( ).width;
+				height = getBounds( ).height;
 
 				tela.setBounds( 0, 0, width, height );
-				btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
-				PDMBox.setBounds( width - 150, 50, 100, 30 );
-				btnAddPDM.setBounds( width - 150, 130, 100, 30 );
-				listaPDM.setBounds( width - 150, 210, 100, listaPDM.getBounds( ).height );
+				btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, btnIniciarCombate.getBounds( ).width, btnIniciarCombate.getBounds( ).height );
+				PDMBox.setBounds( width - 150, 50, PDMBox.getBounds( ).width, PDMBox.getBounds( ).height );
+				btnAddPDM.setBounds( width - 150, 130, btnAddPDM.getBounds( ).width, btnAddPDM.getBounds( ).height );
+				btnAddAllPDM.setBounds( width - 350, 130, btnAddAllPDM.getBounds( ).width, btnAddAllPDM.getBounds( ).height );
+				listaPDM.setBounds( width - 150, 210, listaPDM.getBounds( ).width, listaPDM.getBounds( ).height );
+				btnRemovePDM.setBounds( width - 300, 210, btnRemovePDM.getBounds( ).width, btnRemovePDM.getBounds( ).height );
 			}
 		} );
 
@@ -148,7 +160,7 @@ public class JFPrincipal extends JFrame
 				if ( PDMBox.getSelectedItem( ) != null )
 				{
 					PDMsSelecionados.addElement( PDMBox.getSelectedItem( ) );
-					listaPDM.setBounds( 1350, 210, 100, listaPDM.getBounds( ).height + 20 );
+					listaPDM.setBounds( width - 150, 210, 100, listaPDM.getBounds( ).height + 20 );
 					listaPDM.setSelectedIndex( PDMBox.getSelectedIndex( ) );
 					PDMBox.removeItem( PDMBox.getSelectedItem( ) );
 				}
