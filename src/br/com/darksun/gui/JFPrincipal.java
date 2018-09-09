@@ -151,6 +151,23 @@ public class JFPrincipal extends JFrame
 			}
 		} );
 		
+		btnAddAllPJ.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				listaPJ.setVisible( true );
+				btnRemovePJ.setVisible( true );
+				listaPJ.setSelectedIndex( 0 );
+				int size = PJBox.getItemCount( );
+				for( int i = 0; i < size; i++) {
+					PJsSelecionados.addElement( PJBox.getSelectedItem( ) );
+					listaPJ.setBounds( 50, 210, 100, listaPJ.getBounds( ).height + 20 );
+					listaPJ.setSelectedIndex( PJBox.getSelectedIndex( ) );
+					PJBox.removeItem( PJBox.getSelectedItem( ) );
+				}
+			}
+		} );
+		
 		btnAddPDM.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
@@ -159,6 +176,23 @@ public class JFPrincipal extends JFrame
 				btnRemovePDM.setVisible( true );
 				if ( PDMBox.getSelectedItem( ) != null )
 				{
+					PDMsSelecionados.addElement( PDMBox.getSelectedItem( ) );
+					listaPDM.setBounds( width - 150, 210, 100, listaPDM.getBounds( ).height + 20 );
+					listaPDM.setSelectedIndex( PDMBox.getSelectedIndex( ) );
+					PDMBox.removeItem( PDMBox.getSelectedItem( ) );
+				}
+			}
+		} );
+		
+		btnAddAllPDM.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				listaPDM.setVisible( true );
+				btnRemovePDM.setVisible( true );
+				listaPDM.setSelectedIndex( 0 );
+				int size = PDMBox.getItemCount( );
+				for( int i = 0; i < size; i++) {
 					PDMsSelecionados.addElement( PDMBox.getSelectedItem( ) );
 					listaPDM.setBounds( width - 150, 210, 100, listaPDM.getBounds( ).height + 20 );
 					listaPDM.setSelectedIndex( PDMBox.getSelectedIndex( ) );
