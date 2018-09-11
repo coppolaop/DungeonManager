@@ -83,6 +83,10 @@ public class JFPrincipal extends JFrame
 		JButton btnRemovePJ = new JButton("Remover");
 		btnRemovePJ.setBounds( 200, 210, 100, 30 );
 		btnRemovePJ.setVisible( false );
+		
+		JButton btnRemoveAllPJ = new JButton("Remover Todos");
+		btnRemoveAllPJ.setBounds( 200, 290, 150, 30 );
+		btnRemoveAllPJ.setVisible( false );
 
 		JComboBox PDMBox = new JComboBox( listaPDMs );
 		PDMBox.setBounds( width - 150, 50, 100, 30 );
@@ -102,6 +106,10 @@ public class JFPrincipal extends JFrame
 		btnRemovePDM.setBounds( width - 300, 210, 100, 30 );
 		btnRemovePDM.setVisible( false );
 		
+		JButton btnRemoveAllPDM = new JButton("Remover Todos");
+		btnRemoveAllPDM.setBounds( width - 400, 290, 150, 30 );
+		btnRemoveAllPDM.setVisible( false );
+		
 		JButton btnIniciarCombate = new JButton( "Iniciar Combate" );
 		btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
 
@@ -110,11 +118,13 @@ public class JFPrincipal extends JFrame
 		this.tela.add( btnAddAllPJ );
 		this.tela.add( listaPJ );
 		this.tela.add( btnRemovePJ );
+		this.tela.add( btnRemoveAllPJ );
 		this.tela.add( PDMBox );
 		this.tela.add( btnAddPDM );
 		this.tela.add( btnAddAllPDM );
 		this.tela.add( listaPDM );
 		this.tela.add( btnRemovePDM );
+		this.tela.add( btnRemoveAllPDM );
 		this.tela.add( btnIniciarCombate );
 
 		this.addComponentListener( new ComponentAdapter( )
@@ -132,6 +142,7 @@ public class JFPrincipal extends JFrame
 				btnAddAllPDM.setBounds( width - 350, 130, btnAddAllPDM.getBounds( ).width, btnAddAllPDM.getBounds( ).height );
 				listaPDM.setBounds( width - 150, 210, listaPDM.getBounds( ).width, listaPDM.getBounds( ).height );
 				btnRemovePDM.setBounds( width - 300, 210, btnRemovePDM.getBounds( ).width, btnRemovePDM.getBounds( ).height );
+				btnRemoveAllPDM.setBounds( width - 350, 290, btnRemoveAllPDM.getBounds( ).width, btnRemoveAllPDM.getBounds( ).height );
 			}
 		} );
 
@@ -141,6 +152,7 @@ public class JFPrincipal extends JFrame
 			{
 				listaPJ.setVisible( true );
 				btnRemovePJ.setVisible( true );
+				btnRemoveAllPJ.setVisible( true );
 				if ( PJBox.getSelectedItem( ) != null )
 				{
 					PJsSelecionados.addElement( PJBox.getSelectedItem( ) );
@@ -157,6 +169,7 @@ public class JFPrincipal extends JFrame
 			{
 				listaPJ.setVisible( true );
 				btnRemovePJ.setVisible( true );
+				btnRemoveAllPJ.setVisible( true );
 				listaPJ.setSelectedIndex( 0 );
 				int size = PJBox.getItemCount( );
 				for( int i = 0; i < size; i++) {
@@ -174,6 +187,7 @@ public class JFPrincipal extends JFrame
 			{
 				listaPDM.setVisible( true );
 				btnRemovePDM.setVisible( true );
+				btnRemoveAllPDM.setVisible( true );
 				if ( PDMBox.getSelectedItem( ) != null )
 				{
 					PDMsSelecionados.addElement( PDMBox.getSelectedItem( ) );
@@ -190,6 +204,7 @@ public class JFPrincipal extends JFrame
 			{
 				listaPDM.setVisible( true );
 				btnRemovePDM.setVisible( true );
+				btnRemoveAllPDM.setVisible( true );
 				listaPDM.setSelectedIndex( 0 );
 				int size = PDMBox.getItemCount( );
 				for( int i = 0; i < size; i++) {
@@ -211,8 +226,10 @@ public class JFPrincipal extends JFrame
 					PJBox.addItem( listaPJ.getSelectedValue( ) );
 					PJsSelecionados.removeElementAt( index );
 					listaPJ.setBounds( listaPJ.getBounds( ).x, listaPJ.getBounds( ).y, listaPJ.getBounds( ).width, listaPJ.getBounds( ).height - 20 );
-					if(PJsSelecionados.isEmpty( ))
+					if(PJsSelecionados.isEmpty( )) {
 						btnRemovePJ.setVisible( false );
+						btnRemoveAllPJ.setVisible( false );
+					}
 					else
 						listaPJ.setSelectedIndex( index );
 					if(index > listaPJ.getLastVisibleIndex( ))
@@ -227,6 +244,27 @@ public class JFPrincipal extends JFrame
 			}
 		} );
 		
+		btnRemoveAllPJ.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int size = PJsSelecionados.size( );
+				for(int i = 0; i < size; i++) {
+					listaPJ.setSelectedIndex( 0 );
+					PJBox.addItem( listaPJ.getSelectedValue( ) );
+					PJsSelecionados.removeElementAt( 0 );
+				}
+				listaPJ.setBounds( listaPJ.getBounds( ).x, listaPJ.getBounds( ).y, listaPJ.getBounds( ).width, 0 );
+				btnRemovePJ.setVisible( false );
+				btnRemoveAllPJ.setVisible( false );
+				List<String> listaAux = ordenaJList( PJBox );
+				PJBox.removeAllItems( );
+				for(String item : listaAux) {
+					PJBox.addItem( item );
+				}
+			}
+		} );
+		
 		btnRemovePDM.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
@@ -237,8 +275,10 @@ public class JFPrincipal extends JFrame
 					PDMBox.addItem( listaPDM.getSelectedValue( ) );
 					PDMsSelecionados.removeElementAt( index );
 					listaPDM.setBounds( listaPDM.getBounds( ).x, listaPDM.getBounds( ).y, listaPDM.getBounds( ).width, listaPDM.getBounds( ).height - 20 );
-					if(PDMsSelecionados.isEmpty( ))
+					if(PDMsSelecionados.isEmpty( )) {
 						btnRemovePDM.setVisible( false );
+						btnRemoveAllPDM.setVisible( false );
+					}
 					else
 						listaPDM.setSelectedIndex( index );
 					if(index > listaPDM.getLastVisibleIndex( ))
@@ -249,6 +289,27 @@ public class JFPrincipal extends JFrame
 						PDMBox.addItem( item );
 					}
 					
+				}
+			}
+		} );
+		
+		btnRemoveAllPDM.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int size = PDMsSelecionados.size( );
+				for(int i = 0; i < size; i++) {
+					listaPDM.setSelectedIndex( 0 );
+					PDMBox.addItem( listaPDM.getSelectedValue( ) );
+					PDMsSelecionados.removeElementAt( 0 );
+				}
+				listaPDM.setBounds( listaPDM.getBounds( ).x, listaPDM.getBounds( ).y, listaPDM.getBounds( ).width, 0 );
+				btnRemovePDM.setVisible( false );
+				btnRemoveAllPDM.setVisible( false );
+				List<String> listaAux = ordenaJList( PDMBox );
+				PDMBox.removeAllItems( );
+				for(String item : listaAux) {
+					PDMBox.addItem( item );
 				}
 			}
 		} );
