@@ -57,17 +57,17 @@ public class JFPrincipal extends JFrame
 	public void montaTelaPrincipal( List< Personagem > PJs, List< Personagem > PDMs )
 	{
 		limpaTela( );
-		String[ ] listaPJs = new String[ PJs.size( ) ];
+		String[ ] listaPJcombo = new String[ PJs.size( ) ];
 		String[ ] listaPDMs = new String[ PDMs.size( ) ];
 
 		for ( int i = 0; i < PJs.size( ); i++ )
-			listaPJs[i] = PJs.get( i ).getNome( );
+			listaPJcombo[i] = PJs.get( i ).getNome( );
 
 		for ( int i = 0; i < PDMs.size( ); i++ )
 			listaPDMs[i] = PDMs.get( i ).getNome( );
 
-		JComboBox PJBox = new JComboBox( listaPJs );
-		PJBox.setBounds( 50, 50, 100, 30 );
+		JComboBox PJComboBox = new JComboBox( listaPJcombo );
+		PJComboBox.setBounds( 50, 50, 100, 30 );
 
 		JButton btnAddPJ = new JButton( "Adincionar" );
 		btnAddPJ.setBounds( 50, 130, 100, 30 );
@@ -88,8 +88,8 @@ public class JFPrincipal extends JFrame
 		btnRemoveAllPJ.setBounds( 200, 290, 150, 30 );
 		btnRemoveAllPJ.setVisible( false );
 
-		JComboBox PDMBox = new JComboBox( listaPDMs );
-		PDMBox.setBounds( width - 150, 50, 100, 30 );
+		JComboBox PDMComboBox = new JComboBox( listaPDMs );
+		PDMComboBox.setBounds( width - 150, 50, 100, 30 );
 
 		JButton btnAddPDM = new JButton( "Adicionar" );
 		btnAddPDM.setBounds( width - 150, 130, 100, 30 );
@@ -113,13 +113,13 @@ public class JFPrincipal extends JFrame
 		JButton btnIniciarCombate = new JButton( "Iniciar Combate" );
 		btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
 
-		this.tela.add( PJBox );
+		this.tela.add( PJComboBox );
 		this.tela.add( btnAddPJ );
 		this.tela.add( btnAddAllPJ );
 		this.tela.add( listaPJ );
 		this.tela.add( btnRemovePJ );
 		this.tela.add( btnRemoveAllPJ );
-		this.tela.add( PDMBox );
+		this.tela.add( PDMComboBox );
 		this.tela.add( btnAddPDM );
 		this.tela.add( btnAddAllPDM );
 		this.tela.add( listaPDM );
@@ -137,7 +137,7 @@ public class JFPrincipal extends JFrame
 
 				tela.setBounds( 0, 0, width, height );
 				btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, btnIniciarCombate.getBounds( ).width, btnIniciarCombate.getBounds( ).height );
-				PDMBox.setBounds( width - 150, 50, PDMBox.getBounds( ).width, PDMBox.getBounds( ).height );
+				PDMComboBox.setBounds( width - 150, 50, PDMComboBox.getBounds( ).width, PDMComboBox.getBounds( ).height );
 				btnAddPDM.setBounds( width - 150, 130, btnAddPDM.getBounds( ).width, btnAddPDM.getBounds( ).height );
 				btnAddAllPDM.setBounds( width - 350, 130, btnAddAllPDM.getBounds( ).width, btnAddAllPDM.getBounds( ).height );
 				listaPDM.setBounds( width - 150, 210, listaPDM.getBounds( ).width, listaPDM.getBounds( ).height );
@@ -153,12 +153,12 @@ public class JFPrincipal extends JFrame
 				listaPJ.setVisible( true );
 				btnRemovePJ.setVisible( true );
 				btnRemoveAllPJ.setVisible( true );
-				if ( PJBox.getSelectedItem( ) != null )
+				if ( PJComboBox.getSelectedItem( ) != null )
 				{
-					PJsSelecionados.addElement( PJBox.getSelectedItem( ) );
+					PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
 					listaPJ.setBounds( 50, 210, 100, listaPJ.getBounds( ).height + 20 );
-					listaPJ.setSelectedIndex( PJBox.getSelectedIndex( ) );
-					PJBox.removeItem( PJBox.getSelectedItem( ) );
+					listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
+					PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
 				}
 			}
 		} );
@@ -171,12 +171,12 @@ public class JFPrincipal extends JFrame
 				btnRemovePJ.setVisible( true );
 				btnRemoveAllPJ.setVisible( true );
 				listaPJ.setSelectedIndex( 0 );
-				int size = PJBox.getItemCount( );
+				int size = PJComboBox.getItemCount( );
 				for( int i = 0; i < size; i++) {
-					PJsSelecionados.addElement( PJBox.getSelectedItem( ) );
+					PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
 					listaPJ.setBounds( 50, 210, 100, listaPJ.getBounds( ).height + 20 );
-					listaPJ.setSelectedIndex( PJBox.getSelectedIndex( ) );
-					PJBox.removeItem( PJBox.getSelectedItem( ) );
+					listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
+					PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
 				}
 			}
 		} );
@@ -188,12 +188,12 @@ public class JFPrincipal extends JFrame
 				listaPDM.setVisible( true );
 				btnRemovePDM.setVisible( true );
 				btnRemoveAllPDM.setVisible( true );
-				if ( PDMBox.getSelectedItem( ) != null )
+				if ( PDMComboBox.getSelectedItem( ) != null )
 				{
-					PDMsSelecionados.addElement( PDMBox.getSelectedItem( ) );
+					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
 					listaPDM.setBounds( width - 150, 210, 100, listaPDM.getBounds( ).height + 20 );
-					listaPDM.setSelectedIndex( PDMBox.getSelectedIndex( ) );
-					PDMBox.removeItem( PDMBox.getSelectedItem( ) );
+					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
+					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
 				}
 			}
 		} );
@@ -206,12 +206,12 @@ public class JFPrincipal extends JFrame
 				btnRemovePDM.setVisible( true );
 				btnRemoveAllPDM.setVisible( true );
 				listaPDM.setSelectedIndex( 0 );
-				int size = PDMBox.getItemCount( );
+				int size = PDMComboBox.getItemCount( );
 				for( int i = 0; i < size; i++) {
-					PDMsSelecionados.addElement( PDMBox.getSelectedItem( ) );
+					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
 					listaPDM.setBounds( width - 150, 210, 100, listaPDM.getBounds( ).height + 20 );
-					listaPDM.setSelectedIndex( PDMBox.getSelectedIndex( ) );
-					PDMBox.removeItem( PDMBox.getSelectedItem( ) );
+					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
+					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
 				}
 			}
 		} );
@@ -223,7 +223,7 @@ public class JFPrincipal extends JFrame
 				if ( !PJsSelecionados.isEmpty( ) )
 				{
 					int index = listaPJ.getSelectedIndex( );
-					PJBox.addItem( listaPJ.getSelectedValue( ) );
+					PJComboBox.addItem( listaPJ.getSelectedValue( ) );
 					PJsSelecionados.removeElementAt( index );
 					listaPJ.setBounds( listaPJ.getBounds( ).x, listaPJ.getBounds( ).y, listaPJ.getBounds( ).width, listaPJ.getBounds( ).height - 20 );
 					if(PJsSelecionados.isEmpty( )) {
@@ -234,10 +234,10 @@ public class JFPrincipal extends JFrame
 						listaPJ.setSelectedIndex( index );
 					if(index > listaPJ.getLastVisibleIndex( ))
 						listaPJ.setSelectedIndex( listaPJ.getLastVisibleIndex( ) );
-					List<String> listaAux = ordenaJList( PJBox );
-					PJBox.removeAllItems( );
+					List<String> listaAux = ordenaJList( PJComboBox );
+					PJComboBox.removeAllItems( );
 					for(String item : listaAux) {
-						PJBox.addItem( item );
+						PJComboBox.addItem( item );
 					}
 					
 				}
@@ -251,16 +251,16 @@ public class JFPrincipal extends JFrame
 				int size = PJsSelecionados.size( );
 				for(int i = 0; i < size; i++) {
 					listaPJ.setSelectedIndex( 0 );
-					PJBox.addItem( listaPJ.getSelectedValue( ) );
+					PJComboBox.addItem( listaPJ.getSelectedValue( ) );
 					PJsSelecionados.removeElementAt( 0 );
 				}
 				listaPJ.setBounds( listaPJ.getBounds( ).x, listaPJ.getBounds( ).y, listaPJ.getBounds( ).width, 0 );
 				btnRemovePJ.setVisible( false );
 				btnRemoveAllPJ.setVisible( false );
-				List<String> listaAux = ordenaJList( PJBox );
-				PJBox.removeAllItems( );
+				List<String> listaAux = ordenaJList( PJComboBox );
+				PJComboBox.removeAllItems( );
 				for(String item : listaAux) {
-					PJBox.addItem( item );
+					PJComboBox.addItem( item );
 				}
 			}
 		} );
@@ -272,7 +272,7 @@ public class JFPrincipal extends JFrame
 				if ( !PDMsSelecionados.isEmpty( ) )
 				{
 					int index = listaPDM.getSelectedIndex( );
-					PDMBox.addItem( listaPDM.getSelectedValue( ) );
+					PDMComboBox.addItem( listaPDM.getSelectedValue( ) );
 					PDMsSelecionados.removeElementAt( index );
 					listaPDM.setBounds( listaPDM.getBounds( ).x, listaPDM.getBounds( ).y, listaPDM.getBounds( ).width, listaPDM.getBounds( ).height - 20 );
 					if(PDMsSelecionados.isEmpty( )) {
@@ -283,10 +283,10 @@ public class JFPrincipal extends JFrame
 						listaPDM.setSelectedIndex( index );
 					if(index > listaPDM.getLastVisibleIndex( ))
 						listaPDM.setSelectedIndex( listaPDM.getLastVisibleIndex( ) );
-					List<String> listaAux = ordenaJList( PDMBox );
-					PDMBox.removeAllItems( );
+					List<String> listaAux = ordenaJList( PDMComboBox );
+					PDMComboBox.removeAllItems( );
 					for(String item : listaAux) {
-						PDMBox.addItem( item );
+						PDMComboBox.addItem( item );
 					}
 					
 				}
@@ -300,16 +300,16 @@ public class JFPrincipal extends JFrame
 				int size = PDMsSelecionados.size( );
 				for(int i = 0; i < size; i++) {
 					listaPDM.setSelectedIndex( 0 );
-					PDMBox.addItem( listaPDM.getSelectedValue( ) );
+					PDMComboBox.addItem( listaPDM.getSelectedValue( ) );
 					PDMsSelecionados.removeElementAt( 0 );
 				}
 				listaPDM.setBounds( listaPDM.getBounds( ).x, listaPDM.getBounds( ).y, listaPDM.getBounds( ).width, 0 );
 				btnRemovePDM.setVisible( false );
 				btnRemoveAllPDM.setVisible( false );
-				List<String> listaAux = ordenaJList( PDMBox );
-				PDMBox.removeAllItems( );
+				List<String> listaAux = ordenaJList( PDMComboBox );
+				PDMComboBox.removeAllItems( );
 				for(String item : listaAux) {
-					PDMBox.addItem( item );
+					PDMComboBox.addItem( item );
 				}
 			}
 		} );
