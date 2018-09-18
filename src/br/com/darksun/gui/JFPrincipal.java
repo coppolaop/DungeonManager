@@ -339,13 +339,13 @@ public class JFPrincipal extends JFrame
 				int PJsize = listaPJ.getLastVisibleIndex( ) + 1;
 				int PDMsize = listaPDM.getLastVisibleIndex( ) + 1;
 
-				if ( PJsize < 0 )
+				if ( PJsize == 0 )
 				{
 					System.out.println( "Selecione pelo menos um PJ" );
 					return;
 				}
 
-				if ( PDMsize < 0 )
+				if ( PDMsize == 0 )
 				{
 					System.out.println( "Selecione pelo menos um PDM" );
 					return;
@@ -382,24 +382,60 @@ public class JFPrincipal extends JFrame
 					}
 				}
 
-				montaTelaCombate( PJcombate, PDMcombate );
+				montaTelaIniciativa( PJcombate, PDMcombate );
 
 			}
 		} );
 	}
 
-	public void montaTelaCombate( List<Personagem> PJs, List<Personagem> PDMs )
+	public void montaTelaIniciativa( List<Personagem> PJs, List<Personagem> PDMs )
 	{
-
 		limpaTela( );
-		System.out.println( "Combate Iniciado" );
+		System.out.println( "-------Combate Iniciado-------" );
 
 		for ( Personagem personagem : PJs )
-			System.out.println( personagem.getNome( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
+			System.out.println( personagem.toString( ) );
 
+		System.out.println( "      ----- VS -----" );
+		
 		for ( Personagem personagem : PDMs )
-			System.out.println( personagem.getNome( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
+			System.out.println( personagem.toString( ) );
 
+		System.out.println( "------------------------------" );
+		
+		JButton btnRolagemAutomatica = new JButton( "Rolagem Automática" );
+		btnRolagemAutomatica.setBounds( 50, height/2 - 30 / 2, 200, 30 );
+		
+		JButton btnPDMAutomatico = new JButton( "Rolagem Automática de PDM" );
+		btnPDMAutomatico.setBounds( width / 2 - 200 / 2, height/2 - 30 / 2, 200, 30 );
+		
+		JButton btnRolagemManual = new JButton( "Rolagem Manual" );
+		btnRolagemManual.setBounds( width - 250, height/2 - 30 / 2, 200, 30 );
+		
+		this.tela.add( btnRolagemAutomatica );
+		this.tela.add( btnPDMAutomatico );
+		this.tela.add( btnRolagemManual );
+		
+		this.addComponentListener( new ComponentAdapter( )
+		{
+			@Override
+			public void componentResized( ComponentEvent e )
+			{
+				width = getBounds( ).width;
+				height = getBounds( ).height;
+
+				tela.setBounds( 0, 0, width, height );
+				btnRolagemAutomatica.setBounds( 50, height/2 - 30 / 2, btnRolagemAutomatica.getBounds( ).width, btnRolagemAutomatica.getBounds( ).height );
+				btnPDMAutomatico.setBounds( width / 2 - 200 / 2, height/2 - 30 / 2, btnPDMAutomatico.getBounds( ).width, btnPDMAutomatico.getBounds( ).height );
+				btnRolagemManual.setBounds( width - 250, height/2 - 30 / 2, btnRolagemManual.getBounds( ).width, btnRolagemManual.getBounds( ).height );
+			}
+		} );
+		//montaTelaCombate( PJs, PDMs );
+	}
+	
+	public void montaTelaCombate( List<Personagem> PJs, List<Personagem> PDMs )
+	{
+		
 	}
 
 	public List< String > ordenaJList( JComboBox combobox )

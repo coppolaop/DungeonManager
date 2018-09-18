@@ -7,6 +7,7 @@ public class Personagem
 	private String classe;
 	private String imagem;
 	private Integer ca;
+	private Integer bonusIniciativa;
 	private Integer iniciativa;
 	private Integer hpMaximo;
 	private Integer hpAtual;
@@ -15,9 +16,9 @@ public class Personagem
 	{
 		
 	}
-	
-	public Personagem( Integer idPersonagem, String nome, String classe, String imagem, Integer ca, Integer iniciativa,
-			Integer hpMaximo, Integer hpAtual )
+
+	public Personagem( Integer idPersonagem, String nome, String classe, String imagem, Integer ca,
+			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual )
 	{
 		super( );
 		this.idPersonagem = idPersonagem;
@@ -25,15 +26,17 @@ public class Personagem
 		this.classe = classe;
 		this.imagem = imagem;
 		this.ca = ca;
+		this.bonusIniciativa = bonusIniciativa;
 		this.iniciativa = iniciativa;
 		this.hpMaximo = hpMaximo;
 		this.hpAtual = hpAtual;
 	}
 
+
 	@Override
 	public String toString( )
 	{
-		return nome;
+		return this.getNome( ) + " - " + this.getHpAtual( ) + " pontos de vida";
 	}
 
 	public Integer getIdPersonagem( )
@@ -84,6 +87,16 @@ public class Personagem
 	public void setCa( Integer ca )
 	{
 		this.ca = ca;
+	}
+
+	public Integer getBonusIniciativa( )
+	{
+		return bonusIniciativa;
+	}
+
+	public void setBonusIniciativa( Integer bonusIniciativa )
+	{
+		this.bonusIniciativa = bonusIniciativa;
 	}
 
 	public Integer getIniciativa( )

@@ -51,7 +51,7 @@ public class PersonagemController
 			personagem.setClasse( prop.getProperty( "classe" ) );
 			personagem.setImagem( prop.getProperty( "imagem" ) );
 			personagem.setCa( Integer.parseInt( prop.getProperty( "ca" ) ) );
-			personagem.setIniciativa( Integer.parseInt( prop.getProperty( "iniciativa" ) ) );
+			personagem.setBonusIniciativa( Integer.parseInt( prop.getProperty( "bonusIniciativa" ) ) );
 			personagem.setHpMaximo( Integer.parseInt( prop.getProperty( "hpMaximo" ) ) );
 			personagem.setHpAtual( Integer.parseInt( prop.getProperty( "hpAtual" ) ) );
 
