@@ -2,7 +2,6 @@ package br.com.darksun.gui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -10,12 +9,12 @@ import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
@@ -430,12 +429,42 @@ public class JFPrincipal extends JFrame
 				btnRolagemManual.setBounds( width - 250, height/2 - 30 / 2, btnRolagemManual.getBounds( ).width, btnRolagemManual.getBounds( ).height );
 			}
 		} );
+		
+		btnRolagemAutomatica.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Random random = new Random();
+				
+				for ( Personagem personagem : PJs )
+					personagem.setIniciativa( personagem.getBonusIniciativa( ) + random.nextInt( 20 ) + 1 );
+				
+				for ( Personagem personagem : PDMs )
+					personagem.setIniciativa( personagem.getBonusIniciativa( ) + random.nextInt( 20 ) + 1 );
+				
+				montaTelaCombate( PJs, PDMs );
+			}
+			
+		});
+		
+		
 		//montaTelaCombate( PJs, PDMs );
 	}
 	
 	public void montaTelaCombate( List<Personagem> PJs, List<Personagem> PDMs )
 	{
+		limpaTela( );
+		System.out.println( "-------   Iniciativa   -------" );
+
+		for ( Personagem personagem : PJs )
+			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa() + " de Iniciativa" );
+
+		System.out.println( "      ----- VS -----" );
 		
+		for ( Personagem personagem : PDMs )
+			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa() + " de Iniciativa" );
+
+		System.out.println( "------------------------------" );
 	}
 
 	public List< String > ordenaJList( JComboBox combobox )
