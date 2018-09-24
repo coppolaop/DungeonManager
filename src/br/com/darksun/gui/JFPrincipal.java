@@ -11,11 +11,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import br.com.darksun.control.PersonagemController;
@@ -48,6 +52,7 @@ public class JFPrincipal extends JFrame
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
 		this.setTitle( "Dungeon Manager" );
+		this.preparaMenu( );
 		this.add( this.tela );
 	}
 
@@ -387,7 +392,7 @@ public class JFPrincipal extends JFrame
 		} );
 	}
 
-	public void montaTelaIniciativa( List<Personagem> PJs, List<Personagem> PDMs )
+	public void montaTelaIniciativa( List< Personagem > PJs, List< Personagem > PDMs )
 	{
 		limpaTela( );
 		System.out.println( "-------Combate Iniciado-------" );
@@ -396,25 +401,25 @@ public class JFPrincipal extends JFrame
 			System.out.println( personagem.toString( ) );
 
 		System.out.println( "      ----- VS -----" );
-		
+
 		for ( Personagem personagem : PDMs )
 			System.out.println( personagem.toString( ) );
 
 		System.out.println( "------------------------------" );
-		
+
 		JButton btnRolagemAutomatica = new JButton( "Rolagem Automática" );
-		btnRolagemAutomatica.setBounds( 50, height/2 - 30 / 2, 200, 30 );
-		
+		btnRolagemAutomatica.setBounds( 50, height / 2 - 30 / 2, 200, 30 );
+
 		JButton btnPDMAutomatico = new JButton( "Rolagem Automática de PDM" );
-		btnPDMAutomatico.setBounds( width / 2 - 200 / 2, height/2 - 30 / 2, 200, 30 );
-		
+		btnPDMAutomatico.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
+
 		JButton btnRolagemManual = new JButton( "Rolagem Manual" );
-		btnRolagemManual.setBounds( width - 250, height/2 - 30 / 2, 200, 30 );
-		
+		btnRolagemManual.setBounds( width - 250, height / 2 - 30 / 2, 200, 30 );
+
 		this.tela.add( btnRolagemAutomatica );
 		this.tela.add( btnPDMAutomatico );
 		this.tela.add( btnRolagemManual );
-		
+
 		this.addComponentListener( new ComponentAdapter( )
 		{
 			@Override
@@ -424,45 +429,47 @@ public class JFPrincipal extends JFrame
 				height = getBounds( ).height;
 
 				tela.setBounds( 0, 0, width, height );
-				btnRolagemAutomatica.setBounds( 50, height/2 - 30 / 2, btnRolagemAutomatica.getBounds( ).width, btnRolagemAutomatica.getBounds( ).height );
-				btnPDMAutomatico.setBounds( width / 2 - 200 / 2, height/2 - 30 / 2, btnPDMAutomatico.getBounds( ).width, btnPDMAutomatico.getBounds( ).height );
-				btnRolagemManual.setBounds( width - 250, height/2 - 30 / 2, btnRolagemManual.getBounds( ).width, btnRolagemManual.getBounds( ).height );
+				btnRolagemAutomatica.setBounds( 50, height / 2 - 30 / 2, btnRolagemAutomatica.getBounds( ).width,
+						btnRolagemAutomatica.getBounds( ).height );
+				btnPDMAutomatico.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2,
+						btnPDMAutomatico.getBounds( ).width, btnPDMAutomatico.getBounds( ).height );
+				btnRolagemManual.setBounds( width - 250, height / 2 - 30 / 2, btnRolagemManual.getBounds( ).width,
+						btnRolagemManual.getBounds( ).height );
 			}
 		} );
-		
+
 		btnRolagemAutomatica.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				Random random = new Random();
-				
+				Random random = new Random( );
+
 				for ( Personagem personagem : PJs )
 					personagem.setIniciativa( personagem.getBonusIniciativa( ) + random.nextInt( 20 ) + 1 );
-				
+
 				for ( Personagem personagem : PDMs )
 					personagem.setIniciativa( personagem.getBonusIniciativa( ) + random.nextInt( 20 ) + 1 );
-				
+
 				montaTelaCombate( PJs, PDMs );
 			}
-			
-		});
-		
-		
-		//montaTelaCombate( PJs, PDMs );
+
+		} );
+
+		// montaTelaCombate( PJs, PDMs );
 	}
-	
-	public void montaTelaCombate( List<Personagem> PJs, List<Personagem> PDMs )
+
+	public void montaTelaCombate( List< Personagem > PJs, List< Personagem > PDMs )
 	{
 		limpaTela( );
 		System.out.println( "-------   Iniciativa   -------" );
 
 		for ( Personagem personagem : PJs )
-			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa() + " de Iniciativa" );
+			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
 
 		System.out.println( "      ----- VS -----" );
-		
+
 		for ( Personagem personagem : PDMs )
-			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa() + " de Iniciativa" );
+			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
 
 		System.out.println( "------------------------------" );
 	}
@@ -488,4 +495,47 @@ public class JFPrincipal extends JFrame
 		this.tela.setBackground( new Color( 100, 100, 100 ) );
 	}
 
+	public void preparaMenu( )
+	{
+		JMenuBar menuBar = new JMenuBar( );
+		menuBar.setBackground( new Color( 125, 125, 125 ) );
+		setJMenuBar( menuBar );
+
+		JMenu fileMenu = new JMenu( "Arquivo" );
+		menuBar.add( fileMenu );
+
+		JMenuItem itemNovoCombate = new JMenuItem( "Novo Combate" );
+		JMenuItem itemNovoPersonagem = new JMenuItem( "Novo Personagem" );
+		JMenuItem itemSair = new JMenuItem( "Sair" );
+
+		itemNovoCombate.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				montaTelaPrincipal( );
+			}
+		} );
+
+		itemNovoPersonagem.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+
+			}
+		} );
+
+		itemSair.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				System.exit( 0 );
+			}
+		} );
+
+		ButtonGroup bg = new ButtonGroup( );
+		fileMenu.add( itemNovoCombate );
+		fileMenu.add( itemNovoPersonagem );
+		fileMenu.addSeparator( );
+		fileMenu.add( itemSair );
+	}
 }
