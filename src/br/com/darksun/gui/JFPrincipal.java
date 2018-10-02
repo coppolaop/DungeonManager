@@ -30,6 +30,7 @@ public class JFPrincipal extends JFrame
 	private JPanel tela = new JPanel( );
 	private Integer width = 1500;
 	private Integer height = 750;
+	public static Integer iniciativa = 0;
 
 	public static void main( String[ ] args )
 	{
@@ -450,12 +451,64 @@ public class JFPrincipal extends JFrame
 				for ( Personagem personagem : PDMs )
 					personagem.setIniciativa( personagem.getBonusIniciativa( ) + random.nextInt( 20 ) + 1 );
 
+
 				montaTelaCombate( PJs, PDMs );
 			}
 
 		} );
 
-		// montaTelaCombate( PJs, PDMs );
+		btnPDMAutomatico.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				for ( Personagem personagem : PJs )
+				{
+
+					 JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
+					 im.setVisible( true );
+					 personagem.setIniciativa( im.getValidatedText( ) );
+
+				}
+				
+				for ( Personagem personagem : PDMs )
+					personagem.setIniciativa( personagem.getBonusIniciativa( ) + new Random().nextInt( 20 ) + 1 );
+
+				montaTelaCombate( PJs, PDMs );
+			}
+		} );
+
+		btnRolagemManual.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				for ( Personagem personagem : PJs )
+				{
+					 JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
+					 im.setVisible( true );
+					 personagem.setIniciativa( im.getValidatedText( ) );
+				}
+				
+				for ( Personagem personagem : PDMs )
+				{
+					 JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
+					 im.setVisible( true );
+					 personagem.setIniciativa( im.getValidatedText( ) );
+				}
+
+				montaTelaCombate( PJs, PDMs );
+			}
+
+		} );
+	}
+
+	public Integer ini( )
+	{
+		return iniciativa;
+	}
+
+	void setIniciativa( Personagem personagem, Integer value )
+	{
+		personagem.setIniciativa( value );
 	}
 
 	public void montaTelaCombate( List< Personagem > PJs, List< Personagem > PDMs )
