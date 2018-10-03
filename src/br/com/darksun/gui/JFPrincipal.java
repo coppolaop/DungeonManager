@@ -2,6 +2,7 @@ package br.com.darksun.gui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -21,7 +22,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
+import br.com.darksun.control.IniciativaComparator;
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 
@@ -30,7 +34,6 @@ public class JFPrincipal extends JFrame
 	private JPanel tela = new JPanel( );
 	private Integer width = 1500;
 	private Integer height = 750;
-	public static Integer iniciativa = 0;
 
 	public static void main( String[ ] args )
 	{
@@ -399,12 +402,12 @@ public class JFPrincipal extends JFrame
 		System.out.println( "-------Combate Iniciado-------" );
 
 		for ( Personagem personagem : PJs )
-			System.out.println( personagem.toString( ) );
+			System.out.println( personagem.getNome( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
 
 		System.out.println( "      ----- VS -----" );
 
 		for ( Personagem personagem : PDMs )
-			System.out.println( personagem.toString( ) );
+			System.out.println( personagem.getNome( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
 
 		System.out.println( "------------------------------" );
 
@@ -501,11 +504,6 @@ public class JFPrincipal extends JFrame
 		} );
 	}
 
-	public Integer ini( )
-	{
-		return iniciativa;
-	}
-
 	void setIniciativa( Personagem personagem, Integer value )
 	{
 		personagem.setIniciativa( value );
@@ -514,17 +512,48 @@ public class JFPrincipal extends JFrame
 	public void montaTelaCombate( List< Personagem > PJs, List< Personagem > PDMs )
 	{
 		limpaTela( );
+		List<Personagem> ordem = new ArrayList<Personagem>( );
 		System.out.println( "-------   Iniciativa   -------" );
-
-		for ( Personagem personagem : PJs )
+		
+		for ( Personagem personagem : PJs ) {
+			ordem.add( personagem );
 			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
-
+		}
+		
 		System.out.println( "      ----- VS -----" );
 
-		for ( Personagem personagem : PDMs )
+		for ( Personagem personagem : PDMs ) {
+			ordem.add( personagem );
 			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
-
+		}
+		
 		System.out.println( "------------------------------" );
+		
+		Collections.sort( ordem, new IniciativaComparator( ) );
+		
+		JList fila = new JList( ordem.toArray( ) );
+		fila.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		fila.setLayoutOrientation(JList.VERTICAL);
+		fila.setSelectedIndex(0);
+		fila.setFont( new Font(fila.getFont( ).getFontName( ),fila.getFont( ).getStyle( ),20) );
+		JScrollPane listScroller = new JScrollPane(fila);
+		listScroller.setBounds( 50,50,(width-100)/3,height-150 );
+		
+		this.tela.add( listScroller );
+		
+		this.addComponentListener( new ComponentAdapter( )
+		{
+			@Override
+			public void componentResized( ComponentEvent e )
+			{
+				width = getBounds( ).width;
+				height = getBounds( ).height;
+
+				tela.setBounds( 0, 0, width, height );
+				listScroller.setBounds( 50,50,(width-100)/3,height-150 );
+			}
+		} );
+		
 	}
 
 	public List< String > ordenaJList( JComboBox combobox )

@@ -36,7 +36,7 @@ public class Personagem
 	@Override
 	public String toString( )
 	{
-		return this.getNome( ) + " - " + this.getHpAtual( ) + " pontos de vida";
+		return this.getNome( );
 	}
 
 	public Integer getIdPersonagem( )
