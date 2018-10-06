@@ -571,6 +571,30 @@ public class JFPrincipal extends JFrame
 			}
 		} );
 
+		btnSetaCima.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = fila.getSelectedIndex( );
+				int size = fila.getLastVisibleIndex( );
+
+				if ( index > 0 )
+				{
+					Object e1 = ordem.getElementAt( index - 1 );
+					ordem.removeElement( e1 );
+					ordem.addElement( e1 );
+
+					for ( int i = index; i < size; i++ )
+					{
+						Personagem item = ( Personagem ) ordem.getElementAt( index );
+						ordem.removeElement( item );
+						ordem.addElement( item );
+					}
+					fila.setSelectedIndex( index - 1 );
+				}
+			}
+		} );
+		
 		btnSetaBaixo.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
