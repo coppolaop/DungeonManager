@@ -24,6 +24,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.plaf.basic.BasicArrowButton;
 
 import br.com.darksun.control.IniciativaComparator;
 import br.com.darksun.control.PersonagemController;
@@ -454,7 +455,6 @@ public class JFPrincipal extends JFrame
 				for ( Personagem personagem : PDMs )
 					personagem.setIniciativa( personagem.getBonusIniciativa( ) + random.nextInt( 20 ) + 1 );
 
-
 				montaTelaCombate( PJs, PDMs );
 			}
 
@@ -467,14 +467,14 @@ public class JFPrincipal extends JFrame
 				for ( Personagem personagem : PJs )
 				{
 
-					 JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
-					 im.setVisible( true );
-					 personagem.setIniciativa( im.getValidatedText( ) );
+					JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
+					im.setVisible( true );
+					personagem.setIniciativa( im.getValidatedText( ) );
 
 				}
-				
+
 				for ( Personagem personagem : PDMs )
-					personagem.setIniciativa( personagem.getBonusIniciativa( ) + new Random().nextInt( 20 ) + 1 );
+					personagem.setIniciativa( personagem.getBonusIniciativa( ) + new Random( ).nextInt( 20 ) + 1 );
 
 				montaTelaCombate( PJs, PDMs );
 			}
@@ -486,16 +486,16 @@ public class JFPrincipal extends JFrame
 			{
 				for ( Personagem personagem : PJs )
 				{
-					 JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
-					 im.setVisible( true );
-					 personagem.setIniciativa( im.getValidatedText( ) );
+					JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
+					im.setVisible( true );
+					personagem.setIniciativa( im.getValidatedText( ) );
 				}
-				
+
 				for ( Personagem personagem : PDMs )
 				{
-					 JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
-					 im.setVisible( true );
-					 personagem.setIniciativa( im.getValidatedText( ) );
+					JDInicitivaManual im = new JDInicitivaManual( JFPrincipal.this, personagem );
+					im.setVisible( true );
+					personagem.setIniciativa( im.getValidatedText( ) );
 				}
 
 				montaTelaCombate( PJs, PDMs );
@@ -512,35 +512,50 @@ public class JFPrincipal extends JFrame
 	public void montaTelaCombate( List< Personagem > PJs, List< Personagem > PDMs )
 	{
 		limpaTela( );
-		List<Personagem> ordem = new ArrayList<Personagem>( );
+		List< Personagem > personagens = new ArrayList< Personagem >( );
 		System.out.println( "-------   Iniciativa   -------" );
-		
-		for ( Personagem personagem : PJs ) {
-			ordem.add( personagem );
+
+		for ( Personagem personagem : PJs )
+		{
+			personagens.add( personagem );
 			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
 		}
-		
+
 		System.out.println( "      ----- VS -----" );
 
-		for ( Personagem personagem : PDMs ) {
-			ordem.add( personagem );
+		for ( Personagem personagem : PDMs )
+		{
+			personagens.add( personagem );
 			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
 		}
-		
+
 		System.out.println( "------------------------------" );
-		
-		Collections.sort( ordem, new IniciativaComparator( ) );
-		
-		JList fila = new JList( ordem.toArray( ) );
-		fila.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		fila.setLayoutOrientation(JList.VERTICAL);
-		fila.setSelectedIndex(0);
-		fila.setFont( new Font(fila.getFont( ).getFontName( ),fila.getFont( ).getStyle( ),20) );
-		JScrollPane listScroller = new JScrollPane(fila);
-		listScroller.setBounds( 50,50,(width-100)/3,height-150 );
-		
+
+		Collections.sort( personagens, new IniciativaComparator( ) );
+
+		DefaultListModel ordem = new DefaultListModel( );
+
+		for ( Personagem personagem : personagens )
+			ordem.addElement( personagem );
+
+		JList fila = new JList( ordem );
+		fila.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
+		fila.setLayoutOrientation( JList.VERTICAL );
+		fila.setSelectedIndex( 0 );
+		fila.setFont( new Font( fila.getFont( ).getFontName( ), fila.getFont( ).getStyle( ), 20 ) );
+		JScrollPane listScroller = new JScrollPane( fila );
+		listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
+
+		JButton btnSetaCima = new BasicArrowButton( BasicArrowButton.NORTH );
+		JButton btnSetaBaixo = new BasicArrowButton( BasicArrowButton.SOUTH );
+		btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
+		btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
+
 		this.tela.add( listScroller );
-		
+		this.tela.add( btnSetaCima );
+		this.tela.add( btnSetaBaixo );
+		this.tela.revalidate( );
+
 		this.addComponentListener( new ComponentAdapter( )
 		{
 			@Override
@@ -550,10 +565,39 @@ public class JFPrincipal extends JFrame
 				height = getBounds( ).height;
 
 				tela.setBounds( 0, 0, width, height );
-				listScroller.setBounds( 50,50,(width-100)/3,height-150 );
+				listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
+				btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
+				btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
 			}
 		} );
-		
+
+		btnSetaBaixo.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = fila.getSelectedIndex( );
+				int size = fila.getLastVisibleIndex( );
+
+				if ( index < size )
+				{
+
+					Object e1 = ordem.getElementAt( index );
+					ordem.removeElement( e1 );
+					Object e2 = ordem.getElementAt( index );
+					ordem.removeElement( e2 );
+					ordem.addElement( e2 );
+					ordem.addElement( e1 );
+
+					for ( int i = index; i < size - 1; i++ )
+					{
+						Personagem item = ( Personagem ) ordem.getElementAt( index );
+						ordem.removeElement( item );
+						ordem.addElement( item );
+					}
+					fila.setSelectedIndex( index + 1 );
+				}
+			}
+		} );
 	}
 
 	public List< String > ordenaJList( JComboBox combobox )
