@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,6 +22,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicArrowButton;
 
@@ -533,16 +533,32 @@ public class JFPrincipal extends JFrame
 
 		Collections.sort( personagens, new IniciativaComparator( ) );
 
-		DefaultListModel ordem = new DefaultListModel( );
+		// DefaultListModel ordem = new DefaultListModel( );
 
-		for ( Personagem personagem : personagens )
-			ordem.addElement( personagem );
+		String[ ] colunas =
+		{ "Nome", "CA", "HP Atual", "HP Total" };
+		String[ ][ ] dados = new String[ personagens.size( ) ][ 4 ];
 
-		JList fila = new JList( ordem );
+		for ( int i = 0; i < personagens.size( ); i++ )
+		{
+			dados[i][0] = personagens.get( i ).getNome( );
+			dados[i][1] = personagens.get( i ).getCa( ).toString( );
+			dados[i][2] = personagens.get( i ).getHpAtual( ).toString( );
+			dados[i][3] = personagens.get( i ).getHpMaximo( ).toString( );
+		}
+
+		// for ( Personagem personagem : personagens )
+		// ordem.addElement( personagem );
+
+		JTable fila = new JTable( dados, colunas );
+		// JList fila = new JList( ordem );
 		fila.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
-		fila.setLayoutOrientation( JList.VERTICAL );
-		fila.setSelectedIndex( 0 );
+		// fila.setLayoutOrientation( JList.VERTICAL );
+		// fila.setSelectedIndex( 0 );
+		fila.setRowSelectionInterval( 0, 0 );
+		fila.setSelectionMode( 0 );
 		fila.setFont( new Font( fila.getFont( ).getFontName( ), fila.getFont( ).getStyle( ), 20 ) );
+		fila.setRowHeight( 30 );
 		JScrollPane listScroller = new JScrollPane( fila );
 		listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 
@@ -575,50 +591,52 @@ public class JFPrincipal extends JFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				int index = fila.getSelectedIndex( );
-				int size = fila.getLastVisibleIndex( );
-
+				int index = fila.getSelectedRow( );
+				
 				if ( index > 0 )
 				{
-					Object e1 = ordem.getElementAt( index - 1 );
-					ordem.removeElement( e1 );
-					ordem.addElement( e1 );
+					Object[ ] aux =
+					{ fila.getValueAt( index - 1, 0 ), fila.getValueAt( index - 1, 1 ), fila.getValueAt( index - 1, 2 ),
+							fila.getValueAt( index - 1, 3 ) };
 
-					for ( int i = index; i < size; i++ )
-					{
-						Personagem item = ( Personagem ) ordem.getElementAt( index );
-						ordem.removeElement( item );
-						ordem.addElement( item );
-					}
-					fila.setSelectedIndex( index - 1 );
+					fila.setValueAt( fila.getValueAt( index, 0 ), index - 1, 0 );
+					fila.setValueAt( fila.getValueAt( index, 1 ), index - 1, 1 );
+					fila.setValueAt( fila.getValueAt( index, 2 ), index - 1, 2 );
+					fila.setValueAt( fila.getValueAt( index, 3 ), index - 1, 3 );
+
+					fila.setValueAt( aux[0], index, 0 );
+					fila.setValueAt( aux[1], index, 1 );
+					fila.setValueAt( aux[2], index, 2 );
+					fila.setValueAt( aux[3], index, 3 );
+
+					fila.setRowSelectionInterval( index - 1, index - 1 );
 				}
 			}
 		} );
-		
+
 		btnSetaBaixo.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				int index = fila.getSelectedIndex( );
-				int size = fila.getLastVisibleIndex( );
+				int index = fila.getSelectedRow( );
 
-				if ( index < size )
+				if ( index < fila.getRowCount( ) )
 				{
+					Object[ ] aux =
+					{ fila.getValueAt( index + 1, 0 ), fila.getValueAt( index + 1, 1 ), fila.getValueAt( index + 1, 2 ),
+							fila.getValueAt( index + 1, 3 ) };
 
-					Object e1 = ordem.getElementAt( index );
-					ordem.removeElement( e1 );
-					Object e2 = ordem.getElementAt( index );
-					ordem.removeElement( e2 );
-					ordem.addElement( e2 );
-					ordem.addElement( e1 );
+					fila.setValueAt( fila.getValueAt( index, 0 ), index + 1, 0 );
+					fila.setValueAt( fila.getValueAt( index, 1 ), index + 1, 1 );
+					fila.setValueAt( fila.getValueAt( index, 2 ), index + 1, 2 );
+					fila.setValueAt( fila.getValueAt( index, 3 ), index + 1, 3 );
 
-					for ( int i = index; i < size - 1; i++ )
-					{
-						Personagem item = ( Personagem ) ordem.getElementAt( index );
-						ordem.removeElement( item );
-						ordem.addElement( item );
-					}
-					fila.setSelectedIndex( index + 1 );
+					fila.setValueAt( aux[0], index, 0 );
+					fila.setValueAt( aux[1], index, 1 );
+					fila.setValueAt( aux[2], index, 2 );
+					fila.setValueAt( aux[3], index, 3 );
+
+					fila.setRowSelectionInterval( index + 1, index + 1 );
 				}
 			}
 		} );
@@ -682,7 +700,6 @@ public class JFPrincipal extends JFrame
 			}
 		} );
 
-		ButtonGroup bg = new ButtonGroup( );
 		fileMenu.add( itemNovoCombate );
 		fileMenu.add( itemNovoPersonagem );
 		fileMenu.addSeparator( );
