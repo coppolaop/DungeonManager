@@ -533,8 +533,6 @@ public class JFPrincipal extends JFrame
 
 		Collections.sort( personagens, new IniciativaComparator( ) );
 
-		// DefaultListModel ordem = new DefaultListModel( );
-
 		String[ ] colunas =
 		{ "Nome", "CA", "HP Atual", "HP Total" };
 		String[ ][ ] dados = new String[ personagens.size( ) ][ 4 ];
@@ -547,29 +545,26 @@ public class JFPrincipal extends JFrame
 			dados[i][3] = personagens.get( i ).getHpMaximo( ).toString( );
 		}
 
-		// for ( Personagem personagem : personagens )
-		// ordem.addElement( personagem );
-
-		JTable fila = new JTable( dados, colunas );
-		// JList fila = new JList( ordem );
-		fila.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
-		// fila.setLayoutOrientation( JList.VERTICAL );
-		// fila.setSelectedIndex( 0 );
-		fila.setRowSelectionInterval( 0, 0 );
-		fila.setSelectionMode( 0 );
-		fila.setFont( new Font( fila.getFont( ).getFontName( ), fila.getFont( ).getStyle( ), 20 ) );
-		fila.setRowHeight( 30 );
-		JScrollPane listScroller = new JScrollPane( fila );
+		JTable tabela = new JTable( dados, colunas );
+		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
+		tabela.setRowSelectionInterval( 0, 0 );
+		tabela.setSelectionMode( 0 );
+		tabela.setFont( new Font( tabela.getFont( ).getFontName( ), tabela.getFont( ).getStyle( ), 20 ) );
+		tabela.setRowHeight( 30 );
+		JScrollPane listScroller = new JScrollPane( tabela );
 		listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 
 		JButton btnSetaCima = new BasicArrowButton( BasicArrowButton.NORTH );
 		JButton btnSetaBaixo = new BasicArrowButton( BasicArrowButton.SOUTH );
+		JButton btnFinalTurno = new JButton("Finalizar Turno");
 		btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
 		btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
-
+		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 250, 120, 30 );
+		
 		this.tela.add( listScroller );
 		this.tela.add( btnSetaCima );
 		this.tela.add( btnSetaBaixo );
+		this.tela.add( btnFinalTurno );
 		this.tela.revalidate( );
 
 		this.addComponentListener( new ComponentAdapter( )
@@ -584,6 +579,7 @@ public class JFPrincipal extends JFrame
 				listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 				btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
 				btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
+				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 250, 120, 30 );
 			}
 		} );
 
@@ -591,25 +587,25 @@ public class JFPrincipal extends JFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				int index = fila.getSelectedRow( );
+				int index = tabela.getSelectedRow( );
 				
 				if ( index > 0 )
 				{
 					Object[ ] aux =
-					{ fila.getValueAt( index - 1, 0 ), fila.getValueAt( index - 1, 1 ), fila.getValueAt( index - 1, 2 ),
-							fila.getValueAt( index - 1, 3 ) };
+					{ tabela.getValueAt( index - 1, 0 ), tabela.getValueAt( index - 1, 1 ), tabela.getValueAt( index - 1, 2 ),
+							tabela.getValueAt( index - 1, 3 ) };
 
-					fila.setValueAt( fila.getValueAt( index, 0 ), index - 1, 0 );
-					fila.setValueAt( fila.getValueAt( index, 1 ), index - 1, 1 );
-					fila.setValueAt( fila.getValueAt( index, 2 ), index - 1, 2 );
-					fila.setValueAt( fila.getValueAt( index, 3 ), index - 1, 3 );
+					tabela.setValueAt( tabela.getValueAt( index, 0 ), index - 1, 0 );
+					tabela.setValueAt( tabela.getValueAt( index, 1 ), index - 1, 1 );
+					tabela.setValueAt( tabela.getValueAt( index, 2 ), index - 1, 2 );
+					tabela.setValueAt( tabela.getValueAt( index, 3 ), index - 1, 3 );
 
-					fila.setValueAt( aux[0], index, 0 );
-					fila.setValueAt( aux[1], index, 1 );
-					fila.setValueAt( aux[2], index, 2 );
-					fila.setValueAt( aux[3], index, 3 );
+					tabela.setValueAt( aux[0], index, 0 );
+					tabela.setValueAt( aux[1], index, 1 );
+					tabela.setValueAt( aux[2], index, 2 );
+					tabela.setValueAt( aux[3], index, 3 );
 
-					fila.setRowSelectionInterval( index - 1, index - 1 );
+					tabela.setRowSelectionInterval( index - 1, index - 1 );
 				}
 			}
 		} );
@@ -618,28 +614,52 @@ public class JFPrincipal extends JFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				int index = fila.getSelectedRow( );
+				int index = tabela.getSelectedRow( );
 
-				if ( index < fila.getRowCount( ) )
+				if ( index < tabela.getRowCount( ) )
 				{
 					Object[ ] aux =
-					{ fila.getValueAt( index + 1, 0 ), fila.getValueAt( index + 1, 1 ), fila.getValueAt( index + 1, 2 ),
-							fila.getValueAt( index + 1, 3 ) };
+					{ tabela.getValueAt( index + 1, 0 ), tabela.getValueAt( index + 1, 1 ), tabela.getValueAt( index + 1, 2 ),
+							tabela.getValueAt( index + 1, 3 ) };
 
-					fila.setValueAt( fila.getValueAt( index, 0 ), index + 1, 0 );
-					fila.setValueAt( fila.getValueAt( index, 1 ), index + 1, 1 );
-					fila.setValueAt( fila.getValueAt( index, 2 ), index + 1, 2 );
-					fila.setValueAt( fila.getValueAt( index, 3 ), index + 1, 3 );
+					tabela.setValueAt( tabela.getValueAt( index, 0 ), index + 1, 0 );
+					tabela.setValueAt( tabela.getValueAt( index, 1 ), index + 1, 1 );
+					tabela.setValueAt( tabela.getValueAt( index, 2 ), index + 1, 2 );
+					tabela.setValueAt( tabela.getValueAt( index, 3 ), index + 1, 3 );
 
-					fila.setValueAt( aux[0], index, 0 );
-					fila.setValueAt( aux[1], index, 1 );
-					fila.setValueAt( aux[2], index, 2 );
-					fila.setValueAt( aux[3], index, 3 );
+					tabela.setValueAt( aux[0], index, 0 );
+					tabela.setValueAt( aux[1], index, 1 );
+					tabela.setValueAt( aux[2], index, 2 );
+					tabela.setValueAt( aux[3], index, 3 );
 
-					fila.setRowSelectionInterval( index + 1, index + 1 );
+					tabela.setRowSelectionInterval( index + 1, index + 1 );
 				}
 			}
 		} );
+		
+		btnFinalTurno.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Object[ ] aux =
+					{ tabela.getValueAt( 0, 0 ), tabela.getValueAt( 0, 1 ), tabela.getValueAt( 0, 2 ),
+							tabela.getValueAt( 0, 3 ) };
+				
+				int size = tabela.getRowCount( ) - 1;
+				
+				for( int i = 1; i < size + 1; i++ ) {
+					tabela.setValueAt( tabela.getValueAt( i, 0 ), i - 1, 0 );
+					tabela.setValueAt( tabela.getValueAt( i, 1 ), i - 1, 1 );
+					tabela.setValueAt( tabela.getValueAt( i, 2 ), i - 1, 2 );
+					tabela.setValueAt( tabela.getValueAt( i, 3 ), i - 1, 3 );
+				}
+				
+				tabela.setValueAt( aux[0], size, 0 );
+				tabela.setValueAt( aux[1], size, 1 );
+				tabela.setValueAt( aux[2], size, 2 );
+				tabela.setValueAt( aux[3], size, 3 );
+			}
+		});
 	}
 
 	public List< String > ordenaJList( JComboBox combobox )
