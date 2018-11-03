@@ -29,7 +29,7 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 	private String btnString2 = "Rolagem automática";
 
 	/**
-	 * Retorna o valor inserido ou rola automaticamente se o valor for invalido; 
+	 * Retorna o valor inserido ou rola automaticamente se o valor for invalido
 	 */
 	public Integer getValidatedText( )
 	{
@@ -37,7 +37,7 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 	}
 
 	// Cria da Dialog
-	public JDInicitivaManual( JFrame frame, Personagem personagem )
+	public JDInicitivaManual( JFPrincipal frame, Personagem personagem )
 	{
 		super( frame, true );
 		
