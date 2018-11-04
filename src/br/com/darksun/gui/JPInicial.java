@@ -44,9 +44,14 @@ public class JPInicial extends JPPadrao
 			if(personagem.getNome( ).length( ) > maiorNome)
 				maiorNome = personagem.getNome( ).length( );
 		
+		System.out.println( maiorNome );
+		
 		maiorNome = ( maiorNome + 1 ) * 7;
-		if(maiorNome < 100)
-			maiorNome = 100;
+		
+		System.out.println( maiorNome );
+		
+		if( maiorNome < 125 )
+			maiorNome = 125;
 		
 		String[ ] listaPJcombo = new String[ PJs.size( ) ];
 		String[ ] listaPDMs = new String[ PDMs.size( ) ];
