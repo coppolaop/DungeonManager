@@ -53,7 +53,7 @@ public class JFPrincipal extends JFrame
 			new PersonagemController( ).criarPersonagemAleatorio( false );
 		}
 		
-		this.add( new JPInicial( this ) );
+		setTela( new JPInicial( this ) );
 
 	}
 

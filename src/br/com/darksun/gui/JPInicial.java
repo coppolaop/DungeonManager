@@ -18,6 +18,8 @@ import br.com.darksun.entity.Personagem;
 public class JPInicial extends JPPadrao
 {
 
+	private Integer maiorNome = 0;
+	
 	public JPInicial( JFPrincipal frame )
 	{
 		montaTelaPrincipal( frame );
@@ -34,6 +36,18 @@ public class JPInicial extends JPPadrao
 		List< Personagem > PJs = pc.listarPJs( );
 		List< Personagem > PDMs = pc.listarPDMs( );
 
+		for(Personagem personagem : PJs)
+			if(personagem.getNome( ).length( ) > maiorNome)
+				maiorNome = personagem.getNome( ).length( );
+		
+		for(Personagem personagem : PDMs)
+			if(personagem.getNome( ).length( ) > maiorNome)
+				maiorNome = personagem.getNome( ).length( );
+		
+		maiorNome = ( maiorNome + 1 ) * 7;
+		if(maiorNome < 100)
+			maiorNome = 100;
+		
 		String[ ] listaPJcombo = new String[ PJs.size( ) ];
 		String[ ] listaPDMs = new String[ PDMs.size( ) ];
 
@@ -44,47 +58,47 @@ public class JPInicial extends JPPadrao
 			listaPDMs[i] = PDMs.get( i ).getNome( );
 
 		JComboBox PJComboBox = new JComboBox( listaPJcombo );
-		PJComboBox.setBounds( 50, 50, 100, 30 );
+		PJComboBox.setBounds( 50, 50, maiorNome, 30 );
 
 		JButton btnAddPJ = new JButton( "Adincionar" );
-		btnAddPJ.setBounds( 50, 130, 100, 30 );
+		btnAddPJ.setBounds( 50, 130, maiorNome, 30 );
 
 		JButton btnAddAllPJ = new JButton( "Adincionar Todos" );
-		btnAddAllPJ.setBounds( 200, 130, 150, 30 );
+		btnAddAllPJ.setBounds( maiorNome + 100, 130, 150, 30 );
 
 		DefaultListModel PJsSelecionados = new DefaultListModel( );
 		JList listaPJ = new JList( PJsSelecionados );
 		listaPJ.setVisible( false );
-		listaPJ.setBounds( 50, 210, 100, 0 );
+		listaPJ.setBounds( 50, 210, maiorNome, 0 );
 
 		JButton btnRemovePJ = new JButton( "Remover" );
-		btnRemovePJ.setBounds( 200, 210, 100, 30 );
+		btnRemovePJ.setBounds( maiorNome + 100, 210, 150, 30 );
 		btnRemovePJ.setVisible( false );
 
 		JButton btnRemoveAllPJ = new JButton( "Remover Todos" );
-		btnRemoveAllPJ.setBounds( 200, 290, 150, 30 );
+		btnRemoveAllPJ.setBounds( maiorNome + 100, 290, 150, 30 );
 		btnRemoveAllPJ.setVisible( false );
 
 		JComboBox PDMComboBox = new JComboBox( listaPDMs );
-		PDMComboBox.setBounds( width - 150, 50, 100, 30 );
+		PDMComboBox.setBounds( width - (maiorNome + 50 ), 50, maiorNome, 30 );
 
 		JButton btnAddPDM = new JButton( "Adicionar" );
-		btnAddPDM.setBounds( width - 150, 130, 100, 30 );
+		btnAddPDM.setBounds( width - ( maiorNome + 50 ), 130, maiorNome, 30 );
 
 		JButton btnAddAllPDM = new JButton( "Adincionar Todos" );
-		btnAddAllPDM.setBounds( width - 350, 130, 150, 30 );
+		btnAddAllPDM.setBounds( width - ( maiorNome + 250 ), 130, 150, 30 );
 
 		DefaultListModel PDMsSelecionados = new DefaultListModel( );
 		JList listaPDM = new JList( PDMsSelecionados );
 		listaPDM.setVisible( false );
-		listaPDM.setBounds( width - 150, 210, 100, 0 );
+		listaPDM.setBounds( width - (maiorNome + 50 ), 210, maiorNome, 0 );
 
 		JButton btnRemovePDM = new JButton( "Remover" );
-		btnRemovePDM.setBounds( width - 300, 210, 100, 30 );
+		btnRemovePDM.setBounds( width - ( maiorNome + 250 ), 210, 150, 30 );
 		btnRemovePDM.setVisible( false );
 
 		JButton btnRemoveAllPDM = new JButton( "Remover Todos" );
-		btnRemoveAllPDM.setBounds( width - 400, 290, 150, 30 );
+		btnRemoveAllPDM.setBounds( width - ( maiorNome  + 250 ), 290, 150, 30 );
 		btnRemoveAllPDM.setVisible( false );
 
 		JButton btnIniciarCombate = new JButton( "Iniciar Combate" );
@@ -117,15 +131,15 @@ public class JPInicial extends JPPadrao
 				setBounds( 0, 0, width, height );
 				btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2,
 						btnIniciarCombate.getBounds( ).width, btnIniciarCombate.getBounds( ).height );
-				PDMComboBox.setBounds( width - 150, 50, PDMComboBox.getBounds( ).width,
+				PDMComboBox.setBounds( width - ( maiorNome + 50 ), 50, PDMComboBox.getBounds( ).width,
 						PDMComboBox.getBounds( ).height );
-				btnAddPDM.setBounds( width - 150, 130, btnAddPDM.getBounds( ).width, btnAddPDM.getBounds( ).height );
-				btnAddAllPDM.setBounds( width - 350, 130, btnAddAllPDM.getBounds( ).width,
+				btnAddPDM.setBounds( width - ( maiorNome + 50 ), 130, btnAddPDM.getBounds( ).width, btnAddPDM.getBounds( ).height );
+				btnAddAllPDM.setBounds( width - ( maiorNome + 250 ), 130, btnAddAllPDM.getBounds( ).width,
 						btnAddAllPDM.getBounds( ).height );
-				listaPDM.setBounds( width - 150, 210, listaPDM.getBounds( ).width, listaPDM.getBounds( ).height );
-				btnRemovePDM.setBounds( width - 300, 210, btnRemovePDM.getBounds( ).width,
+				listaPDM.setBounds( width - ( maiorNome + 50 ), 210, listaPDM.getBounds( ).width, listaPDM.getBounds( ).height );
+				btnRemovePDM.setBounds( width - ( maiorNome + 250 ), 210, btnRemovePDM.getBounds( ).width,
 						btnRemovePDM.getBounds( ).height );
-				btnRemoveAllPDM.setBounds( width - 350, 290, btnRemoveAllPDM.getBounds( ).width,
+				btnRemoveAllPDM.setBounds( width - ( maiorNome + 250 ), 290, btnRemoveAllPDM.getBounds( ).width,
 						btnRemoveAllPDM.getBounds( ).height );
 			}
 		} );
@@ -140,7 +154,7 @@ public class JPInicial extends JPPadrao
 				if ( PJComboBox.getSelectedItem( ) != null )
 				{
 					PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
-					listaPJ.setBounds( 50, 210, 100, listaPJ.getBounds( ).height + 20 );
+					listaPJ.setBounds( 50, 210, maiorNome, listaPJ.getBounds( ).height + 20 );
 					listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
 					PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
 				}
@@ -159,7 +173,7 @@ public class JPInicial extends JPPadrao
 				for ( int i = 0; i < size; i++ )
 				{
 					PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
-					listaPJ.setBounds( 50, 210, 100, listaPJ.getBounds( ).height + 20 );
+					listaPJ.setBounds( 50, 210, maiorNome, listaPJ.getBounds( ).height + 20 );
 					listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
 					PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
 				}
@@ -176,7 +190,7 @@ public class JPInicial extends JPPadrao
 				if ( PDMComboBox.getSelectedItem( ) != null )
 				{
 					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
-					listaPDM.setBounds( width - 150, 210, 100, listaPDM.getBounds( ).height + 20 );
+					listaPDM.setBounds( width - ( maiorNome + 50 ) , 210, maiorNome, listaPDM.getBounds( ).height + 20 );
 					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
 					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
 				}
@@ -195,7 +209,7 @@ public class JPInicial extends JPPadrao
 				for ( int i = 0; i < size; i++ )
 				{
 					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
-					listaPDM.setBounds( width - 150, 210, 100, listaPDM.getBounds( ).height + 20 );
+					listaPDM.setBounds( width - (maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
 					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
 					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
 				}
