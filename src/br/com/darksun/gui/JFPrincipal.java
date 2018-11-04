@@ -4,12 +4,14 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 
 public class JFPrincipal extends JFrame
@@ -38,6 +40,19 @@ public class JFPrincipal extends JFrame
 		this.setLayout( null );
 		this.setTitle( "Dungeon Manager" );
 		this.preparaMenu( );
+		
+		File dirPJ = new File( "resources/pj/" );
+		if ( !dirPJ.exists( ) ) {
+			dirPJ.mkdirs( );
+			new PersonagemController( ).criarPersonagemAleatorio( true );
+		}
+		
+		File dirPDM = new File( "resources/pdm/" );
+		if ( !dirPDM.exists( ) ) {
+			dirPDM.mkdirs( );
+			new PersonagemController( ).criarPersonagemAleatorio( false );
+		}
+		
 		this.add( new JPInicial( this ) );
 
 	}
