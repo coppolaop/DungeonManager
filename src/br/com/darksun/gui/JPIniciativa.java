@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Random;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import br.com.darksun.entity.Personagem;
+import br.com.darksun.util.LogStream;
 
 public class JPIniciativa extends JPPadrao
 {
@@ -25,6 +25,16 @@ public class JPIniciativa extends JPPadrao
 		width = frame.getBounds( ).width;
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
+		
+		try
+		{
+			LogStream log = new LogStream( );
+			log.criaArquivoLog( );
+		} catch ( Exception ex )
+		{
+			ex.printStackTrace();
+		}
+		
 		System.out.println( "-------Combate Iniciado-------" );
 
 		for ( Personagem personagem : PJs )

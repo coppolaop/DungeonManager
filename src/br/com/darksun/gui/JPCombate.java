@@ -16,8 +16,8 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import br.com.darksun.control.IniciativaComparator;
 import br.com.darksun.entity.Personagem;
+import br.com.darksun.util.IniciativaComparator;
 
 public class JPCombate extends JPPadrao
 {
@@ -118,6 +118,8 @@ public class JPCombate extends JPPadrao
 
 				if ( index > 0 )
 				{
+					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de " + tabela.getValueAt( index - 1, 0 ) );
+					
 					Object[ ] aux =
 					{ tabela.getValueAt( index - 1, 0 ), tabela.getValueAt( index - 1, 1 ),
 							tabela.getValueAt( index - 1, 2 ), tabela.getValueAt( index - 1, 3 ) };
@@ -145,6 +147,8 @@ public class JPCombate extends JPPadrao
 
 				if ( index < tabela.getRowCount( ) )
 				{
+					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de " + tabela.getValueAt( index + 1, 0 ) );
+					
 					Object[ ] aux =
 					{ tabela.getValueAt( index + 1, 0 ), tabela.getValueAt( index + 1, 1 ),
 							tabela.getValueAt( index + 1, 2 ), tabela.getValueAt( index + 1, 3 ) };
@@ -171,6 +175,8 @@ public class JPCombate extends JPPadrao
 				Object[ ] aux =
 				{ tabela.getValueAt( 0, 0 ), tabela.getValueAt( 0, 1 ), tabela.getValueAt( 0, 2 ),
 						tabela.getValueAt( 0, 3 ) };
+				
+				System.out.println( aux[0] + " finalizou seu turno" );
 
 				int size = tabela.getRowCount( ) - 1;
 
