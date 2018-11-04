@@ -15,19 +15,19 @@ public class PersonagemController
 	public List< Personagem > listarPJs( )
 	{
 		List< Personagem > personagens = new ArrayList< Personagem >( );
-		File folder = new File("resources/pj/");
+		File folder = new File( "resources/pj/" );
 		File[ ] lista = folder.listFiles( );
-		for(File file : lista)
+		for ( File file : lista )
 			personagens.add( carregar( "resources/pj/" + file.getName( ) ) );
 		return personagens;
 	}
-	
+
 	public List< Personagem > listarPDMs( )
 	{
 		List< Personagem > personagens = new ArrayList< Personagem >( );
-		File folder = new File("resources/pdm/");
+		File folder = new File( "resources/pdm/" );
 		File[ ] lista = folder.listFiles( );
-		for(File file : lista)
+		for ( File file : lista )
 			personagens.add( carregar( "resources/pdm/" + file.getName( ) ) );
 		return personagens;
 	}

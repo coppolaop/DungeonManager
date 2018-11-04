@@ -1,7 +1,6 @@
 package br.com.darksun.gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
 
 import br.com.darksun.entity.Personagem;
 
@@ -68,9 +65,9 @@ public class JFPrincipal extends JFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				JFPrincipal.this.remove( getTela( ) );
-				
+
 				setTela( new JPInicial( JFPrincipal.this ) );
-				
+
 				revalidate( );
 				repaint( );
 			}
@@ -85,7 +82,7 @@ public class JFPrincipal extends JFrame
 		} );
 
 		itemSair.addActionListener( new ActionListener( )
-		{  
+		{
 			public void actionPerformed( ActionEvent e )
 			{
 				System.exit( 0 );

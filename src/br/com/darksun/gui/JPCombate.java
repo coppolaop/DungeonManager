@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -21,6 +21,8 @@ import br.com.darksun.util.IniciativaComparator;
 
 public class JPCombate extends JPPadrao
 {
+	private String ultimoDaRodada;
+	private Integer rodada = 0;
 
 	public JPCombate( JFPrincipal frame, List< Personagem > PJs, List< Personagem > PDMs )
 	{
@@ -29,14 +31,10 @@ public class JPCombate extends JPPadrao
 
 	public void montaTelaCombate( JFPrincipal frame, List< Personagem > PJs, List< Personagem > PDMs )
 	{
-//		JPPadrao panel = ( JPPadrao ) frame.getTela( );
 		limpaTela( );
 		width = frame.getBounds( ).width;
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
-//		width = panel.getWidth( );
-//		height = panel.getHeight( );
-		// panel.limpaTela( );
 		List< Personagem > personagens = new ArrayList< Personagem >( );
 		System.out.println( "-------   Iniciativa   -------" );
 
@@ -70,6 +68,15 @@ public class JPCombate extends JPPadrao
 			dados[i][3] = personagens.get( i ).getHpMaximo( ).toString( );
 		}
 
+		JLabel labelRodada = new JLabel( "Rodada: " );
+		labelRodada.setBounds( 50, 15, 100, 20 );
+		labelRodada
+				.setFont( new Font( labelRodada.getFont( ).getFontName( ), labelRodada.getFont( ).getStyle( ), 20 ) );
+		JLabel labelNumeroRodadas = new JLabel( rodada.toString( ) );
+		labelNumeroRodadas.setBounds( 150, 15, 80, 20 );
+		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
+				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
+
 		JTable tabela = new JTable( dados, colunas );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );
@@ -90,8 +97,14 @@ public class JPCombate extends JPPadrao
 		add( btnSetaCima );
 		add( btnSetaBaixo );
 		add( btnFinalTurno );
+		add( labelRodada );
+		add( labelNumeroRodadas );
 
 		frame.repaint( );
+
+		tabela.setRowSelectionInterval( 0, 0 );
+
+		ultimoDaRodada = ( String ) tabela.getValueAt( tabela.getRowCount( ) - 1, 0 );
 
 		frame.addComponentListener( new ComponentAdapter( )
 		{
@@ -118,8 +131,15 @@ public class JPCombate extends JPPadrao
 
 				if ( index > 0 )
 				{
-					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de " + tabela.getValueAt( index - 1, 0 ) );
-					
+					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de "
+							+ tabela.getValueAt( index - 1, 0 ) );
+
+					if ( tabela.getValueAt( index, 0 ).equals( ultimoDaRodada ) )
+					{
+						ultimoDaRodada = ( String ) tabela.getValueAt( index - 1, 0 );
+						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
+					}
+
 					Object[ ] aux =
 					{ tabela.getValueAt( index - 1, 0 ), tabela.getValueAt( index - 1, 1 ),
 							tabela.getValueAt( index - 1, 2 ), tabela.getValueAt( index - 1, 3 ) };
@@ -145,10 +165,17 @@ public class JPCombate extends JPPadrao
 			{
 				int index = tabela.getSelectedRow( );
 
-				if ( index < tabela.getRowCount( ) )
+				if ( index < tabela.getRowCount( ) - 1 )
 				{
-					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de " + tabela.getValueAt( index + 1, 0 ) );
-					
+					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
+							+ tabela.getValueAt( index + 1, 0 ) );
+
+					if ( tabela.getValueAt( index + 1, 0 ).equals( ultimoDaRodada ) )
+					{
+						ultimoDaRodada = ( String ) tabela.getValueAt( index, 0 );
+						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
+					}
+
 					Object[ ] aux =
 					{ tabela.getValueAt( index + 1, 0 ), tabela.getValueAt( index + 1, 1 ),
 							tabela.getValueAt( index + 1, 2 ), tabela.getValueAt( index + 1, 3 ) };
@@ -175,8 +202,15 @@ public class JPCombate extends JPPadrao
 				Object[ ] aux =
 				{ tabela.getValueAt( 0, 0 ), tabela.getValueAt( 0, 1 ), tabela.getValueAt( 0, 2 ),
 						tabela.getValueAt( 0, 3 ) };
-				
+
 				System.out.println( aux[0] + " finalizou seu turno" );
+
+				if ( aux[0].equals( ultimoDaRodada ) )
+				{
+					rodada++;
+					labelNumeroRodadas.setText( rodada.toString( ) );
+					System.out.println( "-- A Rodada " + rodada + " acabou --" );
+				}
 
 				int size = tabela.getRowCount( ) - 1;
 

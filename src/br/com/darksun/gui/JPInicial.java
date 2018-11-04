@@ -1,6 +1,5 @@
 package br.com.darksun.gui;
 
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -18,8 +17,9 @@ import br.com.darksun.entity.Personagem;
 
 public class JPInicial extends JPPadrao
 {
-	
-	public JPInicial( JFPrincipal frame ) {
+
+	public JPInicial( JFPrincipal frame )
+	{
 		montaTelaPrincipal( frame );
 	}
 
@@ -105,7 +105,7 @@ public class JPInicial extends JPPadrao
 		add( btnIniciarCombate );
 
 		frame.repaint( );
-		
+
 		frame.addComponentListener( new ComponentAdapter( )
 		{
 			@Override

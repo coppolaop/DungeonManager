@@ -26,29 +26,30 @@ public class LogStream extends OutputStream
 		textArea.setRows( 1000 );
 		textArea.setFont( new Font( Font.MONOSPACED, Font.PLAIN, 14 ) );
 	}
-	
-	@Override
-    public void flush( )
-    {
-        
-    }
 
-    @Override
-    public void close( )
-    {
-        
-    }
-    
-    public void println(String texto)
-    {
-    	textArea.append(texto);
-    	textArea.append(System.getProperty("line.separator"));
-    	
-    }
-    
-    public void clean() {
-    	textArea.setText("");
-    }
+	@Override
+	public void flush( )
+	{
+
+	}
+
+	@Override
+	public void close( )
+	{
+
+	}
+
+	public void println( String texto )
+	{
+		textArea.append( texto );
+		textArea.append( System.getProperty( "line.separator" ) );
+
+	}
+
+	public void clean( )
+	{
+		textArea.setText( "" );
+	}
 
 	@Override
 	public void write( int arg ) throws IOException
@@ -87,8 +88,8 @@ public class LogStream extends OutputStream
 	public void criaArquivoLog( ) throws Exception
 	{
 		long inicio = System.currentTimeMillis( );
-		
-		File dir =  new File( "resources/log/" );
+
+		File dir = new File( "resources/log/" );
 
 		if ( !dir.exists( ) )
 			dir.mkdirs( );
@@ -101,7 +102,7 @@ public class LogStream extends OutputStream
 
 		outputStream = new FileOutputStream( logFile, true );
 		printWriter = new PrintWriter( outputStream );
-		
+
 		PrintStream ps = new PrintStream( this );
 		System.setOut( ps );
 		System.setErr( ps );

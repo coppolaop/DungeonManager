@@ -25,16 +25,16 @@ public class JPIniciativa extends JPPadrao
 		width = frame.getBounds( ).width;
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
-		
+
 		try
 		{
 			LogStream log = new LogStream( );
 			log.criaArquivoLog( );
 		} catch ( Exception ex )
 		{
-			ex.printStackTrace();
+			ex.printStackTrace( );
 		}
-		
+
 		System.out.println( "-------Combate Iniciado-------" );
 
 		for ( Personagem personagem : PJs )
@@ -59,7 +59,7 @@ public class JPIniciativa extends JPPadrao
 		this.add( btnRolagemAutomatica );
 		this.add( btnPDMAutomatico );
 		this.add( btnRolagemManual );
-		
+
 		frame.repaint( );
 
 		frame.addComponentListener( new ComponentAdapter( )

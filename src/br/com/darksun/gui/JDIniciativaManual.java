@@ -12,7 +12,6 @@ import java.beans.PropertyChangeListener;
 import java.util.Random;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -24,7 +23,7 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 	private JTextField textField;
 	private JOptionPane optionPane;
 	private Personagem personagem;
-	
+
 	private String btnString1 = "OK";
 	private String btnString2 = "Rolagem automática";
 
@@ -40,11 +39,11 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 	public JDInicitivaManual( JFPrincipal frame, Personagem personagem )
 	{
 		super( frame, true );
-		
+
 		this.personagem = personagem;
 
-		setBounds( 50,50,400,200);
-		
+		setBounds( 50, 50, 400, 200 );
+
 		setTitle( personagem.getNome( ) );
 
 		textField = new JTextField( 10 );
