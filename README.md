@@ -46,7 +46,7 @@ O sistema gera um log a cada execução, ele ficará guardado na pasta log, dent
 
 ## Versionamento
 
-Nós utilizamos [SemVer](http://semver.org/) para versionamento. Para as versões disponíveis, veja as [tags nesse repositório](https://github.com/your/project/tags). 
+Nós utilizamos [SemVer](http://semver.org/) para versionamento. Para as versões disponíveis, veja as [tags nesse repositório](https://github.com/coppolaop/DungeonManager/tags). 
 
 ## Autores
 
