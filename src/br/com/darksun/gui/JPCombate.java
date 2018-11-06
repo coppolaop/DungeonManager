@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicArrowButton;
+import javax.swing.table.DefaultTableModel;
 
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.util.IniciativaComparator;
@@ -23,6 +24,7 @@ public class JPCombate extends JPPadrao
 {
 	private String ultimoDaRodada;
 	private Integer rodada = 0;
+	String[ ][ ] dados;
 
 	public JPCombate( JFPrincipal frame, List< Personagem > PJs, List< Personagem > PDMs )
 	{
@@ -58,7 +60,7 @@ public class JPCombate extends JPPadrao
 
 		String[ ] colunas =
 		{ "Nome", "CA", "HP Atual", "HP Total" };
-		String[ ][ ] dados = new String[ personagens.size( ) ][ 4 ];
+		dados = new String[ personagens.size( ) ][ 4 ];
 
 		for ( int i = 0; i < personagens.size( ); i++ )
 		{
@@ -77,7 +79,7 @@ public class JPCombate extends JPPadrao
 		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
 				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
 
-		JTable tabela = new JTable( dados, colunas );
+		JTable tabela = new JTable( new DefaultTableModel(dados, colunas) );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );
 		tabela.setSelectionMode( 0 );
@@ -86,14 +88,17 @@ public class JPCombate extends JPPadrao
 		JScrollPane listScroller = new JScrollPane( tabela );
 		listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 
+		JButton btnRemoverPersonagem = new JButton( "Remover Personagem" );
 		JButton btnSetaCima = new BasicArrowButton( BasicArrowButton.NORTH );
 		JButton btnSetaBaixo = new BasicArrowButton( BasicArrowButton.SOUTH );
 		JButton btnFinalTurno = new JButton( "Finalizar Turno" );
+		btnRemoverPersonagem.setBounds( ( width / 3 ) - 165, 10, 180, 30 );
 		btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
 		btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
 		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 250, 120, 30 );
 
 		add( listScroller );
+		add( btnRemoverPersonagem );
 		add( btnSetaCima );
 		add( btnSetaBaixo );
 		add( btnFinalTurno );
@@ -117,6 +122,7 @@ public class JPCombate extends JPPadrao
 				setBounds( 0, 0, width, height );
 				tabela.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 				listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
+				btnRemoverPersonagem.setBounds( ( width / 3 ) - 165, 10, 180, 30 );
 				btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
 				btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
 				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 250, 120, 30 );
@@ -226,6 +232,47 @@ public class JPCombate extends JPPadrao
 				tabela.setValueAt( aux[1], size, 1 );
 				tabela.setValueAt( aux[2], size, 2 );
 				tabela.setValueAt( aux[3], size, 3 );
+			}
+		} );
+
+		btnRemoverPersonagem.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{	
+				try
+				{
+					Integer removido = tabela.getSelectedRow( );
+
+					System.out.println( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
+
+					if ( tabela.getValueAt( removido, 0 ).equals( ultimoDaRodada ) )
+					{
+						if ( removido == 0 )
+							ultimoDaRodada = ( String ) tabela.getValueAt( 1, 0 );
+						else
+							ultimoDaRodada = ( String ) tabela.getValueAt( removido - 1, 0 );
+
+						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
+					}
+
+					DefaultTableModel model = (DefaultTableModel) tabela.getModel( );
+					
+					model.removeRow( tabela.getSelectedRow( ) );
+
+					if ( tabela.getRowCount( ) - 1 < removido )
+						tabela.setRowSelectionInterval( removido - 1, removido - 1 );
+					else
+						tabela.setRowSelectionInterval( removido, removido );
+				} catch ( ArrayIndexOutOfBoundsException ex )
+				{
+					System.out.println( "------- Fim do combate -------" );
+					System.out.println( "------------------------------" );
+					frame.remove( JPCombate.this );
+					frame.setTela( new JPInicial( frame ) );
+				} catch ( Exception ex )
+				{
+					ex.printStackTrace( );
+				}
 			}
 		} );
 	}
