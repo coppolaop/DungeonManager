@@ -76,6 +76,7 @@ public class JFPrincipal extends JFrame
 
 		JMenuItem itemNovoCombate = new JMenuItem( "Novo Combate" );
 		JMenuItem itemNovoPersonagem = new JMenuItem( "Novo Personagem" );
+		JMenuItem itemSobre = new JMenuItem( "Sobre" );
 		JMenuItem itemSair = new JMenuItem( "Sair" );
 
 		itemNovoCombate.addActionListener( new ActionListener( )
@@ -98,6 +99,19 @@ public class JFPrincipal extends JFrame
 
 			}
 		} );
+		
+		itemSobre.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				JFPrincipal.this.remove( getTela( ) );
+
+				setTela( new JPSobre( JFPrincipal.this ) );
+
+				revalidate( );
+				repaint( );
+			}
+		} );
 
 		itemSair.addActionListener( new ActionListener( )
 		{
@@ -108,7 +122,8 @@ public class JFPrincipal extends JFrame
 		} );
 
 		fileMenu.add( itemNovoCombate );
-		fileMenu.add( itemNovoPersonagem );
+//		fileMenu.add( itemNovoPersonagem ); //Projeto Character Builder
+		fileMenu.add( itemSobre );
 		fileMenu.addSeparator( );
 		fileMenu.add( itemSair );
 	}
