@@ -16,6 +16,7 @@ import br.com.darksun.entity.Personagem;
 
 public class JFPrincipal extends JFrame
 {
+	private final String systemVersion = "1.0.0";
 	private Integer width = 1500;
 	private Integer height = 750;
 	private JPPadrao tela;
@@ -38,7 +39,7 @@ public class JFPrincipal extends JFrame
 		this.setLocationRelativeTo( null );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
-		this.setTitle( "Dungeon Manager" );
+		this.setTitle( "Dungeon Manager " + systemVersion );
 		this.preparaMenu( );
 
 		File dirPJ = new File( "resources/pj/" );
