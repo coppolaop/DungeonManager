@@ -1,5 +1,7 @@
 package br.com.darksun.gui;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -10,7 +12,9 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.SwingConstants;
 
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
@@ -19,7 +23,7 @@ public class JPInicial extends JPPadrao
 {
 
 	private Integer maiorNome = 0;
-	
+
 	public JPInicial( JFPrincipal frame )
 	{
 		montaTelaPrincipal( frame );
@@ -36,19 +40,19 @@ public class JPInicial extends JPPadrao
 		List< Personagem > PJs = pc.listarPJs( );
 		List< Personagem > PDMs = pc.listarPDMs( );
 
-		for(Personagem personagem : PJs)
-			if(personagem.getNome( ).length( ) > maiorNome)
+		for ( Personagem personagem : PJs )
+			if ( personagem.getNome( ).length( ) > maiorNome )
 				maiorNome = personagem.getNome( ).length( );
-		
-		for(Personagem personagem : PDMs)
-			if(personagem.getNome( ).length( ) > maiorNome)
+
+		for ( Personagem personagem : PDMs )
+			if ( personagem.getNome( ).length( ) > maiorNome )
 				maiorNome = personagem.getNome( ).length( );
-		
+
 		maiorNome = ( maiorNome + 1 ) * 7;
-		
-		if( maiorNome < 125 )
+
+		if ( maiorNome < 125 )
 			maiorNome = 125;
-		
+
 		String[ ] listaPJcombo = new String[ PJs.size( ) ];
 		String[ ] listaPDMs = new String[ PDMs.size( ) ];
 
@@ -81,7 +85,7 @@ public class JPInicial extends JPPadrao
 		btnRemoveAllPJ.setVisible( false );
 
 		JComboBox PDMComboBox = new JComboBox( listaPDMs );
-		PDMComboBox.setBounds( width - (maiorNome + 50 ), 50, maiorNome, 30 );
+		PDMComboBox.setBounds( width - ( maiorNome + 50 ), 50, maiorNome, 30 );
 
 		JButton btnAddPDM = new JButton( "Adicionar" );
 		btnAddPDM.setBounds( width - ( maiorNome + 50 ), 130, maiorNome, 30 );
@@ -92,18 +96,24 @@ public class JPInicial extends JPPadrao
 		DefaultListModel PDMsSelecionados = new DefaultListModel( );
 		JList listaPDM = new JList( PDMsSelecionados );
 		listaPDM.setVisible( false );
-		listaPDM.setBounds( width - (maiorNome + 50 ), 210, maiorNome, 0 );
+		listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, 0 );
 
 		JButton btnRemovePDM = new JButton( "Remover" );
 		btnRemovePDM.setBounds( width - ( maiorNome + 250 ), 210, 150, 30 );
 		btnRemovePDM.setVisible( false );
 
 		JButton btnRemoveAllPDM = new JButton( "Remover Todos" );
-		btnRemoveAllPDM.setBounds( width - ( maiorNome  + 250 ), 290, 150, 30 );
+		btnRemoveAllPDM.setBounds( width - ( maiorNome + 250 ), 290, 150, 30 );
 		btnRemoveAllPDM.setVisible( false );
 
 		JButton btnIniciarCombate = new JButton( "Iniciar Combate" );
 		btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
+
+		JLabel labelError = new JLabel( "" );
+		labelError.setBounds( width / 2 - 220 / 2, height / 2 + 30 / 2, 220, 30 );
+		labelError.setForeground( new Color( 155, 0, 0 ) );
+		labelError.setFont( new Font( labelError.getFont( ).getFontName( ), labelError.getFont( ).getStyle( ), 14 ) );
+		labelError.setHorizontalAlignment( SwingConstants.CENTER );
 
 		add( PJComboBox );
 		add( btnAddPJ );
@@ -118,6 +128,7 @@ public class JPInicial extends JPPadrao
 		add( btnRemovePDM );
 		add( btnRemoveAllPDM );
 		add( btnIniciarCombate );
+		add( labelError );
 
 		frame.repaint( );
 
@@ -132,12 +143,15 @@ public class JPInicial extends JPPadrao
 				setBounds( 0, 0, width, height );
 				btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2,
 						btnIniciarCombate.getBounds( ).width, btnIniciarCombate.getBounds( ).height );
+				labelError.setBounds( width / 2 - 220 / 2, height / 2 + 30 / 2, 220, 30 );
 				PDMComboBox.setBounds( width - ( maiorNome + 50 ), 50, PDMComboBox.getBounds( ).width,
 						PDMComboBox.getBounds( ).height );
-				btnAddPDM.setBounds( width - ( maiorNome + 50 ), 130, btnAddPDM.getBounds( ).width, btnAddPDM.getBounds( ).height );
+				btnAddPDM.setBounds( width - ( maiorNome + 50 ), 130, btnAddPDM.getBounds( ).width,
+						btnAddPDM.getBounds( ).height );
 				btnAddAllPDM.setBounds( width - ( maiorNome + 250 ), 130, btnAddAllPDM.getBounds( ).width,
 						btnAddAllPDM.getBounds( ).height );
-				listaPDM.setBounds( width - ( maiorNome + 50 ), 210, listaPDM.getBounds( ).width, listaPDM.getBounds( ).height );
+				listaPDM.setBounds( width - ( maiorNome + 50 ), 210, listaPDM.getBounds( ).width,
+						listaPDM.getBounds( ).height );
 				btnRemovePDM.setBounds( width - ( maiorNome + 250 ), 210, btnRemovePDM.getBounds( ).width,
 						btnRemovePDM.getBounds( ).height );
 				btnRemoveAllPDM.setBounds( width - ( maiorNome + 250 ), 290, btnRemoveAllPDM.getBounds( ).width,
@@ -191,7 +205,7 @@ public class JPInicial extends JPPadrao
 				if ( PDMComboBox.getSelectedItem( ) != null )
 				{
 					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
-					listaPDM.setBounds( width - ( maiorNome + 50 ) , 210, maiorNome, listaPDM.getBounds( ).height + 20 );
+					listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
 					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
 					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
 				}
@@ -210,7 +224,7 @@ public class JPInicial extends JPPadrao
 				for ( int i = 0; i < size; i++ )
 				{
 					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
-					listaPDM.setBounds( width - (maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
+					listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
 					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
 					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
 				}
@@ -332,13 +346,13 @@ public class JPInicial extends JPPadrao
 
 				if ( PJsize == 0 )
 				{
-					System.out.println( "Selecione pelo menos um PJ" );
+					labelError.setText( "Selecione pelo menos um PJ" );
 					return;
 				}
 
 				if ( PDMsize == 0 )
 				{
-					System.out.println( "Selecione pelo menos um PDM" );
+					labelError.setText( "Selecione pelo menos um PDM" );
 					return;
 				}
 

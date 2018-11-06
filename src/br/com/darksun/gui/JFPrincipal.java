@@ -40,19 +40,21 @@ public class JFPrincipal extends JFrame
 		this.setLayout( null );
 		this.setTitle( "Dungeon Manager" );
 		this.preparaMenu( );
-		
+
 		File dirPJ = new File( "resources/pj/" );
-		if ( !dirPJ.exists( ) ) {
+		if ( !dirPJ.exists( ) )
+		{
 			dirPJ.mkdirs( );
 			new PersonagemController( ).criarPersonagemAleatorio( true );
 		}
-		
+
 		File dirPDM = new File( "resources/pdm/" );
-		if ( !dirPDM.exists( ) ) {
+		if ( !dirPDM.exists( ) )
+		{
 			dirPDM.mkdirs( );
 			new PersonagemController( ).criarPersonagemAleatorio( false );
 		}
-		
+
 		setTela( new JPInicial( this ) );
 
 	}
