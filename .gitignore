@@ -19,7 +19,6 @@ build/
 *.tar.gz
 *.rar
 
-
 .metadata
 bin/
 tmp/
@@ -31,6 +30,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+Thumbs.db
 
 # External tool builders
 .externalToolBuilders/

@@ -2,6 +2,7 @@ package br.com.darksun.gui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -42,6 +43,7 @@ public class JFPrincipal extends JFrame
 
 	public JFPrincipal( )
 	{
+		this.setIconImage( Toolkit.getDefaultToolkit( ).getImage( "img/DungeonManager.png" ) );
 		this.setVisible( true );
 		this.setSize( width, height );
 		this.setLocationRelativeTo( null );

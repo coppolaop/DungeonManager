@@ -2,6 +2,8 @@ package br.com.darksun.gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -35,6 +38,11 @@ public class JPInicial extends JPPadrao
 		width = frame.getBounds( ).width;
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, width, height );
+		
+		JLabel labelImg = new JLabel( "" );
+		labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
+		Image logoApp = Toolkit.getDefaultToolkit( ).getImage( "img/DungeonManager.png" );
+		labelImg.setIcon(new ImageIcon(logoApp.getScaledInstance(labelImg.getWidth(),labelImg.getHeight(), logoApp.SCALE_DEFAULT)));
 
 		PersonagemController pc = new PersonagemController( );
 		List< Personagem > PJs = pc.listarPJs( );
@@ -115,6 +123,7 @@ public class JPInicial extends JPPadrao
 		labelError.setFont( new Font( labelError.getFont( ).getFontName( ), labelError.getFont( ).getStyle( ), 14 ) );
 		labelError.setHorizontalAlignment( SwingConstants.CENTER );
 
+		add( labelImg );
 		add( PJComboBox );
 		add( btnAddPJ );
 		add( btnAddAllPJ );
@@ -141,6 +150,7 @@ public class JPInicial extends JPPadrao
 				height = frame.getBounds( ).height;
 
 				setBounds( 0, 0, width, height );
+				labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
 				btnIniciarCombate.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2,
 						btnIniciarCombate.getBounds( ).width, btnIniciarCombate.getBounds( ).height );
 				labelError.setBounds( width / 2 - 220 / 2, height / 2 + 30 / 2, 220, 30 );
