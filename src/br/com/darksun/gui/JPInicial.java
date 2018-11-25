@@ -73,10 +73,10 @@ public class JPInicial extends JPPadrao
 		JComboBox PJComboBox = new JComboBox( listaPJcombo );
 		PJComboBox.setBounds( 50, 50, maiorNome, 30 );
 
-		JButton btnAddPJ = new JButton( "Adincionar" );
+		JButton btnAddPJ = new JButton( "Adicionar" );
 		btnAddPJ.setBounds( 50, 130, maiorNome, 30 );
 
-		JButton btnAddAllPJ = new JButton( "Adincionar Todos" );
+		JButton btnAddAllPJ = new JButton( "Adicionar Todos" );
 		btnAddAllPJ.setBounds( maiorNome + 100, 130, 150, 30 );
 
 		DefaultListModel PJsSelecionados = new DefaultListModel( );
@@ -98,7 +98,7 @@ public class JPInicial extends JPPadrao
 		JButton btnAddPDM = new JButton( "Adicionar" );
 		btnAddPDM.setBounds( width - ( maiorNome + 50 ), 130, maiorNome, 30 );
 
-		JButton btnAddAllPDM = new JButton( "Adincionar Todos" );
+		JButton btnAddAllPDM = new JButton( "Adicionar Todos" );
 		btnAddAllPDM.setBounds( width - ( maiorNome + 250 ), 130, 150, 30 );
 
 		DefaultListModel PDMsSelecionados = new DefaultListModel( );
