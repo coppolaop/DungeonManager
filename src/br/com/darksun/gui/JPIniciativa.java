@@ -30,14 +30,14 @@ public class JPIniciativa extends JPPadrao
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
 
-		try
-		{
-			LogStream log = new LogStream( );
-			log.criaArquivoLog( );
-		} catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-		}
+//		try
+//		{
+//			LogStream log = new LogStream( );
+//			log.criaArquivoLog( );
+//		} catch ( Exception ex )
+//		{
+//			ex.printStackTrace( );
+//		}
 
 		System.out.println( "-------Combate Iniciado-------" );
 

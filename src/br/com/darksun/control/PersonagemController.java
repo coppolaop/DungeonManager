@@ -20,7 +20,7 @@ public class PersonagemController
 		File folder = new File( "resources/pj/" );
 		File[ ] lista = folder.listFiles( );
 		for ( File file : lista )
-			personagens.add( carregar( "resources/pj/" + file.getName( ) ) );
+			personagens.add( carregar( "resources/pj/" + file.getName( ), true ) );
 		return personagens;
 	}
 
@@ -30,11 +30,11 @@ public class PersonagemController
 		File folder = new File( "resources/pdm/" );
 		File[ ] lista = folder.listFiles( );
 		for ( File file : lista )
-			personagens.add( carregar( "resources/pdm/" + file.getName( ) ) );
+			personagens.add( carregar( "resources/pdm/" + file.getName( ), false ) );
 		return personagens;
 	}
 
-	public Personagem carregar( String path )
+	public Personagem carregar( String path, Boolean isPj )
 	{
 
 		Properties prop = new Properties( );
@@ -56,6 +56,7 @@ public class PersonagemController
 			personagem.setBonusIniciativa( Integer.parseInt( prop.getProperty( "bonusIniciativa" ) ) );
 			personagem.setHpMaximo( Integer.parseInt( prop.getProperty( "hpMaximo" ) ) );
 			personagem.setHpAtual( Integer.parseInt( prop.getProperty( "hpAtual" ) ) );
+			personagem.setIsPJ( isPj );
 
 			return personagem;
 

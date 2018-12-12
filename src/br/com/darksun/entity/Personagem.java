@@ -11,6 +11,7 @@ public class Personagem
 	private Integer iniciativa;
 	private Integer hpMaximo;
 	private Integer hpAtual;
+	private Boolean isPJ;
 	
 	public Personagem( )
 	{
@@ -18,7 +19,7 @@ public class Personagem
 	}
 
 	public Personagem( Integer idPersonagem, String nome, String classe, String imagem, Integer ca,
-			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual )
+			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual, Boolean isPJ )
 	{
 		super( );
 		this.idPersonagem = idPersonagem;
@@ -30,6 +31,7 @@ public class Personagem
 		this.iniciativa = iniciativa;
 		this.hpMaximo = hpMaximo;
 		this.hpAtual = hpAtual;
+		this.isPJ = isPJ;
 	}
 
 
@@ -127,5 +129,15 @@ public class Personagem
 	public void setHpAtual( Integer hpAtual )
 	{
 		this.hpAtual = hpAtual;
+	}
+
+	public Boolean getIsPJ( )
+	{
+		return isPJ;
+	}
+
+	public void setIsPJ( Boolean isPJ )
+	{
+		this.isPJ = isPJ;
 	}
 }

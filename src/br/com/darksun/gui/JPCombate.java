@@ -14,11 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.plaf.basic.BasicArrowButton;
-import javax.swing.table.DefaultTableModel;
 
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.util.IniciativaComparator;
+import br.com.darksun.util.PersonagemTableModel;
 
 public class JPCombate extends JPPadrao
 {
@@ -58,18 +60,6 @@ public class JPCombate extends JPPadrao
 
 		Collections.sort( personagens, new IniciativaComparator( ) );
 
-		String[ ] colunas =
-		{ "Nome", "CA", "HP Atual", "HP Total" };
-		dados = new String[ personagens.size( ) ][ 4 ];
-
-		for ( int i = 0; i < personagens.size( ); i++ )
-		{
-			dados[i][0] = personagens.get( i ).getNome( );
-			dados[i][1] = personagens.get( i ).getCa( ).toString( );
-			dados[i][2] = personagens.get( i ).getHpAtual( ).toString( );
-			dados[i][3] = personagens.get( i ).getHpMaximo( ).toString( );
-		}
-
 		JLabel labelRodada = new JLabel( "Rodada: " );
 		labelRodada.setBounds( 50, 15, 100, 20 );
 		labelRodada
@@ -79,7 +69,8 @@ public class JPCombate extends JPPadrao
 		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
 				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
 
-		JTable tabela = new JTable( new DefaultTableModel(dados, colunas) );
+		PersonagemTableModel model = new PersonagemTableModel( personagens );
+		JTable tabela = new JTable( model );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );
 		tabela.setSelectionMode( 0 );
@@ -146,19 +137,7 @@ public class JPCombate extends JPPadrao
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
 
-					Object[ ] aux =
-					{ tabela.getValueAt( index - 1, 0 ), tabela.getValueAt( index - 1, 1 ),
-							tabela.getValueAt( index - 1, 2 ), tabela.getValueAt( index - 1, 3 ) };
-
-					tabela.setValueAt( tabela.getValueAt( index, 0 ), index - 1, 0 );
-					tabela.setValueAt( tabela.getValueAt( index, 1 ), index - 1, 1 );
-					tabela.setValueAt( tabela.getValueAt( index, 2 ), index - 1, 2 );
-					tabela.setValueAt( tabela.getValueAt( index, 3 ), index - 1, 3 );
-
-					tabela.setValueAt( aux[0], index, 0 );
-					tabela.setValueAt( aux[1], index, 1 );
-					tabela.setValueAt( aux[2], index, 2 );
-					tabela.setValueAt( aux[3], index, 3 );
+					model.trocar( index, index - 1 );
 
 					tabela.setRowSelectionInterval( index - 1, index - 1 );
 				}
@@ -183,18 +162,10 @@ public class JPCombate extends JPPadrao
 					}
 
 					Object[ ] aux =
-					{ tabela.getValueAt( index + 1, 0 ), tabela.getValueAt( index + 1, 1 ),
-							tabela.getValueAt( index + 1, 2 ), tabela.getValueAt( index + 1, 3 ) };
+					{ tabela.getValueAt( index, 0 ), tabela.getValueAt( index, 1 ),
+							tabela.getValueAt( index, 2 ), tabela.getValueAt( index, 3 ) };
 
-					tabela.setValueAt( tabela.getValueAt( index, 0 ), index + 1, 0 );
-					tabela.setValueAt( tabela.getValueAt( index, 1 ), index + 1, 1 );
-					tabela.setValueAt( tabela.getValueAt( index, 2 ), index + 1, 2 );
-					tabela.setValueAt( tabela.getValueAt( index, 3 ), index + 1, 3 );
-
-					tabela.setValueAt( aux[0], index, 0 );
-					tabela.setValueAt( aux[1], index, 1 );
-					tabela.setValueAt( aux[2], index, 2 );
-					tabela.setValueAt( aux[3], index, 3 );
+					model.trocar( index, index + 1 );
 
 					tabela.setRowSelectionInterval( index + 1, index + 1 );
 				}
@@ -205,6 +176,9 @@ public class JPCombate extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				Integer selected = tabela.getSelectedRow( );
+				Personagem personagem = model.getPersonagem( 0 );
+				
 				Object[ ] aux =
 				{ tabela.getValueAt( 0, 0 ), tabela.getValueAt( 0, 1 ), tabela.getValueAt( 0, 2 ),
 						tabela.getValueAt( 0, 3 ) };
@@ -217,21 +191,16 @@ public class JPCombate extends JPPadrao
 					labelNumeroRodadas.setText( rodada.toString( ) );
 					System.out.println( "-- A Rodada " + rodada + " acabou --" );
 				}
+				
+				if( selected == 0 )
+					selected = tabela.getRowCount( ) - 1;
+				else
+					selected --;
+					
 
-				int size = tabela.getRowCount( ) - 1;
-
-				for ( int i = 1; i < size + 1; i++ )
-				{
-					tabela.setValueAt( tabela.getValueAt( i, 0 ), i - 1, 0 );
-					tabela.setValueAt( tabela.getValueAt( i, 1 ), i - 1, 1 );
-					tabela.setValueAt( tabela.getValueAt( i, 2 ), i - 1, 2 );
-					tabela.setValueAt( tabela.getValueAt( i, 3 ), i - 1, 3 );
-				}
-
-				tabela.setValueAt( aux[0], size, 0 );
-				tabela.setValueAt( aux[1], size, 1 );
-				tabela.setValueAt( aux[2], size, 2 );
-				tabela.setValueAt( aux[3], size, 3 );
+				model.remover( personagem );
+				model.adicionar( personagem );
+				tabela.setRowSelectionInterval( selected, selected );
 			}
 		} );
 
@@ -242,6 +211,7 @@ public class JPCombate extends JPPadrao
 				try
 				{
 					Integer removido = tabela.getSelectedRow( );
+					Personagem personagem = model.getPersonagem( removido );
 
 					System.out.println( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
 
@@ -255,15 +225,13 @@ public class JPCombate extends JPPadrao
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
 
-					DefaultTableModel model = (DefaultTableModel) tabela.getModel( );
-					
-					model.removeRow( tabela.getSelectedRow( ) );
+					model.remover( personagem );
 
 					if ( tabela.getRowCount( ) - 1 < removido )
 						tabela.setRowSelectionInterval( removido - 1, removido - 1 );
 					else
 						tabela.setRowSelectionInterval( removido, removido );
-				} catch ( ArrayIndexOutOfBoundsException ex )
+				} catch ( IndexOutOfBoundsException ex )
 				{
 					System.out.println( "------- Fim do combate -------" );
 					System.out.println( "------------------------------" );
@@ -275,5 +243,29 @@ public class JPCombate extends JPPadrao
 				}
 			}
 		} );
+		
+//		tabela.getModel( ).addTableModelListener( new TableModelListener() {
+//			@Override
+//			public void tableChanged( TableModelEvent e )
+//			{
+//				if( e.getType( ) == 0) {
+//					Integer column = e.getColumn( );
+//					Integer row = e.getFirstRow( );
+//					
+//					String nome = model.getValueAt( row, 0 ).toString( );
+//					
+//					//System.out.println( "Anterior: " + tabela.getValueAt( row, column ) );
+//					
+////					System.out.println( "Atual: " + tabela.getValueAt( row, column ) );
+//					
+//					for(String [] dado : dados)
+//						if(nome.equals( dado[0] ))
+//							System.out.println( "ID: " + dado[4] );
+//					
+//					
+//				}
+//			}
+//		});
+		
 	}
 }
