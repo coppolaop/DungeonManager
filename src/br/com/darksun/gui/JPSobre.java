@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -49,5 +51,21 @@ public class JPSobre extends JPPadrao
 		add( labelCreator );
 		add( labelGithub );
 		add( labelImg );
+		
+		frame.addComponentListener( new ComponentAdapter( )
+		{
+			@Override
+			public void componentResized( ComponentEvent e )
+			{
+				width = frame.getBounds( ).width;
+				height = frame.getBounds( ).height;
+				setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
+				
+				labelImg.setBounds( ( width - imgSize ) / 2, 50, imgSize, imgSize );
+				labelSystem.setBounds( 0, height / 4 + 50, width, 70 );
+				labelCreator.setBounds( 0, height / 4 + 100, width, 70 );
+				labelGithub.setBounds( 0, height / 4 + 150, width, 70 );
+			}
+		});
 	}
 }
