@@ -64,14 +64,35 @@ public class PersonagemTableModel extends AbstractTableModel
 	{
 		Personagem personagem = personagens.get( row );
 		if ( column == COL_CA ) {
+			Integer CA = personagem.getCa( );
+			if( (Integer) value < CA )
+				System.out.println( "A CA de " + personagem.getNome( ) + " diminuiu " + ( CA - (Integer) value ) + " pontos" );
+			else if( (Integer) value > CA )
+				System.out.println( "A CA de " + personagem.getNome( ) + " aumentou " + ( (Integer) value - CA ) + " pontos" );
 			personagem.setCa( ( Integer ) value );
 			atualizarArquivo( row, column, value );
 		}
 		else if ( column == COL_HPATUAL ) {
+			Integer HP = personagem.getHpAtual( );
+			if( (Integer) value < HP )
+				if( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ))
+					System.out.println( "Algo fez com que " + personagem.getNome( ) + " perdesse " + ( HP - (Integer) value ) + " pontos de vida no seu turno" );
+				else
+					System.out.println( personagens.get( 0 ).getNome( ) + " causou " + ( HP - (Integer) value ) + " pontos de dano em " + personagem.getNome( ) );
+			else if( (Integer) value > HP )
+				if( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ))
+					System.out.println( personagem.getNome( ) + " se curou em " + ( (Integer) value - HP ) + " pontos de vida" );
+				else
+					System.out.println( personagens.get( 0 ).getNome( ) + " curou " + personagem.getNome( ) + " em " + ( (Integer) value - HP ) + " pontos de vida" );
 			personagem.setHpAtual( ( Integer ) value );
 			atualizarArquivo( row, column, value );
 		}
 		else if ( column == COL_HPTOTAL ) {
+			Integer HP = personagem.getHpAtual( );
+			if( (Integer) value < HP )
+				System.out.println( "O HP máximo de " + personagem.getNome( ) + " diminuiu " + (HP - (Integer) value ) + " pontos" );
+			else if( (Integer) value > HP )
+				System.out.println( "O HP máximo de " + personagem.getNome( ) + " aumentou " + ( (Integer) value - HP ) + " pontos" );
 			personagem.setHpMaximo( ( Integer ) value );
 			atualizarArquivo( row, column, value );
 		}
@@ -140,15 +161,15 @@ public class PersonagemTableModel extends AbstractTableModel
 			String nome = personagem.getNome( );
 			
 			if(personagem.getIsPJ( )) {
-				in = new FileInputStream( "resources/pj/" + nome + ".properties" );
+				in = new FileInputStream( "resources/pj/" + nome.replaceAll( " ", "_" ) + ".properties" );
 				prop.load(in);
-				output = new FileOutputStream( "resources/pj/" + nome + ".properties" );
+				output = new FileOutputStream( "resources/pj/" + nome.replaceAll( " ", "_" ) + ".properties" );
 			}
 			else
 			{
-				in = new FileInputStream( "resources/pdm/" + nome + ".properties" );
+				in = new FileInputStream( "resources/pdm/" + nome.replaceAll( " ", "_" ) + ".properties" );
 				prop.load(in);
-				output = new FileOutputStream( "resources/pdm/" + nome + ".properties" );
+				output = new FileOutputStream( "resources/pdm/" + nome.replaceAll( " ", "_" ) + ".properties" );
 			}
 			if ( column == COL_CA ) prop.setProperty( "ca", value.toString( ) );
 			else if ( column == COL_HPATUAL ) prop.setProperty( "hpAtual", value.toString( ) );
