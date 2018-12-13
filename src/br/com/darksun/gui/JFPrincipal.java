@@ -24,7 +24,10 @@ import br.com.darksun.entity.Personagem;
 
 public class JFPrincipal extends JFrame
 {
-	private final static String systemVersion = "1.1.0";
+	private final String SYSTEM_VERSION = "1.1.0";
+	private final String SYSTEM_BETA = "";
+	private final Boolean SYSTEM_IS_IN_BETA = !SYSTEM_BETA.equals( "" );
+	private final String SYSTEM_ICON = SYSTEM_IS_IN_BETA ? "img/DungeonManagerHomologacao.png" : "img/DungeonManager.png";
 	private final static String url = "https://api.github.com/repos/coppolaop/DungeonManager/releases/latest";
 	private Integer width = 1500;
 	private Integer height = 750;
@@ -43,13 +46,13 @@ public class JFPrincipal extends JFrame
 
 	public JFPrincipal( )
 	{
-		this.setIconImage( Toolkit.getDefaultToolkit( ).getImage( "img/DungeonManager.png" ) );
+		this.setIconImage( Toolkit.getDefaultToolkit( ).getImage( SYSTEM_ICON ) );
 		this.setVisible( true );
 		this.setSize( width, height );
 		this.setLocationRelativeTo( null );
 		this.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		this.setLayout( null );
-		this.setTitle( "Dungeon Manager " + systemVersion );
+		this.setTitle( "Dungeon Manager " + SYSTEM_VERSION + SYSTEM_BETA );
 		this.preparaMenu( );
 
 		File dirPJ = new File( "resources/pj/" );
@@ -68,13 +71,14 @@ public class JFPrincipal extends JFrame
 
 		setTela( new JPInicial( this ) );
 
-		try
-		{
-			new Thread(verificaAtualizacao).start();
-		} catch ( Exception ex )
-		{
-			
-		}
+		if(!SYSTEM_IS_IN_BETA)
+			try
+			{
+				new Thread(verificaAtualizacao).start();
+			} catch ( Exception ex )
+			{
+				
+			}
 	}
 
 	void setIniciativa( Personagem personagem, Integer value )
@@ -156,6 +160,14 @@ public class JFPrincipal extends JFrame
 		this.add( tela );
 	}
 	
+	public Boolean isInBeta( ) {
+		return this.SYSTEM_IS_IN_BETA;
+	}
+	
+	public String getIconPath() {
+		return SYSTEM_ICON;
+	}
+	
 	private static Runnable verificaAtualizacao = new Runnable() {
 		public void run(){
 			try {
@@ -179,7 +191,7 @@ public class JFPrincipal extends JFrame
 				Gson g = new Gson();
 				Aplicacao app = g.fromJson(response.toString(), Aplicacao.class);
 				
-				if(!systemVersion.equals(app.getTagName()))
+				if(!JFPrincipal.this.SYSTEM_VERSION.equals(app.getTagName()))
 					new JDAtualizacao( null );
 			} catch(Exception ex){
 				
