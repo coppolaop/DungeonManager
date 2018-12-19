@@ -14,13 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.util.IniciativaComparator;
-import br.com.darksun.util.PersonagemTableModel;
+import br.com.darksun.util.TableModel.PersonagemCombateTableModel;
 
 public class JPCombate extends JPPadrao
 {
@@ -69,7 +67,7 @@ public class JPCombate extends JPPadrao
 		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
 				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
 
-		PersonagemTableModel model = new PersonagemTableModel( personagens );
+		PersonagemCombateTableModel model = new PersonagemCombateTableModel( personagens );
 		JTable tabela = new JTable( model );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );

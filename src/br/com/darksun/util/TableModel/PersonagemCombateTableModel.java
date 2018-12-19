@@ -1,4 +1,4 @@
-package br.com.darksun.util;
+package br.com.darksun.util.TableModel;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
 
 import br.com.darksun.entity.Personagem;
 
-public class PersonagemTableModel extends AbstractTableModel
+public class PersonagemCombateTableModel extends AbstractTableModel
 {
 	private static final int COL_NOME = 0;
 	private static final int COL_CA = 1;
@@ -21,7 +21,7 @@ public class PersonagemTableModel extends AbstractTableModel
 	private static final int COL_HPTOTAL = 3;
 	private List< Personagem > personagens;
 
-	public PersonagemTableModel( List< Personagem > personagens )
+	public PersonagemCombateTableModel( List< Personagem > personagens )
 	{
 		this.personagens = new ArrayList< Personagem >( personagens );
 	}

@@ -21,11 +21,12 @@ import com.google.gson.Gson;
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Aplicacao;
 import br.com.darksun.entity.Personagem;
+import br.com.darksun.gui.characterbuilder.JPListarPersonagem;
 
 public class JFPrincipal extends JFrame
 {
 	private final String SYSTEM_VERSION = "1.1.0";
-	private final String SYSTEM_BETA = "";
+	private final String SYSTEM_BETA = "a";
 	private final Boolean SYSTEM_IS_IN_BETA = !SYSTEM_BETA.equals( "" );
 	private final String SYSTEM_ICON = SYSTEM_IS_IN_BETA ? "img/DungeonManagerHomologacao.png" : "img/DungeonManager.png";
 	private final static String url = "https://api.github.com/repos/coppolaop/DungeonManager/releases/latest";
@@ -96,7 +97,7 @@ public class JFPrincipal extends JFrame
 		menuBar.add( fileMenu );
 
 		JMenuItem itemNovoCombate = new JMenuItem( "Novo Combate" );
-		JMenuItem itemNovoPersonagem = new JMenuItem( "Novo Personagem" );
+		JMenuItem listarPersonagens = new JMenuItem( "Listar Personagens" );
 		JMenuItem itemSobre = new JMenuItem( "Sobre" );
 		JMenuItem itemSair = new JMenuItem( "Sair" );
 
@@ -113,11 +114,16 @@ public class JFPrincipal extends JFrame
 			}
 		} );
 
-		itemNovoPersonagem.addActionListener( new ActionListener( )
+		listarPersonagens.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				JFPrincipal.this.remove( getTela( ) );
 
+				setTela( new JPListarPersonagem( JFPrincipal.this ) );
+
+				revalidate( );
+				repaint( );
 			}
 		} );
 		
@@ -143,7 +149,7 @@ public class JFPrincipal extends JFrame
 		} );
 
 		fileMenu.add( itemNovoCombate );
-//		fileMenu.add( itemNovoPersonagem ); //Projeto Character Builder
+		fileMenu.add( listarPersonagens ); //Projeto Character Builder
 		fileMenu.add( itemSobre );
 		fileMenu.addSeparator( );
 		fileMenu.add( itemSair );
