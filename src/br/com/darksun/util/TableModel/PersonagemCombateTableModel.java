@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -60,49 +61,117 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 		return null;
 	}
 
-	public void setValueAt( Object value, int row, int column )
+	public void setValueAt( Object cell, int row, int column )
 	{
-		Personagem personagem = personagens.get( row );
-		if ( column == COL_CA ) {
-			Integer CA = personagem.getCa( );
-			if( (Integer) value < CA )
-				System.out.println( "A CA de " + personagem.getNome( ) + " diminuiu " + ( CA - (Integer) value ) + " pontos" );
-			else if( (Integer) value > CA )
-				System.out.println( "A CA de " + personagem.getNome( ) + " aumentou " + ( (Integer) value - CA ) + " pontos" );
-			personagem.setCa( ( Integer ) value );
-			atualizarArquivo( row, column, value );
+		String value = ( (String) cell ).replaceAll( " ", "" );
+		Pattern patOperacao = Pattern.compile( "[[+-]?[0-9]+]+" );
+		Pattern patNumero = Pattern.compile( "[+-]?[0-9]+" );
+		
+		if( patNumero.matcher( value ).matches( ) ) {
+			Personagem personagem = personagens.get( row );
+			if ( column == COL_CA ) {
+				Integer CA = personagem.getCa( );
+				if( Integer.parseInt( value ) < CA )
+					System.out.println( "A CA de " + personagem.getNome( ) + " diminuiu " + ( CA - Integer.parseInt(  value ) ) + " pontos" );
+				else if( Integer.parseInt(  value ) > CA )
+					System.out.println( "A CA de " + personagem.getNome( ) + " aumentou " + ( Integer.parseInt( value ) - CA ) + " pontos" );
+				personagem.setCa( Integer.parseInt( value ) );
+				atualizarArquivo( row, column, value );
+			}
+			else if ( column == COL_HPATUAL ) {
+				Integer HP = personagem.getHpAtual( );
+				if( Integer.parseInt( value ) < HP )
+					if( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ))
+						System.out.println( "Algo fez com que " + personagem.getNome( ) + " perdesse " + ( HP - Integer.parseInt( value ) ) + " pontos de vida no seu turno" );
+					else
+						System.out.println( personagens.get( 0 ).getNome( ) + " causou " + ( HP - Integer.parseInt( value ) ) + " pontos de dano em " + personagem.getNome( ) );
+				else if( Integer.parseInt( value ) > HP )
+					if( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ))
+						System.out.println( personagem.getNome( ) + " se curou em " + ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
+					else
+						System.out.println( personagens.get( 0 ).getNome( ) + " curou " + personagem.getNome( ) + " em " + ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
+				personagem.setHpAtual( Integer.parseInt( ( String ) value ));
+				atualizarArquivo( row, column, value );
+			}
+			else if ( column == COL_HPTOTAL ) {
+				Integer HP = personagem.getHpAtual( );
+				if( Integer.parseInt( value ) < HP )
+					System.out.println( "O HP máximo de " + personagem.getNome( ) + " diminuiu " + (HP - Integer.parseInt( value ) ) + " pontos" );
+				else if( Integer.parseInt( value ) > HP )
+					System.out.println( "O HP máximo de " + personagem.getNome( ) + " aumentou " + ( Integer.parseInt( value ) - HP ) + " pontos" );
+				personagem.setHpMaximo( Integer.parseInt( value ) );
+				atualizarArquivo( row, column, value );
+			}
 		}
-		else if ( column == COL_HPATUAL ) {
-			Integer HP = personagem.getHpAtual( );
-			if( (Integer) value < HP )
-				if( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ))
-					System.out.println( "Algo fez com que " + personagem.getNome( ) + " perdesse " + ( HP - (Integer) value ) + " pontos de vida no seu turno" );
-				else
-					System.out.println( personagens.get( 0 ).getNome( ) + " causou " + ( HP - (Integer) value ) + " pontos de dano em " + personagem.getNome( ) );
-			else if( (Integer) value > HP )
-				if( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ))
-					System.out.println( personagem.getNome( ) + " se curou em " + ( (Integer) value - HP ) + " pontos de vida" );
-				else
-					System.out.println( personagens.get( 0 ).getNome( ) + " curou " + personagem.getNome( ) + " em " + ( (Integer) value - HP ) + " pontos de vida" );
-			personagem.setHpAtual( ( Integer ) value );
-			atualizarArquivo( row, column, value );
-		}
-		else if ( column == COL_HPTOTAL ) {
-			Integer HP = personagem.getHpAtual( );
-			if( (Integer) value < HP )
-				System.out.println( "O HP máximo de " + personagem.getNome( ) + " diminuiu " + (HP - (Integer) value ) + " pontos" );
-			else if( (Integer) value > HP )
-				System.out.println( "O HP máximo de " + personagem.getNome( ) + " aumentou " + ( (Integer) value - HP ) + " pontos" );
-			personagem.setHpMaximo( ( Integer ) value );
-			atualizarArquivo( row, column, value );
+		else if( patOperacao.matcher( value ).matches( ) ) {
+			Boolean isNegativo = value.startsWith( "-" );
+			Integer number = 0;
+			List<String> list = new ArrayList<String>();
+			if( value.startsWith( "+" ) || value.startsWith( "-" ) )
+				value = value.substring( 1 );
+			String[] numeros = value.split( "[+-]" );
+			String[] operadores = value.split( "[0-9]+" );
+			
+			if(isNegativo)
+				operadores[0] = "-";
+			else
+				operadores[0] = "+";
+			
+			for(int i = 0; i < operadores.length; i++) {
+				list.add( operadores[i] );
+				list.add( numeros[i] );
+			}
+			
+			for(int i = 0; i < list.size( )/2; i++) {
+				if(list.get( i*2 ).equals( "-" ) ) {
+					number -= Integer.parseInt( list.get( (i*2)+1 ) );
+				}else if(list.get( i*2 ).equals( "+" ) ) {
+					number += Integer.parseInt( list.get( (i*2)+1 ) );
+				}
+			}
+			
+			Personagem personagem = personagens.get( row );
+			if ( column == COL_CA ) {
+				Integer CA = personagem.getCa( );
+				if( number < CA )
+					System.out.println( "A CA de " + personagem.getNome( ) + " diminuiu " + ( CA - number ) + " pontos" );
+				else if( number > CA )
+					System.out.println( "A CA de " + personagem.getNome( ) + " aumentou " + ( number - CA ) + " pontos" );
+				personagem.setCa( number );
+				atualizarArquivo( row, column, number );
+			}
+			else if ( column == COL_HPATUAL ) {
+				Integer HP = personagem.getHpAtual( );
+				if( number < HP )
+					if( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ))
+						System.out.println( "Algo fez com que " + personagem.getNome( ) + " perdesse " + ( HP - number ) + " pontos de vida no seu turno" );
+					else
+						System.out.println( personagens.get( 0 ).getNome( ) + " causou " + ( HP - number ) + " pontos de dano em " + personagem.getNome( ) );
+				else if( number > HP )
+					if( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ))
+						System.out.println( personagem.getNome( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
+					else
+						System.out.println( personagens.get( 0 ).getNome( ) + " curou " + personagem.getNome( ) + " em " + ( number - HP ) + " pontos de vida" );
+				personagem.setHpAtual( number );
+				atualizarArquivo( row, column, number );
+			}
+			else if ( column == COL_HPTOTAL ) {
+				Integer HP = personagem.getHpAtual( );
+				if( number < HP )
+					System.out.println( "O HP máximo de " + personagem.getNome( ) + " diminuiu " + (HP - number ) + " pontos" );
+				else if( number > HP )
+					System.out.println( "O HP máximo de " + personagem.getNome( ) + " aumentou " + ( number - HP ) + " pontos" );
+				personagem.setHpMaximo( number );
+				atualizarArquivo( row, column, number );
+			}
 		}
 	}
 
 	public Class getColumnClass( int columnIndex )
 	{
-		if ( columnIndex == COL_NOME )
+//		if ( columnIndex == COL_NOME )
 			return String.class;
-		return Integer.class;
+//		return Integer.class;
 	}
 
 	public boolean isCellEditable( int row, int column )
