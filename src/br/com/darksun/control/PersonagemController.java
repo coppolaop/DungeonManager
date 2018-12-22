@@ -49,6 +49,7 @@ public class PersonagemController
 
 			Personagem personagem = new Personagem( );
 			personagem.setIdPersonagem( Integer.parseInt( prop.getProperty( "idPersonagem" ) ) );
+			personagem.setFilePath( path );
 			personagem.setNome( prop.getProperty( "nome" ) );
 			personagem.setClasse( prop.getProperty( "classe" ) );
 			personagem.setImagem( prop.getProperty( "imagem" ) );
@@ -79,43 +80,52 @@ public class PersonagemController
 		}
 
 	}
-	
-	public void criarPersonagemAleatorio( Boolean pj ) {
-		Properties prop = new Properties();
+
+	public void criarPersonagemAleatorio( Boolean pj )
+	{
+		Properties prop = new Properties( );
 		OutputStream output = null;
-		
-		try {
 
-			if( pj ) {
-				output = new FileOutputStream("resources/pj/pjExemplo.properties");
+		try
+		{
 
-				prop.setProperty("idPersonagem", "1");
-				prop.setProperty("nome", "PJ de Exemplo");
-				prop.setProperty("classe", "Exemplo");
-				prop.setProperty("imagem", "pjExemplo.jpg");
-			}else {
-				output = new FileOutputStream("resources/pdm/pdmExemplo.properties");
+			if ( pj )
+			{
+				output = new FileOutputStream( "resources/pj/PJdeExemplo.properties" );
 
-				prop.setProperty("idPersonagem", "2");
-				prop.setProperty("nome", "PDM de Exemplo");
-				prop.setProperty("classe", "Monstro");
-				prop.setProperty("imagem", "pdmExemplo.jpg");
+				prop.setProperty( "idPersonagem", "1" );
+				prop.setProperty( "nome", "PJ de Exemplo" );
+				prop.setProperty( "classe", "Exemplo" );
+				prop.setProperty( "imagem", "pjExemplo.jpg" );
+			} else
+			{
+				output = new FileOutputStream( "resources/pdm/PDMdeExemplo.properties" );
+
+				prop.setProperty( "idPersonagem", "2" );
+				prop.setProperty( "nome", "PDM de Exemplo" );
+				prop.setProperty( "classe", "Monstro" );
+				prop.setProperty( "imagem", "pdmExemplo.jpg" );
 			}
-			prop.setProperty("ca", "12");
-			prop.setProperty("bonusIniciativa", "1");
-			prop.setProperty("hpMaximo", "100");
-			prop.setProperty("hpAtual", "10");
+			prop.setProperty( "ca", "12" );
+			prop.setProperty( "bonusIniciativa", "1" );
+			prop.setProperty( "hpMaximo", "100" );
+			prop.setProperty( "hpAtual", "10" );
 
-			prop.store(output, null);
+			prop.store( output, null );
 
-		} catch (IOException io) {
-			io.printStackTrace();
-		} finally {
-			if (output != null) {
-				try {
-					output.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+		} catch ( IOException io )
+		{
+			io.printStackTrace( );
+		} finally
+		{
+			if ( output != null )
+			{
+				try
+				{
+					output.close( );
+				} catch ( IOException e )
+				{
+					e.printStackTrace( );
 				}
 			}
 
