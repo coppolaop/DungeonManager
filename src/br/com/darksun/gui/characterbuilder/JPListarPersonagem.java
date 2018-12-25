@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +128,12 @@ public class JPListarPersonagem extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				frame.remove( JPListarPersonagem.this );
 
+				frame.setTela( new JPCriarPersonagem( frame ) );
+
+				revalidate( );
+				repaint( );
 			}
 		} );
 
@@ -165,7 +169,12 @@ public class JPListarPersonagem extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				frame.remove( frame.getTela( ) );
 
+				frame.setTela( new JPCriarPersonagem( frame ) );
+
+				revalidate( );
+				repaint( );
 			}
 		} );
 
