@@ -1,26 +1,40 @@
 package br.com.darksun.gui.characterbuilder;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import br.com.darksun.control.PersonagemController;
 import br.com.darksun.gui.JFPrincipal;
 import br.com.darksun.gui.JPPadrao;
 
 public class JPCriarPersonagem extends JPPadrao
 {
 
-	public JPCriarPersonagem( JFPrincipal frame )
+	public JPCriarPersonagem( JFPrincipal frame, Boolean isPJ, String newID )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
 		height = frame.getBounds( ).height;
-		this.setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
+		this.setBounds( 0, 0, width, height );
+
+		JLabel labelImg = new JLabel( "" );
+		labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
+		Image logoApp = Toolkit.getDefaultToolkit( ).getImage( frame.getIconPath( ) );
+		labelImg.setIcon( new ImageIcon(
+				logoApp.getScaledInstance( labelImg.getWidth( ), labelImg.getHeight( ), logoApp.SCALE_DEFAULT ) ) );
 
 		JLabel labelNome = new JLabel( "Nome do Personagem:" );
 		labelNome.setBounds( 0, 50, 175, 30 );
@@ -62,9 +76,17 @@ public class JPCriarPersonagem extends JPPadrao
 		JTextField fieldHP = new JTextField( );
 		fieldHP.setBounds( width - 150, 150, 50, 30 );
 
-		JButton btnCriar = new JButton( "Criar Personagem" );
+		String dono = isPJ ? "Jogador" : "Mestre";
+		JButton btnCriar = new JButton( "Criar Personagem do " + dono );
 		btnCriar.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
 
+		JLabel labelError = new JLabel( "" );
+		labelError.setBounds( width / 2 - 500 / 2, height / 2 + 30 / 2, 500, 30 );
+		labelError.setForeground( new Color( 155, 0, 0 ) );
+		labelError.setFont( new Font( labelError.getFont( ).getFontName( ), labelError.getFont( ).getStyle( ), 14 ) );
+		labelError.setHorizontalAlignment( SwingConstants.CENTER );
+
+		add( labelImg );
 		add( labelNome );
 		add( fieldNome );
 		add( labelCA );
@@ -76,9 +98,10 @@ public class JPCriarPersonagem extends JPPadrao
 		add( labelHP );
 		add( fieldHP );
 		add( btnCriar );
-		
+		add( labelError );
+
 		frame.repaint( );
-		
+
 		frame.addComponentListener( new ComponentAdapter( )
 		{
 			@Override
@@ -88,6 +111,7 @@ public class JPCriarPersonagem extends JPPadrao
 				height = frame.getBounds( ).height;
 
 				setBounds( 0, 0, width, height );
+				labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
 				labelNome.setBounds( 0, 50, 175, 30 );
 				fieldNome.setBounds( 200, 50, 150, 30 );
 				labelCA.setBounds( width - 350, 50, 175, 30 );
@@ -99,8 +123,39 @@ public class JPCriarPersonagem extends JPPadrao
 				labelHP.setBounds( width - 350, 150, 175, 30 );
 				fieldHP.setBounds( width - 150, 150, 50, 30 );
 				btnCriar.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
+				labelError.setBounds( width / 2 - 500 / 2, height / 2 + 30 / 2, 500, 30 );
 			}
 		} );
 
+		btnCriar.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Pattern patNumero = Pattern.compile( "[0-9]+" );
+
+				if ( fieldNome.getText( ).equals( "" ) )
+					labelError.setText( "Campo Nome está em branco" );
+				else if ( fieldCA.getText( ).equals( "" ) )
+					labelError.setText( "Campo CA está em branco" );
+				else if ( !patNumero.matcher( fieldCA.getText( ).toString( ) ).matches( ) )
+					labelError.setText( "Campo CA precisa conter somente números" );
+				else if ( fieldClasse.getText( ).equals( "" ) )
+					labelError.setText( "Campo Classe está em branco" );
+				else if ( fieldBonusIni.getText( ).equals( "" ) )
+					labelError.setText( "Campo de Bonus de Iniciativa está em branco" );
+				else if ( !patNumero.matcher( fieldBonusIni.getText( ).toString( ) ).matches( ) )
+					labelError.setText( "Campo de Bonus de Iniciativa precisa conter somente números" );
+				else if ( fieldHP.getText( ).equals( "" ) )
+					labelError.setText( "Campo HP está em branco" );
+				else if ( !patNumero.matcher( fieldHP.getText( ).toString( ) ).matches( ) )
+					labelError.setText( "Campo HP precisa conter somente números" );
+				else{
+					PersonagemController pc = new PersonagemController();
+					pc.criarPersonagem( newID, fieldNome.getText( ), fieldClasse.getText( ), fieldCA.getText( ), fieldBonusIni.getText( ), fieldHP.getText( ), isPJ );
+					frame.remove( JPCriarPersonagem.this );
+					frame.setTela( new JPListarPersonagem( frame ) );
+				}
+			}
+		} );
 	}
 }

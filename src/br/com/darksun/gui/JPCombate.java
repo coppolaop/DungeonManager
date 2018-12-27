@@ -241,29 +241,5 @@ public class JPCombate extends JPPadrao
 				}
 			}
 		} );
-		
-//		tabela.getModel( ).addTableModelListener( new TableModelListener() {
-//			@Override
-//			public void tableChanged( TableModelEvent e )
-//			{
-//				if( e.getType( ) == 0) {
-//					Integer column = e.getColumn( );
-//					Integer row = e.getFirstRow( );
-//					
-//					String nome = model.getValueAt( row, 0 ).toString( );
-//					
-//					//System.out.println( "Anterior: " + tabela.getValueAt( row, column ) );
-//					
-////					System.out.println( "Atual: " + tabela.getValueAt( row, column ) );
-//					
-//					for(String [] dado : dados)
-//						if(nome.equals( dado[0] ))
-//							System.out.println( "ID: " + dado[4] );
-//					
-//					
-//				}
-//			}
-//		});
-		
 	}
 }

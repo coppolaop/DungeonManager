@@ -52,6 +52,8 @@ public class JPSobre extends JPPadrao
 		add( labelGithub );
 		add( labelImg );
 		
+		frame.repaint( );
+		
 		frame.addComponentListener( new ComponentAdapter( )
 		{
 			@Override

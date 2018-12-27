@@ -99,6 +99,8 @@ public class JPListarPersonagem extends JPPadrao
 		add( btnNovoPDM );
 		add( btnEditarPDM );
 		add( btnRemoverPDM );
+		
+		frame.repaint( );
 
 		frame.addComponentListener( new ComponentAdapter( )
 		{
@@ -121,6 +123,7 @@ public class JPListarPersonagem extends JPPadrao
 				btnNovoPDM.setBounds( width - 650, height / 2 - 30, 200, 30 );
 				btnEditarPDM.setBounds( width - 450, height / 2 - 30, 200, 30 );
 				btnRemoverPDM.setBounds( width - 250, height / 2 - 30, 200, 30 );
+				
 			}
 		} );
 
@@ -128,12 +131,8 @@ public class JPListarPersonagem extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				frame.remove( JPListarPersonagem.this );
-
-				frame.setTela( new JPCriarPersonagem( frame ) );
-
-				revalidate( );
-				repaint( );
+				frame.remove( frame.getTela( ) );
+				frame.setTela( new JPCriarPersonagem( frame, true, pcontrol.newId( ) ) );
 			}
 		} );
 
@@ -170,11 +169,7 @@ public class JPListarPersonagem extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove( frame.getTela( ) );
-
-				frame.setTela( new JPCriarPersonagem( frame ) );
-
-				revalidate( );
-				repaint( );
+				frame.setTela( new JPCriarPersonagem( frame, false, pcontrol.newId( ) ) );
 			}
 		} );
 

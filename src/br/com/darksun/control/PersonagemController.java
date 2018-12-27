@@ -14,6 +14,8 @@ import br.com.darksun.entity.Personagem;
 
 public class PersonagemController
 {
+	private Integer newID = 0;
+	
 	public List< Personagem > listarPJs( )
 	{
 		List< Personagem > personagens = new ArrayList< Personagem >( );
@@ -48,7 +50,12 @@ public class PersonagemController
 			prop.load( input );
 
 			Personagem personagem = new Personagem( );
-			personagem.setIdPersonagem( Integer.parseInt( prop.getProperty( "idPersonagem" ) ) );
+			
+			Integer id = Integer.parseInt( prop.getProperty( "idPersonagem" ) );
+			if( id  >= newID )
+				newID = id + 1;
+			
+			personagem.setIdPersonagem( id );
 			personagem.setFilePath( path );
 			personagem.setNome( prop.getProperty( "nome" ) );
 			personagem.setClasse( prop.getProperty( "classe" ) );
@@ -110,6 +117,54 @@ public class PersonagemController
 			prop.setProperty( "bonusIniciativa", "1" );
 			prop.setProperty( "hpMaximo", "100" );
 			prop.setProperty( "hpAtual", "10" );
+
+			prop.store( output, null );
+
+		} catch ( IOException io )
+		{
+			io.printStackTrace( );
+		} finally
+		{
+			if ( output != null )
+			{
+				try
+				{
+					output.close( );
+				} catch ( IOException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+
+		}
+	}
+	
+	public String newId() {
+		return newID.toString( );
+	}
+	
+	public void criarPersonagem( String ID, String nome, String classe, String CA, String bonusIniciativa, String hpMaximo, Boolean isPJ )
+	{
+		Properties prop = new Properties( );
+		OutputStream output = null;
+
+		try
+		{
+
+			if ( isPJ )
+				output = new FileOutputStream( "resources/pj/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties" );
+			else
+				output = new FileOutputStream( "resources/pdm/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties" );
+			
+
+			prop.setProperty( "idPersonagem", ID );
+			prop.setProperty( "nome", nome );
+			prop.setProperty( "classe", classe );
+			prop.setProperty( "imagem", nome + ".jpg" );
+			prop.setProperty( "ca", CA );
+			prop.setProperty( "bonusIniciativa", bonusIniciativa );
+			prop.setProperty( "hpMaximo", hpMaximo );
+			prop.setProperty( "hpAtual", hpMaximo );
 
 			prop.store( output, null );
 
