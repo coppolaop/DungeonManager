@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
@@ -17,13 +18,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import br.com.darksun.control.PersonagemController;
+import br.com.darksun.entity.Personagem;
 import br.com.darksun.gui.JFPrincipal;
 import br.com.darksun.gui.JPPadrao;
 
-public class JPCriarPersonagem extends JPPadrao
+public class JPFormularioPersonagem extends JPPadrao
 {
 
-	public JPCriarPersonagem( JFPrincipal frame, Boolean isPJ, String newID )
+	public JPFormularioPersonagem( JFPrincipal frame, Boolean isPJ, String newID, Personagem personagem )
 	{
 		limpaTela( );
 		width = frame.getBounds( ).width;
@@ -78,7 +80,7 @@ public class JPCriarPersonagem extends JPPadrao
 
 		String dono = isPJ ? "Jogador" : "Mestre";
 		JButton btnCriar = new JButton( "Criar Personagem do " + dono );
-		btnCriar.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
+		btnCriar.setBounds( width / 2 - 250 / 2, height / 2 - 30 / 2, 250, 30 );
 
 		JLabel labelError = new JLabel( "" );
 		labelError.setBounds( width / 2 - 500 / 2, height / 2 + 30 / 2, 500, 30 );
@@ -99,6 +101,14 @@ public class JPCriarPersonagem extends JPPadrao
 		add( fieldHP );
 		add( btnCriar );
 		add( labelError );
+		
+		if(personagem != null) {
+			fieldNome.setText( personagem.getNome( ) );
+			fieldCA.setText( personagem.getCa( ).toString( ) );
+			fieldClasse.setText( personagem.getClasse( ) );
+			fieldBonusIni.setText( personagem.getBonusIniciativa( ).toString( ) );
+			fieldHP.setText( personagem.getHpMaximo( ).toString( ) );
+		}
 
 		frame.repaint( );
 
@@ -122,7 +132,7 @@ public class JPCriarPersonagem extends JPPadrao
 				fieldBonusIni.setBounds( width - 150, 100, 50, 30 );
 				labelHP.setBounds( width - 350, 150, 175, 30 );
 				fieldHP.setBounds( width - 150, 150, 50, 30 );
-				btnCriar.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2, 200, 30 );
+				btnCriar.setBounds( width / 2 - 250 / 2, height / 2 - 30 / 2, 250, 30 );
 				labelError.setBounds( width / 2 - 500 / 2, height / 2 + 30 / 2, 500, 30 );
 			}
 		} );
@@ -150,9 +160,18 @@ public class JPCriarPersonagem extends JPPadrao
 				else if ( !patNumero.matcher( fieldHP.getText( ).toString( ) ).matches( ) )
 					labelError.setText( "Campo HP precisa conter somente números" );
 				else{
+					if(personagem != null) {
+						File file = new File( personagem.getFilePath( ) );
+						if(file.exists( ))
+							file.delete( );
+					}
+					
 					PersonagemController pc = new PersonagemController();
-					pc.criarPersonagem( newID, fieldNome.getText( ), fieldClasse.getText( ), fieldCA.getText( ), fieldBonusIni.getText( ), fieldHP.getText( ), isPJ );
-					frame.remove( JPCriarPersonagem.this );
+					if( newID!=null )
+						pc.criarPersonagem( newID, fieldNome.getText( ), fieldClasse.getText( ), fieldCA.getText( ), fieldBonusIni.getText( ), fieldHP.getText( ), isPJ );
+					else
+						pc.criarPersonagem( personagem.getIdPersonagem( ).toString( ), fieldNome.getText( ), fieldClasse.getText( ), fieldCA.getText( ), fieldBonusIni.getText( ), fieldHP.getText( ), isPJ );
+					frame.remove( JPFormularioPersonagem.this );
 					frame.setTela( new JPListarPersonagem( frame ) );
 				}
 			}

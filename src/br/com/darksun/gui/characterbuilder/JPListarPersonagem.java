@@ -1,5 +1,6 @@
 package br.com.darksun.gui.characterbuilder;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -89,6 +91,11 @@ public class JPListarPersonagem extends JPPadrao
 
 		JButton btnRemoverPDM = new JButton( "Remover PDM" );
 		btnRemoverPDM.setBounds( width - 250, height / 2 - 30, 200, 30 );
+		
+		JLabel labelError = new JLabel( "" );
+		labelError.setBounds( 50 , height / 2 - (50/2 + 30/2), 500, 30 );
+		labelError.setForeground( new Color( 155, 0, 0 ) );
+		labelError.setFont( new Font( labelError.getFont( ).getFontName( ), labelError.getFont( ).getStyle( ), 14 ) );
 
 		// Add
 		add( listScrollerPJs );
@@ -99,6 +106,7 @@ public class JPListarPersonagem extends JPPadrao
 		add( btnNovoPDM );
 		add( btnEditarPDM );
 		add( btnRemoverPDM );
+		add( labelError );
 		
 		frame.repaint( );
 
@@ -111,6 +119,7 @@ public class JPListarPersonagem extends JPPadrao
 				height = frame.getBounds( ).height;
 
 				setBounds( 0, 0, width, height );
+				labelError.setBounds( 50 , height / 2 - (50/2 + 30/2), 500, 30 );
 				// PJ
 				tabelaPJs.setBounds( 50, 50, width - 100, height / 2 - 100 );
 				listScrollerPJs.setBounds( 50, 50, width - 100, height / 2 - 100 );
@@ -132,7 +141,7 @@ public class JPListarPersonagem extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove( frame.getTela( ) );
-				frame.setTela( new JPCriarPersonagem( frame, true, pcontrol.newId( ) ) );
+				frame.setTela( new JPFormularioPersonagem( frame, true, pcontrol.newId( ), null ) );
 			}
 		} );
 
@@ -140,7 +149,14 @@ public class JPListarPersonagem extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-
+				Integer index = tabelaPJs.getSelectedRow( );
+				if(index == -1) {
+					labelError.setText( "Selecione um Personagem do Jogador" );
+				}else {
+					frame.remove( frame.getTela( ) );
+					frame.setTela( new JPFormularioPersonagem( frame, true, null, modelPJs.getPersonagem( index ) ) );
+				}
+					
 			}
 		} );
 
@@ -169,7 +185,7 @@ public class JPListarPersonagem extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove( frame.getTela( ) );
-				frame.setTela( new JPCriarPersonagem( frame, false, pcontrol.newId( ) ) );
+				frame.setTela( new JPFormularioPersonagem( frame, false, pcontrol.newId( ), null ) );
 			}
 		} );
 
@@ -177,7 +193,14 @@ public class JPListarPersonagem extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-
+				Integer index = tabelaPDMs.getSelectedRow( );
+				if(index == -1) {
+					labelError.setText( "Selecione um Personagem do Mestre" );
+				}
+				else {
+					frame.remove( frame.getTela( ) );
+					frame.setTela( new JPFormularioPersonagem( frame, false, null, modelPDMs.getPersonagem( index ) ) );
+				}
 			}
 		} );
 
