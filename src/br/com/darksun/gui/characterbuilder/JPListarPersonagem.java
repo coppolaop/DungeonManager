@@ -121,13 +121,11 @@ public class JPListarPersonagem extends JPPadrao
 				setBounds( 0, 0, width, height );
 				labelError.setBounds( 50 , height / 2 - (50/2 + 30/2), 500, 30 );
 				// PJ
-				tabelaPJs.setBounds( 50, 50, width - 100, height / 2 - 100 );
 				listScrollerPJs.setBounds( 50, 50, width - 100, height / 2 - 100 );
 				btnNovoPJ.setBounds( width - 650, 20, 200, 30 );
 				btnEditarPJ.setBounds( width - 450, 20, 200, 30 );
 				btnRemoverPJ.setBounds( width - 250, 20, 200, 30 );
 				// PDM
-				tabelaPDMs.setBounds( 50, height / 2, width - 100, height / 2 - 100 );
 				listScrollerPDMs.setBounds( 50, height / 2, width - 100, height / 2 - 100 );
 				btnNovoPDM.setBounds( width - 650, height / 2 - 30, 200, 30 );
 				btnEditarPDM.setBounds( width - 450, height / 2 - 30, 200, 30 );

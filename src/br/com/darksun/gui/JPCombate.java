@@ -109,7 +109,6 @@ public class JPCombate extends JPPadrao
 				height = frame.getBounds( ).height;
 
 				setBounds( 0, 0, width, height );
-				tabela.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 				listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 				btnRemoverPersonagem.setBounds( ( width / 3 ) - 165, 10, 180, 30 );
 				btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
