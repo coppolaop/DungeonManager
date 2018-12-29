@@ -22,7 +22,7 @@ import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.gui.JFPrincipal;
 import br.com.darksun.gui.JPPadrao;
-import br.com.darksun.util.TableModel.PersonagemListaTableModel;
+import br.com.darksun.util.Model.PersonagemListaTableModel;
 
 public class JPListarPersonagem extends JPPadrao
 {

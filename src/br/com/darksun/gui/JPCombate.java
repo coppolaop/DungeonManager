@@ -18,11 +18,11 @@ import javax.swing.plaf.basic.BasicArrowButton;
 
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.util.IniciativaComparator;
-import br.com.darksun.util.TableModel.PersonagemCombateTableModel;
+import br.com.darksun.util.Model.PersonagemCombateTableModel;
 
 public class JPCombate extends JPPadrao
 {
-	private String ultimoDaRodada;
+	private Personagem ultimoDaRodada;
 	private Integer rodada = 0;
 	String[ ][ ] dados;
 
@@ -98,7 +98,7 @@ public class JPCombate extends JPPadrao
 
 		tabela.setRowSelectionInterval( 0, 0 );
 
-		ultimoDaRodada = ( String ) tabela.getValueAt( tabela.getRowCount( ) - 1, 0 );
+		ultimoDaRodada = model.getPersonagem( tabela.getRowCount( ) - 1 );
 
 		frame.addComponentListener( new ComponentAdapter( )
 		{
@@ -128,9 +128,10 @@ public class JPCombate extends JPPadrao
 					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de "
 							+ tabela.getValueAt( index - 1, 0 ) );
 
-					if ( tabela.getValueAt( index, 0 ).equals( ultimoDaRodada ) )
+					if ( model.getPersonagem( index ).equals( ultimoDaRodada ) )
 					{
-						ultimoDaRodada = ( String ) tabela.getValueAt( index - 1, 0 );
+						ultimoDaRodada = model.getPersonagem( index - 1 );
+//								( String ) tabela.getValueAt( index - 1, 0 );
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
 
@@ -152,9 +153,10 @@ public class JPCombate extends JPPadrao
 					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
 							+ tabela.getValueAt( index + 1, 0 ) );
 
-					if ( tabela.getValueAt( index + 1, 0 ).equals( ultimoDaRodada ) )
+					
+					if ( model.getPersonagem( index + 1 ).equals( ultimoDaRodada ) )
 					{
-						ultimoDaRodada = ( String ) tabela.getValueAt( index, 0 );
+						ultimoDaRodada = model.getPersonagem( index );
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
 
@@ -182,7 +184,7 @@ public class JPCombate extends JPPadrao
 
 				System.out.println( aux[0] + " finalizou seu turno" );
 
-				if ( aux[0].equals( ultimoDaRodada ) )
+				if ( model.getPersonagem( 0 ).equals( ultimoDaRodada ) )
 				{
 					rodada++;
 					labelNumeroRodadas.setText( rodada.toString( ) );
@@ -212,12 +214,12 @@ public class JPCombate extends JPPadrao
 
 					System.out.println( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
 
-					if ( tabela.getValueAt( removido, 0 ).equals( ultimoDaRodada ) )
+					if ( model.getPersonagem( removido ).equals( ultimoDaRodada ) )
 					{
 						if ( removido == 0 )
-							ultimoDaRodada = ( String ) tabela.getValueAt( 1, 0 );
+							ultimoDaRodada = model.getPersonagem( 1 );
 						else
-							ultimoDaRodada = ( String ) tabela.getValueAt( removido - 1, 0 );
+							ultimoDaRodada = model.getPersonagem( removido - 1 );
 
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}

@@ -21,6 +21,8 @@ import javax.swing.SwingConstants;
 
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
+import br.com.darksun.util.Model.PersonagemNomeListModel;
+import br.com.darksun.util.Model.PersonagemTableModel;
 
 public class JPInicial extends JPPadrao
 {
@@ -61,16 +63,7 @@ public class JPInicial extends JPPadrao
 		if ( maiorNome < 125 )
 			maiorNome = 125;
 
-		String[ ] listaPJcombo = new String[ PJs.size( ) ];
-		String[ ] listaPDMs = new String[ PDMs.size( ) ];
-
-		for ( int i = 0; i < PJs.size( ); i++ )
-			listaPJcombo[i] = PJs.get( i ).getNome( );
-
-		for ( int i = 0; i < PDMs.size( ); i++ )
-			listaPDMs[i] = PDMs.get( i ).getNome( );
-
-		JComboBox PJComboBox = new JComboBox( listaPJcombo );
+		JComboBox PJComboBox = new JComboBox( PJs.toArray( ) );
 		PJComboBox.setBounds( 50, 50, maiorNome, 30 );
 
 		JButton btnAddPJ = new JButton( "Adicionar" );
@@ -79,7 +72,7 @@ public class JPInicial extends JPPadrao
 		JButton btnAddAllPJ = new JButton( "Adicionar Todos" );
 		btnAddAllPJ.setBounds( maiorNome + 100, 130, 150, 30 );
 
-		DefaultListModel PJsSelecionados = new DefaultListModel( );
+		PersonagemNomeListModel PJsSelecionados = new PersonagemNomeListModel( );
 		JList listaPJ = new JList( PJsSelecionados );
 		listaPJ.setVisible( false );
 		listaPJ.setBounds( 50, 210, maiorNome, 0 );
@@ -92,7 +85,7 @@ public class JPInicial extends JPPadrao
 		btnRemoveAllPJ.setBounds( maiorNome + 100, 290, 150, 30 );
 		btnRemoveAllPJ.setVisible( false );
 
-		JComboBox PDMComboBox = new JComboBox( listaPDMs );
+		JComboBox PDMComboBox = new JComboBox( PDMs.toArray( ) );
 		PDMComboBox.setBounds( width - ( maiorNome + 50 ), 50, maiorNome, 30 );
 
 		JButton btnAddPDM = new JButton( "Adicionar" );
@@ -101,7 +94,7 @@ public class JPInicial extends JPPadrao
 		JButton btnAddAllPDM = new JButton( "Adicionar Todos" );
 		btnAddAllPDM.setBounds( width - ( maiorNome + 250 ), 130, 150, 30 );
 
-		DefaultListModel PDMsSelecionados = new DefaultListModel( );
+		PersonagemNomeListModel PDMsSelecionados = new PersonagemNomeListModel( );
 		JList listaPDM = new JList( PDMsSelecionados );
 		listaPDM.setVisible( false );
 		listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, 0 );
@@ -179,6 +172,7 @@ public class JPInicial extends JPPadrao
 				if ( PJComboBox.getSelectedItem( ) != null )
 				{
 					PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
+					PJsSelecionados.get( 0 );
 					listaPJ.setBounds( 50, 210, maiorNome, listaPJ.getBounds( ).height + 20 );
 					listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
 					PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
@@ -275,7 +269,7 @@ public class JPInicial extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				int size = PJsSelecionados.size( );
+				int size = PJsSelecionados.getSize( );
 				for ( int i = 0; i < size; i++ )
 				{
 					listaPJ.setSelectedIndex( 0 );
@@ -328,7 +322,7 @@ public class JPInicial extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				int size = PDMsSelecionados.size( );
+				int size = PDMsSelecionados.getSize( );
 				for ( int i = 0; i < size; i++ )
 				{
 					listaPDM.setSelectedIndex( 0 );
@@ -366,39 +360,8 @@ public class JPInicial extends JPPadrao
 					return;
 				}
 
-				List< Personagem > PJcombate = new ArrayList< Personagem >( );
-				List< Personagem > PDMcombate = new ArrayList< Personagem >( );
-
-				for ( int i = 0; i < PJsize; i++ )
-				{
-					listaPJ.setSelectedIndex( i );
-
-					for ( Personagem personagem : PJs )
-					{
-						if ( personagem.getNome( ).equals( listaPJ.getSelectedValue( ) ) )
-						{
-							PJcombate.add( personagem );
-							break;
-						}
-					}
-				}
-
-				for ( int i = 0; i < PDMsize; i++ )
-				{
-					listaPDM.setSelectedIndex( i );
-
-					for ( Personagem personagem : PDMs )
-					{
-						if ( personagem.getNome( ).equals( listaPDM.getSelectedValue( ) ) )
-						{
-							PDMcombate.add( personagem );
-							break;
-						}
-					}
-				}
-
 				frame.remove( JPInicial.this );
-				frame.setTela( new JPIniciativa( frame, PJcombate, PDMcombate ) );
+				frame.setTela( new JPIniciativa( frame, PJsSelecionados.toList( ), PDMsSelecionados.toList( ) ) );
 
 			}
 		} );

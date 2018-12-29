@@ -1,4 +1,4 @@
-package br.com.darksun.util.TableModel;
+package br.com.darksun.util.Model;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
