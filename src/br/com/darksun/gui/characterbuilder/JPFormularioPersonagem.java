@@ -34,9 +34,9 @@ public class JPFormularioPersonagem extends JPPadrao
 
 		JLabel labelImg = new JLabel( "" );
 		labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
-		Image logoApp = Toolkit.getDefaultToolkit( ).getImage( frame.getIconPath( ) );
-		labelImg.setIcon( new ImageIcon(
-				logoApp.getScaledInstance( labelImg.getWidth( ), labelImg.getHeight( ), logoApp.SCALE_DEFAULT ) ) );
+		ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( ).getResource( frame.getIconPath( ) ) );
+		logoApp = new ImageIcon(logoApp.getImage( ).getScaledInstance(labelImg.getWidth(),labelImg.getHeight(), logoApp.getImage( ).SCALE_DEFAULT));
+		labelImg.setIcon(logoApp);
 
 		JLabel labelNome = new JLabel( "Nome do Personagem:" );
 		labelNome.setBounds( 0, 50, 175, 30 );

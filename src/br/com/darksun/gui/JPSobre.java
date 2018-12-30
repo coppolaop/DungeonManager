@@ -23,8 +23,9 @@ public class JPSobre extends JPPadrao
 		JLabel labelImg = new JLabel( "" );
 		Integer imgSize = 200;
 		labelImg.setBounds( ( width - imgSize ) / 2, 50, imgSize, imgSize );
-		Image logoApp = Toolkit.getDefaultToolkit( ).getImage( frame.getIconPath( ) );
-		labelImg.setIcon(new ImageIcon(logoApp.getScaledInstance(labelImg.getWidth(),labelImg.getHeight(), logoApp.SCALE_DEFAULT)));
+		ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( ).getResource( frame.getIconPath( ) ) );
+		logoApp = new ImageIcon(logoApp.getImage( ).getScaledInstance(labelImg.getWidth(),labelImg.getHeight(), logoApp.getImage( ).SCALE_DEFAULT));
+		labelImg.setIcon(logoApp);
 
 		JLabel labelSystem = new JLabel( "Dungeon Manager" );
 		labelSystem.setBounds( 0, height / 4 + 50, width, 70 );
