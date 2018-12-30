@@ -1,5 +1,7 @@
 package br.com.darksun.gui;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -7,7 +9,9 @@ import java.awt.event.ComponentEvent;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.util.LogStream;
@@ -26,14 +30,15 @@ public class JPIniciativa extends JPPadrao
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
 
-		try
-		{
-			LogStream log = new LogStream( );
-			log.criaArquivoLog( );
-		} catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-		}
+		if( !frame.isInBeta( ) )
+			try
+			{
+				LogStream log = new LogStream( );
+				log.criaArquivoLog( );
+			} catch ( Exception ex )
+			{
+				ex.printStackTrace( );
+			}
 
 		System.out.println( "-------Combate Iniciado-------" );
 
@@ -46,6 +51,12 @@ public class JPIniciativa extends JPPadrao
 			System.out.println( personagem.getNome( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
 
 		System.out.println( "------------------------------" );
+		
+		JLabel labelImg = new JLabel( "" );
+		labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
+		ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( ).getResource( frame.getIconPath( ) ) );
+		logoApp = new ImageIcon(logoApp.getImage( ).getScaledInstance(labelImg.getWidth(),labelImg.getHeight(), logoApp.getImage( ).SCALE_DEFAULT));
+		labelImg.setIcon(logoApp);
 
 		JButton btnRolagemAutomatica = new JButton( "Rolagem Automática" );
 		btnRolagemAutomatica.setBounds( 50, height / 2 - 30 / 2, 200, 30 );
@@ -56,9 +67,10 @@ public class JPIniciativa extends JPPadrao
 		JButton btnRolagemManual = new JButton( "Rolagem Manual" );
 		btnRolagemManual.setBounds( width - 250, height / 2 - 30 / 2, 200, 30 );
 
-		this.add( btnRolagemAutomatica );
-		this.add( btnPDMAutomatico );
-		this.add( btnRolagemManual );
+		add( labelImg );
+		add( btnRolagemAutomatica );
+		add( btnPDMAutomatico );
+		add( btnRolagemManual );
 
 		frame.repaint( );
 
@@ -71,6 +83,7 @@ public class JPIniciativa extends JPPadrao
 				height = frame.getBounds( ).height;
 
 				setBounds( 0, 0, width, height );
+				labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
 				btnRolagemAutomatica.setBounds( 50, height / 2 - 30 / 2, btnRolagemAutomatica.getBounds( ).width,
 						btnRolagemAutomatica.getBounds( ).height );
 				btnPDMAutomatico.setBounds( width / 2 - 200 / 2, height / 2 - 30 / 2,

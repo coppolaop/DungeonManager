@@ -3,6 +3,7 @@ package br.com.darksun.entity;
 public class Personagem
 {
 	private Integer idPersonagem;
+	private String filePath;
 	private String nome;
 	private String classe;
 	private String imagem;
@@ -11,17 +12,19 @@ public class Personagem
 	private Integer iniciativa;
 	private Integer hpMaximo;
 	private Integer hpAtual;
-	
+	private Boolean isPJ;
+
 	public Personagem( )
 	{
-		
+
 	}
 
-	public Personagem( Integer idPersonagem, String nome, String classe, String imagem, Integer ca,
-			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual )
+	public Personagem( Integer idPersonagem, String filePath, String nome, String classe, String imagem, Integer ca,
+			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual, Boolean isPJ )
 	{
 		super( );
 		this.idPersonagem = idPersonagem;
+		this.filePath = filePath;
 		this.nome = nome;
 		this.classe = classe;
 		this.imagem = imagem;
@@ -30,8 +33,8 @@ public class Personagem
 		this.iniciativa = iniciativa;
 		this.hpMaximo = hpMaximo;
 		this.hpAtual = hpAtual;
+		this.isPJ = isPJ;
 	}
-
 
 	@Override
 	public String toString( )
@@ -47,6 +50,16 @@ public class Personagem
 	public void setIdPersonagem( Integer idPersonagem )
 	{
 		this.idPersonagem = idPersonagem;
+	}
+
+	public String getFilePath( )
+	{
+		return filePath;
+	}
+
+	public void setFilePath( String filePath )
+	{
+		this.filePath = filePath;
 	}
 
 	public String getNome( )
@@ -127,5 +140,15 @@ public class Personagem
 	public void setHpAtual( Integer hpAtual )
 	{
 		this.hpAtual = hpAtual;
+	}
+
+	public Boolean getIsPJ( )
+	{
+		return isPJ;
+	}
+
+	public void setIsPJ( Boolean isPJ )
+	{
+		this.isPJ = isPJ;
 	}
 }
