@@ -48,9 +48,14 @@ O sistema gera um log a cada execução, ele ficará guardado na pasta log, dent
 
 Nós utilizamos [SemVer](http://semver.org/) para versionamento. Para as versões disponíveis, veja as [tags nesse repositório](https://github.com/coppolaop/DungeonManager/tags). 
 
-## Autores
+## Criador
 
 * **Marcos "Coppola" Gonçalves** - *2018* - [Coppolaop](https://github.com/coppolaop)
+
+## Desenvolvedores
+
+* **Marcos "Coppola" Gonçalves** - *2018* - [Coppolaop](https://github.com/coppolaop)
+* **Vitor Abel** - *2018* - [vitor-abel](https://github.com/vitor-abel)
 
 
 ## License
