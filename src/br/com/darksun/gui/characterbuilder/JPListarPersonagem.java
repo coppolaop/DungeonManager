@@ -57,6 +57,9 @@ public class JPListarPersonagem extends JPPadrao
 		JScrollPane listScrollerPJs = new JScrollPane( tabelaPJs );
 		listScrollerPJs.setBounds( 50, 50, width - 100, height / 2 - 100 );
 
+		JButton btnAtivarPJ = new JButton( "Ativar/Desativar PJ" );
+		btnAtivarPJ.setBounds( width - 850, 20, 200, 30 );
+
 		JButton btnNovoPJ = new JButton( "Novo PJ" );
 		btnNovoPJ.setBounds( width - 650, 20, 200, 30 );
 
@@ -83,6 +86,9 @@ public class JPListarPersonagem extends JPPadrao
 		JScrollPane listScrollerPDMs = new JScrollPane( tabelaPDMs );
 		listScrollerPDMs.setBounds( 50, height / 2, width - 100, height / 2 - 100 );
 
+		JButton btnAtivarPDM = new JButton( "Ativar/Desativar PDM" );
+		btnAtivarPDM.setBounds( width - 850, height / 2 - 30, 200, 30 );
+
 		JButton btnNovoPDM = new JButton( "Novo PDM" );
 		btnNovoPDM.setBounds( width - 650, height / 2 - 30, 200, 30 );
 
@@ -91,23 +97,25 @@ public class JPListarPersonagem extends JPPadrao
 
 		JButton btnRemoverPDM = new JButton( "Remover PDM" );
 		btnRemoverPDM.setBounds( width - 250, height / 2 - 30, 200, 30 );
-		
+
 		JLabel labelError = new JLabel( "" );
-		labelError.setBounds( 50 , height / 2 - (50/2 + 30/2), 500, 30 );
+		labelError.setBounds( 50, height / 2 - ( 50 / 2 + 30 / 2 ), 500, 30 );
 		labelError.setForeground( new Color( 155, 0, 0 ) );
 		labelError.setFont( new Font( labelError.getFont( ).getFontName( ), labelError.getFont( ).getStyle( ), 14 ) );
 
 		// Add
 		add( listScrollerPJs );
+		add( btnAtivarPJ );
 		add( btnNovoPJ );
 		add( btnEditarPJ );
 		add( btnRemoverPJ );
 		add( listScrollerPDMs );
+		add( btnAtivarPDM );
 		add( btnNovoPDM );
 		add( btnEditarPDM );
 		add( btnRemoverPDM );
 		add( labelError );
-		
+
 		frame.repaint( );
 
 		frame.addComponentListener( new ComponentAdapter( )
@@ -119,18 +127,37 @@ public class JPListarPersonagem extends JPPadrao
 				height = frame.getBounds( ).height;
 
 				setBounds( 0, 0, width, height );
-				labelError.setBounds( 50 , height / 2 - (50/2 + 30/2), 500, 30 );
+				labelError.setBounds( 50, height / 2 - ( 50 / 2 + 30 / 2 ), 500, 30 );
 				// PJ
 				listScrollerPJs.setBounds( 50, 50, width - 100, height / 2 - 100 );
+				btnAtivarPJ.setBounds( width - 850, 20, 200, 30 );
 				btnNovoPJ.setBounds( width - 650, 20, 200, 30 );
 				btnEditarPJ.setBounds( width - 450, 20, 200, 30 );
 				btnRemoverPJ.setBounds( width - 250, 20, 200, 30 );
 				// PDM
 				listScrollerPDMs.setBounds( 50, height / 2, width - 100, height / 2 - 100 );
+				btnAtivarPDM.setBounds( width - 850, height / 2 - 30, 200, 30 );
 				btnNovoPDM.setBounds( width - 650, height / 2 - 30, 200, 30 );
 				btnEditarPDM.setBounds( width - 450, height / 2 - 30, 200, 30 );
 				btnRemoverPDM.setBounds( width - 250, height / 2 - 30, 200, 30 );
-				
+
+			}
+		} );
+
+		btnAtivarPJ.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Integer index = tabelaPJs.getSelectedRow( );
+				if ( index >= 0 )
+				{
+					Personagem personagem = modelPJs.getPersonagem( index );
+					personagem.changeStatus( );
+					PersonagemController pc = new PersonagemController( );
+					pc.criarPersonagem( personagem );
+					modelPJs.fireTableDataChanged( );
+					tabelaPJs.setRowSelectionInterval( index, index );
+				}
 			}
 		} );
 
@@ -148,13 +175,15 @@ public class JPListarPersonagem extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				Integer index = tabelaPJs.getSelectedRow( );
-				if(index == -1) {
+				if ( index == -1 )
+				{
 					labelError.setText( "Selecione um Personagem do Jogador" );
-				}else {
+				} else
+				{
 					frame.remove( frame.getTela( ) );
 					frame.setTela( new JPFormularioPersonagem( frame, true, null, modelPJs.getPersonagem( index ) ) );
 				}
-					
+
 			}
 		} );
 
@@ -178,6 +207,23 @@ public class JPListarPersonagem extends JPPadrao
 			}
 		} );
 
+		btnAtivarPDM.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				Integer index = tabelaPDMs.getSelectedRow( );
+				if ( index >= 0 )
+				{
+					Personagem personagem = modelPDMs.getPersonagem( index );
+					personagem.changeStatus( );
+					PersonagemController pc = new PersonagemController( );
+					pc.criarPersonagem( personagem );
+					modelPDMs.fireTableDataChanged( );
+					tabelaPDMs.setRowSelectionInterval( index, index );
+				}
+			}
+		} );
+
 		btnNovoPDM.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
@@ -192,10 +238,11 @@ public class JPListarPersonagem extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				Integer index = tabelaPDMs.getSelectedRow( );
-				if(index == -1) {
+				if ( index == -1 )
+				{
 					labelError.setText( "Selecione um Personagem do Mestre" );
-				}
-				else {
+				} else
+				{
 					frame.remove( frame.getTela( ) );
 					frame.setTela( new JPFormularioPersonagem( frame, false, null, modelPDMs.getPersonagem( index ) ) );
 				}

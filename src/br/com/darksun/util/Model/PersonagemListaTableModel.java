@@ -18,6 +18,7 @@ public class PersonagemListaTableModel extends AbstractTableModel
 	private static final int COL_ID = 0;
 	private static final int COL_NOME = 1;
 	private static final int COL_CLASSE = 2;
+	private static final int COL_STATUS = 3;
 	private List< Personagem > personagens;
 
 	public PersonagemListaTableModel( List< Personagem > personagens )
@@ -28,7 +29,7 @@ public class PersonagemListaTableModel extends AbstractTableModel
 	@Override
 	public int getColumnCount( )
 	{
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class PersonagemListaTableModel extends AbstractTableModel
 	public String getColumnName( int columnIndex )
 	{
 		String colunas[] =
-		{ "ID", "Nome", "Classe" };
+		{ "ID", "Nome", "Classe", "Status" };
 		return colunas[columnIndex];
 	}
 
@@ -54,13 +55,18 @@ public class PersonagemListaTableModel extends AbstractTableModel
 			return personagem.getNome( );
 		else if ( column == COL_CLASSE )
 			return personagem.getClasse( );
-		
+		else if ( column == COL_STATUS )
+			if ( personagem.getStatus( ) )
+				return "Ativo";
+			else
+				return "Inativo";
+
 		return null;
 	}
 
 	public void setValueAt( Object value, int row, int column )
 	{
-		
+
 	}
 
 	public Class getColumnClass( int columnIndex )

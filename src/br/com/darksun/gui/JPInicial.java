@@ -35,16 +35,17 @@ public class JPInicial extends JPPadrao
 		width = frame.getBounds( ).width;
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, width, height );
-		
+
 		JLabel labelImg = new JLabel( "" );
 		labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
 		ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( ).getResource( frame.getIconPath( ) ) );
-		logoApp = new ImageIcon(logoApp.getImage( ).getScaledInstance(labelImg.getWidth(),labelImg.getHeight(), logoApp.getImage( ).SCALE_DEFAULT));
-		labelImg.setIcon(logoApp);
-		
+		logoApp = new ImageIcon( logoApp.getImage( ).getScaledInstance( labelImg.getWidth( ), labelImg.getHeight( ),
+				logoApp.getImage( ).SCALE_DEFAULT ) );
+		labelImg.setIcon( logoApp );
+
 		PersonagemController pc = new PersonagemController( );
-		List< Personagem > PJs = pc.listarPJs( );
-		List< Personagem > PDMs = pc.listarPDMs( );
+		List< Personagem > PJs = pc.listarPJsAtivos( );
+		List< Personagem > PDMs = pc.listarPDMsAtivos( );
 
 		for ( Personagem personagem : PJs )
 			if ( personagem.getNome( ).length( ) > maiorNome )
@@ -162,11 +163,11 @@ public class JPInicial extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				listaPJ.setVisible( true );
-				btnRemovePJ.setVisible( true );
-				btnRemoveAllPJ.setVisible( true );
 				if ( PJComboBox.getSelectedItem( ) != null )
 				{
+					listaPJ.setVisible( true );
+					btnRemovePJ.setVisible( true );
+					btnRemoveAllPJ.setVisible( true );
 					PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
 					PJsSelecionados.get( 0 );
 					listaPJ.setBounds( 50, 210, maiorNome, listaPJ.getBounds( ).height + 20 );
@@ -180,17 +181,20 @@ public class JPInicial extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				listaPJ.setVisible( true );
-				btnRemovePJ.setVisible( true );
-				btnRemoveAllPJ.setVisible( true );
-				listaPJ.setSelectedIndex( 0 );
 				int size = PJComboBox.getItemCount( );
-				for ( int i = 0; i < size; i++ )
+				if ( size > 0 )
 				{
-					PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
-					listaPJ.setBounds( 50, 210, maiorNome, listaPJ.getBounds( ).height + 20 );
-					listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
-					PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
+					listaPJ.setVisible( true );
+					btnRemovePJ.setVisible( true );
+					btnRemoveAllPJ.setVisible( true );
+					listaPJ.setSelectedIndex( 0 );
+					for ( int i = 0; i < size; i++ )
+					{
+						PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
+						listaPJ.setBounds( 50, 210, maiorNome, listaPJ.getBounds( ).height + 20 );
+						listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
+						PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
+					}
 				}
 			}
 		} );
@@ -199,11 +203,11 @@ public class JPInicial extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				listaPDM.setVisible( true );
-				btnRemovePDM.setVisible( true );
-				btnRemoveAllPDM.setVisible( true );
 				if ( PDMComboBox.getSelectedItem( ) != null )
 				{
+					listaPDM.setVisible( true );
+					btnRemovePDM.setVisible( true );
+					btnRemoveAllPDM.setVisible( true );
 					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
 					listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
 					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
@@ -216,17 +220,21 @@ public class JPInicial extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				listaPDM.setVisible( true );
-				btnRemovePDM.setVisible( true );
-				btnRemoveAllPDM.setVisible( true );
-				listaPDM.setSelectedIndex( 0 );
 				int size = PDMComboBox.getItemCount( );
-				for ( int i = 0; i < size; i++ )
+				if ( size > 0 )
 				{
-					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
-					listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
-					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
-					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
+					listaPDM.setVisible( true );
+					btnRemovePDM.setVisible( true );
+					btnRemoveAllPDM.setVisible( true );
+					listaPDM.setSelectedIndex( 0 );
+					for ( int i = 0; i < size; i++ )
+					{
+						PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
+						listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome,
+								listaPDM.getBounds( ).height + 20 );
+						listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
+						PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
+					}
 				}
 			}
 		} );

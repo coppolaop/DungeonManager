@@ -13,6 +13,7 @@ public class Personagem
 	private Integer hpMaximo;
 	private Integer hpAtual;
 	private Boolean isPJ;
+	private Boolean status;
 
 	public Personagem( )
 	{
@@ -20,7 +21,8 @@ public class Personagem
 	}
 
 	public Personagem( Integer idPersonagem, String filePath, String nome, String classe, String imagem, Integer ca,
-			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual, Boolean isPJ )
+			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual, Boolean isPJ,
+			Boolean status )
 	{
 		super( );
 		this.idPersonagem = idPersonagem;
@@ -34,6 +36,7 @@ public class Personagem
 		this.hpMaximo = hpMaximo;
 		this.hpAtual = hpAtual;
 		this.isPJ = isPJ;
+		this.status = status;
 	}
 
 	@Override
@@ -150,5 +153,23 @@ public class Personagem
 	public void setIsPJ( Boolean isPJ )
 	{
 		this.isPJ = isPJ;
+	}
+
+	public Boolean getStatus( )
+	{
+		return status;
+	}
+
+	public void setStatus( Boolean status )
+	{
+		this.status = status;
+	}
+
+	public void changeStatus( )
+	{
+		if ( this.status )
+			this.status = false;
+		else
+			this.status = true;
 	}
 }
