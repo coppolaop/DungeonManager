@@ -85,6 +85,9 @@ public class JPInicial extends JPPadrao
 		JComboBox PDMComboBox = new JComboBox( PDMs.toArray( ) );
 		PDMComboBox.setBounds( width - ( maiorNome + 50 ), 50, maiorNome, 30 );
 
+		JButton btnAddReplicaPDM = new JButton( "Adicionar réplica" );
+		btnAddReplicaPDM.setBounds( width - ( maiorNome + 250 ), 50, 150, 30 );
+
 		JButton btnAddPDM = new JButton( "Adicionar" );
 		btnAddPDM.setBounds( width - ( maiorNome + 50 ), 130, maiorNome, 30 );
 
@@ -121,6 +124,7 @@ public class JPInicial extends JPPadrao
 		add( btnRemovePJ );
 		add( btnRemoveAllPJ );
 		add( PDMComboBox );
+		add( btnAddReplicaPDM );
 		add( btnAddPDM );
 		add( btnAddAllPDM );
 		add( listaPDM );
@@ -146,6 +150,8 @@ public class JPInicial extends JPPadrao
 				labelError.setBounds( width / 2 - 220 / 2, height / 2 + 30 / 2, 220, 30 );
 				PDMComboBox.setBounds( width - ( maiorNome + 50 ), 50, PDMComboBox.getBounds( ).width,
 						PDMComboBox.getBounds( ).height );
+				btnAddReplicaPDM.setBounds( width - ( maiorNome + 250 ), 50, btnAddReplicaPDM.getBounds( ).width,
+						btnAddReplicaPDM.getBounds( ).height );
 				btnAddPDM.setBounds( width - ( maiorNome + 50 ), 130, btnAddPDM.getBounds( ).width,
 						btnAddPDM.getBounds( ).height );
 				btnAddAllPDM.setBounds( width - ( maiorNome + 250 ), 130, btnAddAllPDM.getBounds( ).width,
@@ -194,46 +200,6 @@ public class JPInicial extends JPPadrao
 						listaPJ.setBounds( 50, 210, maiorNome, listaPJ.getBounds( ).height + 20 );
 						listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
 						PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
-					}
-				}
-			}
-		} );
-
-		btnAddPDM.addActionListener( new ActionListener( )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( PDMComboBox.getSelectedItem( ) != null )
-				{
-					listaPDM.setVisible( true );
-					btnRemovePDM.setVisible( true );
-					btnRemoveAllPDM.setVisible( true );
-					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
-					listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
-					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
-					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
-				}
-			}
-		} );
-
-		btnAddAllPDM.addActionListener( new ActionListener( )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				int size = PDMComboBox.getItemCount( );
-				if ( size > 0 )
-				{
-					listaPDM.setVisible( true );
-					btnRemovePDM.setVisible( true );
-					btnRemoveAllPDM.setVisible( true );
-					listaPDM.setSelectedIndex( 0 );
-					for ( int i = 0; i < size; i++ )
-					{
-						PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
-						listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome,
-								listaPDM.getBounds( ).height + 20 );
-						listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
-						PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
 					}
 				}
 			}
@@ -292,6 +258,74 @@ public class JPInicial extends JPPadrao
 			}
 		} );
 
+		btnAddReplicaPDM.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( PDMComboBox.getSelectedItem( ) != null )
+				{
+					listaPDM.setVisible( true );
+					btnRemovePDM.setVisible( true );
+					btnRemoveAllPDM.setVisible( true );
+
+					Personagem personagem = ( ( Personagem ) PDMComboBox.getSelectedItem( ) ).clone( );
+					Integer replica = 1;
+
+					for ( Personagem p : PDMsSelecionados.toList( ) )
+					{
+						if ( p.getIdPersonagem( ).equals( personagem.getIdPersonagem( ) ) )
+							replica++;
+					}
+
+					personagem.setReplica( replica );
+
+					PDMsSelecionados.addElement( personagem );
+					listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
+					listaPDM.setSelectedIndex( PDMsSelecionados.getSize( ) - 1 );
+				}
+			}
+		} );
+
+		btnAddPDM.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( PDMComboBox.getSelectedItem( ) != null )
+				{
+					listaPDM.setVisible( true );
+					btnRemovePDM.setVisible( true );
+					btnRemoveAllPDM.setVisible( true );
+					PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
+					listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, listaPDM.getBounds( ).height + 20 );
+					listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
+					PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
+				}
+			}
+		} );
+
+		btnAddAllPDM.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int size = PDMComboBox.getItemCount( );
+				if ( size > 0 )
+				{
+					listaPDM.setVisible( true );
+					btnRemovePDM.setVisible( true );
+					btnRemoveAllPDM.setVisible( true );
+					listaPDM.setSelectedIndex( 0 );
+					for ( int i = 0; i < size; i++ )
+					{
+						PDMsSelecionados.addElement( PDMComboBox.getSelectedItem( ) );
+						listaPDM.setBounds( width - ( maiorNome + 50 ), 210, maiorNome,
+								listaPDM.getBounds( ).height + 20 );
+						listaPDM.setSelectedIndex( PDMComboBox.getSelectedIndex( ) );
+						PDMComboBox.removeItem( PDMComboBox.getSelectedItem( ) );
+					}
+				}
+			}
+		} );
+
 		btnRemovePDM.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
@@ -299,7 +333,8 @@ public class JPInicial extends JPPadrao
 				if ( !PDMsSelecionados.isEmpty( ) )
 				{
 					int index = listaPDM.getSelectedIndex( );
-					PDMComboBox.addItem( listaPDM.getSelectedValue( ) );
+					if ( ( ( Personagem ) listaPDM.getSelectedValue( ) ).getReplica( ) == 0 )
+						PDMComboBox.addItem( listaPDM.getSelectedValue( ) );
 					PDMsSelecionados.removeElementAt( index );
 					listaPDM.setBounds( listaPDM.getBounds( ).x, listaPDM.getBounds( ).y, listaPDM.getBounds( ).width,
 							listaPDM.getBounds( ).height - 20 );
@@ -330,7 +365,8 @@ public class JPInicial extends JPPadrao
 				for ( int i = 0; i < size; i++ )
 				{
 					listaPDM.setSelectedIndex( 0 );
-					PDMComboBox.addItem( listaPDM.getSelectedValue( ) );
+					if ( ( ( Personagem ) listaPDM.getSelectedValue( ) ).getReplica( ) == 0 )
+						PDMComboBox.addItem( listaPDM.getSelectedValue( ) );
 					PDMsSelecionados.removeElementAt( 0 );
 				}
 				listaPDM.setBounds( listaPDM.getBounds( ).x, listaPDM.getBounds( ).y, listaPDM.getBounds( ).width, 0 );

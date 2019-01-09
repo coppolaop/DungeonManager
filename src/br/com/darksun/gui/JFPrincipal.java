@@ -25,8 +25,8 @@ import br.com.darksun.gui.characterbuilder.JPListarPersonagem;
 
 public class JFPrincipal extends JFrame
 {
-	private final String SYSTEM_VERSION = "1.2.0";
-	private final String SYSTEM_BETA = "a";
+	private final String SYSTEM_VERSION = "1.3.0";
+	private final String SYSTEM_BETA = "";
 	private final Boolean SYSTEM_IS_IN_BETA = !SYSTEM_BETA.equals( "" );
 	private final String SYSTEM_ICON = SYSTEM_IS_IN_BETA ? "img/DungeonManagerHomologacao.png"
 			: "img/DungeonManager.png";

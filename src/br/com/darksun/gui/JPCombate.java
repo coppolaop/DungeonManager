@@ -43,7 +43,7 @@ public class JPCombate extends JPPadrao
 		for ( Personagem personagem : PJs )
 		{
 			personagens.add( personagem );
-			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
+			System.out.println( personagem.toString( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
 		}
 
 		System.out.println( "      ----- VS -----" );
@@ -51,7 +51,7 @@ public class JPCombate extends JPPadrao
 		for ( Personagem personagem : PDMs )
 		{
 			personagens.add( personagem );
-			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
+			System.out.println( personagem.toString( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
 		}
 
 		System.out.println( "------------------------------" );
@@ -131,7 +131,6 @@ public class JPCombate extends JPPadrao
 					if ( model.getPersonagem( index ).equals( ultimoDaRodada ) )
 					{
 						ultimoDaRodada = model.getPersonagem( index - 1 );
-//								( String ) tabela.getValueAt( index - 1, 0 );
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
 
@@ -153,7 +152,6 @@ public class JPCombate extends JPPadrao
 					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
 							+ tabela.getValueAt( index + 1, 0 ) );
 
-					
 					if ( model.getPersonagem( index + 1 ).equals( ultimoDaRodada ) )
 					{
 						ultimoDaRodada = model.getPersonagem( index );
@@ -161,8 +159,8 @@ public class JPCombate extends JPPadrao
 					}
 
 					Object[ ] aux =
-					{ tabela.getValueAt( index, 0 ), tabela.getValueAt( index, 1 ),
-							tabela.getValueAt( index, 2 ), tabela.getValueAt( index, 3 ) };
+					{ tabela.getValueAt( index, 0 ), tabela.getValueAt( index, 1 ), tabela.getValueAt( index, 2 ),
+							tabela.getValueAt( index, 3 ) };
 
 					model.trocar( index, index + 1 );
 
@@ -177,7 +175,7 @@ public class JPCombate extends JPPadrao
 			{
 				Integer selected = tabela.getSelectedRow( );
 				Personagem personagem = model.getPersonagem( 0 );
-				
+
 				Object[ ] aux =
 				{ tabela.getValueAt( 0, 0 ), tabela.getValueAt( 0, 1 ), tabela.getValueAt( 0, 2 ),
 						tabela.getValueAt( 0, 3 ) };
@@ -190,12 +188,11 @@ public class JPCombate extends JPPadrao
 					labelNumeroRodadas.setText( rodada.toString( ) );
 					System.out.println( "-- A Rodada " + rodada + " acabou --" );
 				}
-				
-				if( selected == 0 )
+
+				if ( selected == 0 )
 					selected = tabela.getRowCount( ) - 1;
 				else
-					selected --;
-					
+					selected--;
 
 				model.remover( personagem );
 				model.adicionar( personagem );
@@ -206,7 +203,7 @@ public class JPCombate extends JPPadrao
 		btnRemoverPersonagem.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
-			{	
+			{
 				try
 				{
 					Integer removido = tabela.getSelectedRow( );

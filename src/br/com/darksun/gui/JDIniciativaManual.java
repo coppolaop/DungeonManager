@@ -44,7 +44,7 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 
 		setBounds( 50, 50, 400, 200 );
 
-		setTitle( personagem.getNome( ) );
+		setTitle( personagem.toString( ) );
 
 		textField = new JTextField( 10 );
 

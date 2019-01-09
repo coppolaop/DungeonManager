@@ -88,6 +88,7 @@ public class PersonagemController
 			personagem.setHpAtual( Integer.parseInt( prop.getProperty( "hpAtual" ) ) );
 			personagem.setIsPJ( isPj );
 			personagem.setStatus( Boolean.parseBoolean( prop.getProperty( "status" ) ) );
+			personagem.setReplica( 0 );
 
 			return personagem;
 
@@ -180,12 +181,12 @@ public class PersonagemController
 									String hpMaximo, Boolean isPJ )
 	{
 		String path;
-		
+
 		if ( isPJ )
 			path = "resources/pj/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties";
 		else
 			path = "resources/pdm/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties";
-		
+
 		criarPersonagem( ID, path, nome, classe, CA, bonusIniciativa, hpMaximo, hpMaximo, nome + ".jpg", isPJ, true );
 	}
 

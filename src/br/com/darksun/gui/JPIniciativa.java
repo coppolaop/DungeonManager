@@ -30,7 +30,7 @@ public class JPIniciativa extends JPPadrao
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
 
-		if( !frame.isInBeta( ) )
+		if ( !frame.isInBeta( ) )
 			try
 			{
 				LogStream log = new LogStream( );
@@ -43,20 +43,21 @@ public class JPIniciativa extends JPPadrao
 		System.out.println( "-------Combate Iniciado-------" );
 
 		for ( Personagem personagem : PJs )
-			System.out.println( personagem.getNome( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
+			System.out.println( personagem.toString( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
 
 		System.out.println( "      ----- VS -----" );
 
 		for ( Personagem personagem : PDMs )
-			System.out.println( personagem.getNome( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
+			System.out.println( personagem.toString( ) + " - " + personagem.getHpAtual( ) + " pontos de vida" );
 
 		System.out.println( "------------------------------" );
-		
+
 		JLabel labelImg = new JLabel( "" );
 		labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
 		ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( ).getResource( frame.getIconPath( ) ) );
-		logoApp = new ImageIcon(logoApp.getImage( ).getScaledInstance(labelImg.getWidth(),labelImg.getHeight(), logoApp.getImage( ).SCALE_DEFAULT));
-		labelImg.setIcon(logoApp);
+		logoApp = new ImageIcon( logoApp.getImage( ).getScaledInstance( labelImg.getWidth( ), labelImg.getHeight( ),
+				logoApp.getImage( ).SCALE_DEFAULT ) );
+		labelImg.setIcon( logoApp );
 
 		JButton btnRolagemAutomatica = new JButton( "Rolagem Automática" );
 		btnRolagemAutomatica.setBounds( 50, height / 2 - 30 / 2, 200, 30 );
