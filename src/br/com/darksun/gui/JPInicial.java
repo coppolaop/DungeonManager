@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -18,6 +20,7 @@ import javax.swing.SwingConstants;
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.util.Model.PersonagemNomeListModel;
+import br.com.darksun.util.comparator.NomeComparator;
 
 public class JPInicial extends JPPadrao
 {
@@ -175,7 +178,6 @@ public class JPInicial extends JPPadrao
 					btnRemovePJ.setVisible( true );
 					btnRemoveAllPJ.setVisible( true );
 					PJsSelecionados.addElement( PJComboBox.getSelectedItem( ) );
-					PJsSelecionados.get( 0 );
 					listaPJ.setBounds( 50, 210, maiorNome, listaPJ.getBounds( ).height + 20 );
 					listaPJ.setSelectedIndex( PJComboBox.getSelectedIndex( ) );
 					PJComboBox.removeItem( PJComboBox.getSelectedItem( ) );
@@ -224,13 +226,7 @@ public class JPInicial extends JPPadrao
 						listaPJ.setSelectedIndex( index );
 					if ( index > listaPJ.getLastVisibleIndex( ) )
 						listaPJ.setSelectedIndex( listaPJ.getLastVisibleIndex( ) );
-					List< String > listaAux = ordenaJList( PJComboBox );
-					PJComboBox.removeAllItems( );
-					for ( String item : listaAux )
-					{
-						PJComboBox.addItem( item );
-					}
-
+					ordenaJListPersonagem( PJComboBox );
 				}
 			}
 		} );
@@ -249,12 +245,7 @@ public class JPInicial extends JPPadrao
 				listaPJ.setBounds( listaPJ.getBounds( ).x, listaPJ.getBounds( ).y, listaPJ.getBounds( ).width, 0 );
 				btnRemovePJ.setVisible( false );
 				btnRemoveAllPJ.setVisible( false );
-				List< String > listaAux = ordenaJList( PJComboBox );
-				PJComboBox.removeAllItems( );
-				for ( String item : listaAux )
-				{
-					PJComboBox.addItem( item );
-				}
+				ordenaJListPersonagem( PJComboBox );
 			}
 		} );
 
@@ -346,13 +337,7 @@ public class JPInicial extends JPPadrao
 						listaPDM.setSelectedIndex( index );
 					if ( index > listaPDM.getLastVisibleIndex( ) )
 						listaPDM.setSelectedIndex( listaPDM.getLastVisibleIndex( ) );
-					List< String > listaAux = ordenaJList( PDMComboBox );
-					PDMComboBox.removeAllItems( );
-					for ( String item : listaAux )
-					{
-						PDMComboBox.addItem( item );
-					}
-
+					ordenaJListPersonagem( PDMComboBox );
 				}
 			}
 		} );
@@ -372,12 +357,7 @@ public class JPInicial extends JPPadrao
 				listaPDM.setBounds( listaPDM.getBounds( ).x, listaPDM.getBounds( ).y, listaPDM.getBounds( ).width, 0 );
 				btnRemovePDM.setVisible( false );
 				btnRemoveAllPDM.setVisible( false );
-				List< String > listaAux = ordenaJList( PDMComboBox );
-				PDMComboBox.removeAllItems( );
-				for ( String item : listaAux )
-				{
-					PDMComboBox.addItem( item );
-				}
+				ordenaJListPersonagem( PDMComboBox );
 			}
 		} );
 
@@ -405,5 +385,20 @@ public class JPInicial extends JPPadrao
 
 			}
 		} );
+	}
+	
+	public void ordenaJListPersonagem( JComboBox combobox )
+	{
+		List< Personagem > array = new ArrayList< Personagem >( );
+		int size = combobox.getItemCount( );
+		for ( int i = 0; i < size; i++ )
+			array.add( ( Personagem ) combobox.getItemAt( i ) );
+		Collections.sort( array, new NomeComparator( ) );
+
+		combobox.removeAllItems( );
+		for ( Personagem item : array )
+		{
+			combobox.addItem( item );
+		}
 	}
 }

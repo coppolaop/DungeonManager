@@ -17,8 +17,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import br.com.darksun.entity.Personagem;
-import br.com.darksun.util.IniciativaComparator;
 import br.com.darksun.util.Model.PersonagemCombateTableModel;
+import br.com.darksun.util.comparator.IniciativaComparator;
 
 public class JPCombate extends JPPadrao
 {
