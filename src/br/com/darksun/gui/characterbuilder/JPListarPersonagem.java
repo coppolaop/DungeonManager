@@ -45,6 +45,7 @@ public class JPListarPersonagem extends JPPadrao
 
 		PersonagemListaTableModel modelPJs = new PersonagemListaTableModel( PJs );
 		JTable tabelaPJs = new JTable( modelPJs );
+		tabelaPJs.setAutoCreateRowSorter( true );
 		tabelaPJs.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		for ( int i = 0; i < modelPJs.getColumnCount( ); i++ )
 		{
@@ -74,6 +75,7 @@ public class JPListarPersonagem extends JPPadrao
 
 		PersonagemListaTableModel modelPDMs = new PersonagemListaTableModel( PDMs );
 		JTable tabelaPDMs = new JTable( modelPDMs );
+		tabelaPDMs.setAutoCreateRowSorter( true );
 		tabelaPDMs.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		for ( int i = 0; i < modelPDMs.getColumnCount( ); i++ )
 		{
