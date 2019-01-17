@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
+import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;
 
 import br.com.darksun.entity.Personagem;
@@ -21,10 +22,12 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 	private static final int COL_HPATUAL = 2;
 	private static final int COL_HPTOTAL = 3;
 	private List< Personagem > personagens;
+	private JLabel log;
 
-	public PersonagemCombateTableModel( List< Personagem > personagens )
+	public PersonagemCombateTableModel( List< Personagem > personagens, JLabel log )
 	{
 		this.personagens = new ArrayList< Personagem >( personagens );
+		this.log = log;
 	}
 
 	@Override
@@ -70,16 +73,22 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 		if ( patNumero.matcher( value ).matches( ) )
 		{
 			Personagem personagem = personagens.get( row );
-
 			if ( column == COL_CA )
 			{
 				Integer CA = personagem.getCa( );
 				if ( Integer.parseInt( value ) < CA )
+				{
 					System.out.println( "A CA de " + personagem.toString( ) + " diminuiu "
 							+ ( CA - Integer.parseInt( value ) ) + " pontos" );
-				else if ( Integer.parseInt( value ) > CA )
+					log.setText( "A CA de " + personagem.toString( ) + " diminuiu " + ( CA - Integer.parseInt( value ) )
+							+ " pontos" );
+				} else if ( Integer.parseInt( value ) > CA )
+				{
 					System.out.println( "A CA de " + personagem.toString( ) + " aumentou "
 							+ ( Integer.parseInt( value ) - CA ) + " pontos" );
+					log.setText( "A CA de " + personagem.toString( ) + " aumentou " + ( Integer.parseInt( value ) - CA )
+							+ " pontos" );
+				}
 				personagem.setCa( Integer.parseInt( value ) );
 				if ( personagem.getReplica( ) == 0 )
 					atualizarArquivo( row, column, value );
@@ -87,31 +96,55 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 			{
 				Integer HP = personagem.getHpAtual( );
 				if ( Integer.parseInt( value ) < HP )
+				{
 					if ( personagens.get( 0 ).toString( ).equals( personagem.toString( ) ) )
+					{
 						System.out.println( "Algo fez com que " + personagem.toString( ) + " perdesse "
 								+ ( HP - Integer.parseInt( value ) ) + " pontos de vida no seu turno" );
-					else
+						log.setText( "Algo fez com que " + personagem.toString( ) + " perdesse "
+								+ ( HP - Integer.parseInt( value ) ) + " pontos de vida no seu turno" );
+					} else
+					{
 						System.out.println( personagens.get( 0 ).toString( ) + " causou "
 								+ ( HP - Integer.parseInt( value ) ) + " pontos de dano em " + personagem.toString( ) );
-				else if ( Integer.parseInt( value ) > HP )
+						log.setText( personagens.get( 0 ).toString( ) + " causou " + ( HP - Integer.parseInt( value ) )
+								+ " pontos de dano em " + personagem.toString( ) );
+					}
+				} else if ( Integer.parseInt( value ) > HP )
+				{
 					if ( personagens.get( 0 ).toString( ).equals( personagem.toString( ) ) )
+					{
 						System.out.println( personagem.toString( ) + " se curou em "
 								+ ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
-					else
+						log.setText( personagem.toString( ) + " se curou em " + ( Integer.parseInt( value ) - HP )
+								+ " pontos de vida" );
+					} else
+					{
 						System.out.println( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( )
 								+ " em " + ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
-				personagem.setHpAtual( Integer.parseInt( ( String ) value ) );
+						log.setText( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( ) + " em "
+								+ ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
+					}
+					personagem.setHpAtual( Integer.parseInt( ( String ) value ) );
+				}
 				if ( personagem.getReplica( ) == 0 )
 					atualizarArquivo( row, column, value );
 			} else if ( column == COL_HPTOTAL )
 			{
 				Integer HP = personagem.getHpAtual( );
 				if ( Integer.parseInt( value ) < HP )
+				{
 					System.out.println( "O HP máximo de " + personagem.toString( ) + " diminuiu "
 							+ ( HP - Integer.parseInt( value ) ) + " pontos" );
-				else if ( Integer.parseInt( value ) > HP )
+					log.setText( "O HP máximo de " + personagem.toString( ) + " diminuiu "
+							+ ( HP - Integer.parseInt( value ) ) + " pontos" );
+				} else if ( Integer.parseInt( value ) > HP )
+				{
 					System.out.println( "O HP máximo de " + personagem.toString( ) + " aumentou "
 							+ ( Integer.parseInt( value ) - HP ) + " pontos" );
+					log.setText( "O HP máximo de " + personagem.toString( ) + " diminuiu "
+							+ ( HP - Integer.parseInt( value ) ) + " pontos" );
+				}
 				personagem.setHpMaximo( Integer.parseInt( value ) );
 				if ( personagem.getReplica( ) == 0 )
 					atualizarArquivo( row, column, value );
@@ -149,15 +182,21 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 			}
 
 			Personagem personagem = personagens.get( row );
+
 			if ( column == COL_CA )
 			{
 				Integer CA = personagem.getCa( );
 				if ( number < CA )
+				{
 					System.out
 							.println( "A CA de " + personagem.getNome( ) + " diminuiu " + ( CA - number ) + " pontos" );
-				else if ( number > CA )
+					log.setText( "A CA de " + personagem.getNome( ) + " diminuiu " + ( CA - number ) + " pontos" );
+				} else if ( number > CA )
+				{
 					System.out
 							.println( "A CA de " + personagem.getNome( ) + " aumentou " + ( number - CA ) + " pontos" );
+					log.setText( "A CA de " + personagem.getNome( ) + " aumentou " + ( number - CA ) + " pontos" );
+				}
 				personagem.setCa( number );
 				if ( personagem.getReplica( ) == 0 )
 					atualizarArquivo( row, column, number );
@@ -165,19 +204,35 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 			{
 				Integer HP = personagem.getHpAtual( );
 				if ( number < HP )
+				{
 					if ( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ) )
+					{
 						System.out.println( "Algo fez com que " + personagem.getNome( ) + " perdesse " + ( HP - number )
 								+ " pontos de vida no seu turno" );
-					else
+						log.setText( "Algo fez com que " + personagem.getNome( ) + " perdesse " + ( HP - number )
+								+ " pontos de vida no seu turno" );
+					} else
+					{
 						System.out.println( personagens.get( 0 ).getNome( ) + " causou " + ( HP - number )
 								+ " pontos de dano em " + personagem.getNome( ) );
-				else if ( number > HP )
+						log.setText( personagens.get( 0 ).getNome( ) + " causou " + ( HP - number )
+								+ " pontos de dano em " + personagem.getNome( ) );
+					}
+				} else if ( number > HP )
+				{
 					if ( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ) )
+					{
 						System.out.println(
 								personagem.getNome( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
-					else
+						log.setText( personagem.getNome( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
+					} else
+					{
 						System.out.println( personagens.get( 0 ).getNome( ) + " curou " + personagem.getNome( ) + " em "
 								+ ( number - HP ) + " pontos de vida" );
+						log.setText( personagens.get( 0 ).getNome( ) + " curou " + personagem.getNome( ) + " em "
+								+ ( number - HP ) + " pontos de vida" );
+					}
+				}
 				personagem.setHpAtual( number );
 				if ( personagem.getReplica( ) == 0 )
 					atualizarArquivo( row, column, number );
@@ -185,11 +240,18 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 			{
 				Integer HP = personagem.getHpAtual( );
 				if ( number < HP )
+				{
 					System.out.println(
 							"O HP máximo de " + personagem.getNome( ) + " diminuiu " + ( HP - number ) + " pontos" );
-				else if ( number > HP )
+					log.setText(
+							"O HP máximo de " + personagem.getNome( ) + " diminuiu " + ( HP - number ) + " pontos" );
+				} else if ( number > HP )
+				{
 					System.out.println(
 							"O HP máximo de " + personagem.getNome( ) + " aumentou " + ( number - HP ) + " pontos" );
+					log.setText(
+							"O HP máximo de " + personagem.getNome( ) + " aumentou " + ( number - HP ) + " pontos" );
+				}
 				personagem.setHpMaximo( number );
 				if ( personagem.getReplica( ) == 0 )
 					atualizarArquivo( row, column, number );

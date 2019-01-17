@@ -1,5 +1,6 @@
 package br.com.darksun.gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,14 +61,28 @@ public class JPCombate extends JPPadrao
 
 		JLabel labelRodada = new JLabel( "Rodada: " );
 		labelRodada.setBounds( 50, 15, 100, 20 );
+		labelRodada.setForeground( Color.WHITE );
 		labelRodada
 				.setFont( new Font( labelRodada.getFont( ).getFontName( ), labelRodada.getFont( ).getStyle( ), 20 ) );
 		JLabel labelNumeroRodadas = new JLabel( rodada.toString( ) );
 		labelNumeroRodadas.setBounds( 150, 15, 80, 20 );
+		labelNumeroRodadas.setForeground( Color.WHITE );
 		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
 				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
 
-		PersonagemCombateTableModel model = new PersonagemCombateTableModel( personagens );
+		JLabel labelLog = new JLabel( "Log: " );
+		labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
+		labelLog.setForeground( Color.WHITE );
+		labelLog.setFont( new Font( labelLog.getFont( ).getFontName( ), labelLog.getFont( ).getStyle( ), 16 ) );
+
+		JLabel labelTextoLog = new JLabel( "" );
+		labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150, width - ( 115 + ( ( width - 100 ) / 3 ) ),
+				30 );
+		labelTextoLog.setForeground( Color.WHITE );
+		labelTextoLog.setFont(
+				new Font( labelTextoLog.getFont( ).getFontName( ), labelTextoLog.getFont( ).getStyle( ), 16 ) );
+
+		PersonagemCombateTableModel model = new PersonagemCombateTableModel( personagens, labelTextoLog );
 		JTable tabela = new JTable( model );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );
@@ -93,6 +108,8 @@ public class JPCombate extends JPPadrao
 		add( btnFinalTurno );
 		add( labelRodada );
 		add( labelNumeroRodadas );
+		add( labelLog );
+		add( labelTextoLog );
 
 		frame.repaint( );
 
@@ -128,6 +145,9 @@ public class JPCombate extends JPPadrao
 					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de "
 							+ tabela.getValueAt( index - 1, 0 ) );
 
+					labelTextoLog.setText( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de "
+							+ tabela.getValueAt( index - 1, 0 ) );
+
 					if ( model.getPersonagem( index ).equals( ultimoDaRodada ) )
 					{
 						ultimoDaRodada = model.getPersonagem( index - 1 );
@@ -150,6 +170,9 @@ public class JPCombate extends JPPadrao
 				if ( index < tabela.getRowCount( ) - 1 )
 				{
 					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
+							+ tabela.getValueAt( index + 1, 0 ) );
+
+					labelTextoLog.setText( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
 							+ tabela.getValueAt( index + 1, 0 ) );
 
 					if ( model.getPersonagem( index + 1 ).equals( ultimoDaRodada ) )
@@ -182,6 +205,8 @@ public class JPCombate extends JPPadrao
 
 				System.out.println( aux[0] + " finalizou seu turno" );
 
+				labelTextoLog.setText( aux[0] + " finalizou seu turno" );
+
 				if ( model.getPersonagem( 0 ).equals( ultimoDaRodada ) )
 				{
 					rodada++;
@@ -210,6 +235,8 @@ public class JPCombate extends JPPadrao
 					Personagem personagem = model.getPersonagem( removido );
 
 					System.out.println( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
+
+					labelTextoLog.setText( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
 
 					if ( model.getPersonagem( removido ).equals( ultimoDaRodada ) )
 					{
