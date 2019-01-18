@@ -135,6 +135,9 @@ public class JPCombate extends JPPadrao
 				btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
 				btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
 				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
+				labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
+				labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150,
+						width - ( 115 + ( ( width - 100 ) / 3 ) ), 30 );
 			}
 		} );
 
