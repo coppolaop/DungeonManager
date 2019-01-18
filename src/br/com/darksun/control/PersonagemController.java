@@ -122,7 +122,7 @@ public class PersonagemController
 
 			if ( pj )
 			{
-				output = new FileOutputStream( "resources/pj/PJdeExemplo.properties" );
+				output = new FileOutputStream( "resources/pj/PJ_de_Exemplo.properties" );
 
 				prop.setProperty( "idPersonagem", "1" );
 				prop.setProperty( "nome", "PJ de Exemplo" );
@@ -130,7 +130,7 @@ public class PersonagemController
 				prop.setProperty( "imagem", "pjExemplo.jpg" );
 			} else
 			{
-				output = new FileOutputStream( "resources/pdm/PDMdeExemplo.properties" );
+				output = new FileOutputStream( "resources/pdm/PDM_de_Exemplo.properties" );
 
 				prop.setProperty( "idPersonagem", "2" );
 				prop.setProperty( "nome", "PDM de Exemplo" );
