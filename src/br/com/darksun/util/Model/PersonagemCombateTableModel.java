@@ -48,6 +48,16 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 		{ "Nome", "CA", "HP Atual", "HP Total" };
 		return colunas[columnIndex];
 	}
+	
+	public boolean contains( Personagem personagem )
+	{	
+		for(Personagem p : personagens) {
+			if(p.toString( ).equals( personagem.toString( ) )) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public Object getValueAt( int row, int column )

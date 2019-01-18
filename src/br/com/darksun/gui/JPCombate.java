@@ -92,16 +92,19 @@ public class JPCombate extends JPPadrao
 		JScrollPane listScroller = new JScrollPane( tabela );
 		listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 
+		JButton btnAdicionarPersonagem = new JButton( "Adicionar Personagem" );
 		JButton btnRemoverPersonagem = new JButton( "Remover Personagem" );
 		JButton btnSetaCima = new BasicArrowButton( BasicArrowButton.NORTH );
 		JButton btnSetaBaixo = new BasicArrowButton( BasicArrowButton.SOUTH );
 		JButton btnFinalTurno = new JButton( "Finalizar Turno" );
-		btnRemoverPersonagem.setBounds( ( width / 3 ) - 165, 10, 180, 30 );
-		btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
-		btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
-		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 250, 120, 30 );
+		btnAdicionarPersonagem.setBounds( ( ( width - 100 ) / 3 ) - 195, 10, 180, 30 );
+		btnRemoverPersonagem.setBounds( 5 + ( ( width - 100 ) / 3 ), 10, 180, 30 );
+		btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
+		btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
+		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
 
 		add( listScroller );
+		add( btnAdicionarPersonagem );
 		add( btnRemoverPersonagem );
 		add( btnSetaCima );
 		add( btnSetaBaixo );
@@ -127,10 +130,11 @@ public class JPCombate extends JPPadrao
 
 				setBounds( 0, 0, width, height );
 				listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
-				btnRemoverPersonagem.setBounds( ( width / 3 ) - 165, 10, 180, 30 );
-				btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
-				btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
-				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 250, 120, 30 );
+				btnAdicionarPersonagem.setBounds( ( ( width - 100 ) / 3 ) - 195, 10, 180, 30 );
+				btnRemoverPersonagem.setBounds( 5 + ( ( width - 100 ) / 3 ), 10, 180, 30 );
+				btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
+				btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
+				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
 			}
 		} );
 
@@ -222,6 +226,25 @@ public class JPCombate extends JPPadrao
 				model.remover( personagem );
 				model.adicionar( personagem );
 				tabela.setRowSelectionInterval( selected, selected );
+			}
+		} );
+
+		btnAdicionarPersonagem.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				JDIncluirPersonagem ip = new JDIncluirPersonagem( frame );
+				ip.setVisible( true );
+				Personagem personagem = ip.getPersonagemSelecionado( );
+				if ( personagem != null )
+				{
+					while ( model.contains( personagem ) )
+					{
+						personagem.setReplica( personagem.getReplica( ) + 1 );
+					}
+					model.adicionar( personagem );
+					System.out.println( personagem + " foi adicionado ao combate" );
+				}
 			}
 		} );
 
