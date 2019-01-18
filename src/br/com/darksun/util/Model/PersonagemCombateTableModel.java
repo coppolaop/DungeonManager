@@ -141,7 +141,7 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 					atualizarArquivo( row, column, value );
 			} else if ( column == COL_HPTOTAL )
 			{
-				Integer HP = personagem.getHpAtual( );
+				Integer HP = personagem.getHpMaximo( );
 				if ( Integer.parseInt( value ) < HP )
 				{
 					System.out.println( "O HP máximo de " + personagem.toString( ) + " diminuiu "
@@ -248,7 +248,7 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 					atualizarArquivo( row, column, number );
 			} else if ( column == COL_HPTOTAL )
 			{
-				Integer HP = personagem.getHpAtual( );
+				Integer HP = personagem.getHpMaximo( );
 				if ( number < HP )
 				{
 					System.out.println(
