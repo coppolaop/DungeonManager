@@ -244,6 +244,7 @@ public class JPCombate extends JPPadrao
 					}
 					model.adicionar( personagem );
 					System.out.println( personagem + " foi adicionado ao combate" );
+					labelTextoLog.setText( personagem + " foi adicionado ao combate" );
 				}
 			}
 		} );
