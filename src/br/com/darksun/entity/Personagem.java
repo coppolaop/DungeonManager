@@ -1,6 +1,6 @@
 package br.com.darksun.entity;
 
-public class Personagem
+public class Personagem implements Cloneable
 {
 	private Integer idPersonagem;
 	private String filePath;
@@ -13,6 +13,8 @@ public class Personagem
 	private Integer hpMaximo;
 	private Integer hpAtual;
 	private Boolean isPJ;
+	private Boolean status;
+	private Integer replica;
 
 	public Personagem( )
 	{
@@ -20,7 +22,8 @@ public class Personagem
 	}
 
 	public Personagem( Integer idPersonagem, String filePath, String nome, String classe, String imagem, Integer ca,
-			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual, Boolean isPJ )
+			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual, Boolean isPJ,
+			Boolean status, Integer replica )
 	{
 		super( );
 		this.idPersonagem = idPersonagem;
@@ -34,11 +37,15 @@ public class Personagem
 		this.hpMaximo = hpMaximo;
 		this.hpAtual = hpAtual;
 		this.isPJ = isPJ;
+		this.status = status;
+		this.replica = replica;
 	}
 
 	@Override
 	public String toString( )
 	{
+		if ( this.replica > 0 )
+			return this.getNome( ) + " (" + this.getReplica( ) + ")";
 		return this.getNome( );
 	}
 
@@ -150,5 +157,47 @@ public class Personagem
 	public void setIsPJ( Boolean isPJ )
 	{
 		this.isPJ = isPJ;
+	}
+
+	public Boolean getStatus( )
+	{
+		return status;
+	}
+
+	public void setStatus( Boolean status )
+	{
+		this.status = status;
+	}
+
+	public void changeStatus( )
+	{
+		if ( this.status )
+			this.status = false;
+		else
+			this.status = true;
+	}
+
+	public Integer getReplica( )
+	{
+		return replica;
+	}
+
+	public void setReplica( Integer replica )
+	{
+		this.replica = replica;
+	}
+
+	public Personagem clone( )
+	{
+		Personagem clone = null;
+
+		try
+		{
+			clone = ( Personagem ) super.clone( );
+		} catch ( CloneNotSupportedException ex )
+		{
+			ex.printStackTrace( );
+		}
+		return clone;
 	}
 }

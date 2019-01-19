@@ -1,5 +1,6 @@
 package br.com.darksun.gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +18,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import br.com.darksun.entity.Personagem;
-import br.com.darksun.util.IniciativaComparator;
 import br.com.darksun.util.Model.PersonagemCombateTableModel;
+import br.com.darksun.util.comparator.IniciativaComparator;
 
 public class JPCombate extends JPPadrao
 {
@@ -43,7 +44,7 @@ public class JPCombate extends JPPadrao
 		for ( Personagem personagem : PJs )
 		{
 			personagens.add( personagem );
-			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
+			System.out.println( personagem.toString( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
 		}
 
 		System.out.println( "      ----- VS -----" );
@@ -51,7 +52,7 @@ public class JPCombate extends JPPadrao
 		for ( Personagem personagem : PDMs )
 		{
 			personagens.add( personagem );
-			System.out.println( personagem.getNome( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
+			System.out.println( personagem.toString( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
 		}
 
 		System.out.println( "------------------------------" );
@@ -60,14 +61,28 @@ public class JPCombate extends JPPadrao
 
 		JLabel labelRodada = new JLabel( "Rodada: " );
 		labelRodada.setBounds( 50, 15, 100, 20 );
+		labelRodada.setForeground( Color.WHITE );
 		labelRodada
 				.setFont( new Font( labelRodada.getFont( ).getFontName( ), labelRodada.getFont( ).getStyle( ), 20 ) );
 		JLabel labelNumeroRodadas = new JLabel( rodada.toString( ) );
 		labelNumeroRodadas.setBounds( 150, 15, 80, 20 );
+		labelNumeroRodadas.setForeground( Color.WHITE );
 		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
 				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
 
-		PersonagemCombateTableModel model = new PersonagemCombateTableModel( personagens );
+		JLabel labelLog = new JLabel( "Log: " );
+		labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
+		labelLog.setForeground( Color.WHITE );
+		labelLog.setFont( new Font( labelLog.getFont( ).getFontName( ), labelLog.getFont( ).getStyle( ), 16 ) );
+
+		JLabel labelTextoLog = new JLabel( "" );
+		labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150, width - ( 115 + ( ( width - 100 ) / 3 ) ),
+				30 );
+		labelTextoLog.setForeground( Color.WHITE );
+		labelTextoLog.setFont(
+				new Font( labelTextoLog.getFont( ).getFontName( ), labelTextoLog.getFont( ).getStyle( ), 16 ) );
+
+		PersonagemCombateTableModel model = new PersonagemCombateTableModel( personagens, labelTextoLog );
 		JTable tabela = new JTable( model );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );
@@ -77,22 +92,27 @@ public class JPCombate extends JPPadrao
 		JScrollPane listScroller = new JScrollPane( tabela );
 		listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 
+		JButton btnAdicionarPersonagem = new JButton( "Adicionar Personagem" );
 		JButton btnRemoverPersonagem = new JButton( "Remover Personagem" );
 		JButton btnSetaCima = new BasicArrowButton( BasicArrowButton.NORTH );
 		JButton btnSetaBaixo = new BasicArrowButton( BasicArrowButton.SOUTH );
 		JButton btnFinalTurno = new JButton( "Finalizar Turno" );
-		btnRemoverPersonagem.setBounds( ( width / 3 ) - 165, 10, 180, 30 );
-		btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
-		btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
-		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 250, 120, 30 );
+		btnAdicionarPersonagem.setBounds( ( ( width - 100 ) / 3 ) - 195, 10, 180, 30 );
+		btnRemoverPersonagem.setBounds( 5 + ( ( width - 100 ) / 3 ), 10, 180, 30 );
+		btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
+		btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
+		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
 
 		add( listScroller );
+		add( btnAdicionarPersonagem );
 		add( btnRemoverPersonagem );
 		add( btnSetaCima );
 		add( btnSetaBaixo );
 		add( btnFinalTurno );
 		add( labelRodada );
 		add( labelNumeroRodadas );
+		add( labelLog );
+		add( labelTextoLog );
 
 		frame.repaint( );
 
@@ -110,10 +130,14 @@ public class JPCombate extends JPPadrao
 
 				setBounds( 0, 0, width, height );
 				listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
-				btnRemoverPersonagem.setBounds( ( width / 3 ) - 165, 10, 180, 30 );
-				btnSetaCima.setBounds( 100 + ( ( width - 100 ) / 3 ), 50, 50, 50 );
-				btnSetaBaixo.setBounds( 100 + ( ( width - 100 ) / 3 ), 150, 50, 50 );
-				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 250, 120, 30 );
+				btnAdicionarPersonagem.setBounds( ( ( width - 100 ) / 3 ) - 195, 10, 180, 30 );
+				btnRemoverPersonagem.setBounds( 5 + ( ( width - 100 ) / 3 ), 10, 180, 30 );
+				btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
+				btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
+				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
+				labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
+				labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150,
+						width - ( 115 + ( ( width - 100 ) / 3 ) ), 30 );
 			}
 		} );
 
@@ -128,10 +152,12 @@ public class JPCombate extends JPPadrao
 					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de "
 							+ tabela.getValueAt( index - 1, 0 ) );
 
+					labelTextoLog.setText( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de "
+							+ tabela.getValueAt( index - 1, 0 ) );
+
 					if ( model.getPersonagem( index ).equals( ultimoDaRodada ) )
 					{
 						ultimoDaRodada = model.getPersonagem( index - 1 );
-//								( String ) tabela.getValueAt( index - 1, 0 );
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
 
@@ -153,7 +179,9 @@ public class JPCombate extends JPPadrao
 					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
 							+ tabela.getValueAt( index + 1, 0 ) );
 
-					
+					labelTextoLog.setText( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
+							+ tabela.getValueAt( index + 1, 0 ) );
+
 					if ( model.getPersonagem( index + 1 ).equals( ultimoDaRodada ) )
 					{
 						ultimoDaRodada = model.getPersonagem( index );
@@ -161,8 +189,8 @@ public class JPCombate extends JPPadrao
 					}
 
 					Object[ ] aux =
-					{ tabela.getValueAt( index, 0 ), tabela.getValueAt( index, 1 ),
-							tabela.getValueAt( index, 2 ), tabela.getValueAt( index, 3 ) };
+					{ tabela.getValueAt( index, 0 ), tabela.getValueAt( index, 1 ), tabela.getValueAt( index, 2 ),
+							tabela.getValueAt( index, 3 ) };
 
 					model.trocar( index, index + 1 );
 
@@ -177,12 +205,14 @@ public class JPCombate extends JPPadrao
 			{
 				Integer selected = tabela.getSelectedRow( );
 				Personagem personagem = model.getPersonagem( 0 );
-				
+
 				Object[ ] aux =
 				{ tabela.getValueAt( 0, 0 ), tabela.getValueAt( 0, 1 ), tabela.getValueAt( 0, 2 ),
 						tabela.getValueAt( 0, 3 ) };
 
 				System.out.println( aux[0] + " finalizou seu turno" );
+
+				labelTextoLog.setText( aux[0] + " finalizou seu turno" );
 
 				if ( model.getPersonagem( 0 ).equals( ultimoDaRodada ) )
 				{
@@ -190,12 +220,11 @@ public class JPCombate extends JPPadrao
 					labelNumeroRodadas.setText( rodada.toString( ) );
 					System.out.println( "-- A Rodada " + rodada + " acabou --" );
 				}
-				
-				if( selected == 0 )
+
+				if ( selected == 0 )
 					selected = tabela.getRowCount( ) - 1;
 				else
-					selected --;
-					
+					selected--;
 
 				model.remover( personagem );
 				model.adicionar( personagem );
@@ -203,16 +232,38 @@ public class JPCombate extends JPPadrao
 			}
 		} );
 
+		btnAdicionarPersonagem.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				JDIncluirPersonagem ip = new JDIncluirPersonagem( frame );
+				ip.setVisible( true );
+				Personagem personagem = ip.getPersonagemSelecionado( );
+				if ( personagem != null )
+				{
+					while ( model.contains( personagem ) )
+					{
+						personagem.setReplica( personagem.getReplica( ) + 1 );
+					}
+					model.adicionar( personagem );
+					System.out.println( personagem + " foi adicionado ao combate" );
+					labelTextoLog.setText( personagem + " foi adicionado ao combate" );
+				}
+			}
+		} );
+
 		btnRemoverPersonagem.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
-			{	
+			{
 				try
 				{
 					Integer removido = tabela.getSelectedRow( );
 					Personagem personagem = model.getPersonagem( removido );
 
 					System.out.println( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
+
+					labelTextoLog.setText( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
 
 					if ( model.getPersonagem( removido ).equals( ultimoDaRodada ) )
 					{

@@ -1,4 +1,4 @@
-package br.com.darksun.util;
+package br.com.darksun.util.comparator;
 
 import java.util.Comparator;
 

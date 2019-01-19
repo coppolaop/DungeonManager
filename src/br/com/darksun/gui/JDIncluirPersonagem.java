@@ -8,49 +8,49 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
+import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 
-class JDInicitivaManual extends JDialog implements ActionListener, PropertyChangeListener
+class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyChangeListener
 {
-	private Integer typedText = null;
-	private JTextField textField;
+	private Personagem personagemSelecionado = null;
+	private JComboBox< Personagem > comboBox;
 	private JOptionPane optionPane;
-	private Personagem personagem;
 
-	private String btnString1 = "OK";
-	private String btnString2 = "Rolagem automática";
+	private String btnString1 = "Adicionar Personagem";
+	private String btnString2 = "Adicionar Réplica";
 
 	/**
-	 * Retorna o valor inserido ou rola automaticamente se o valor for invalido
+	 * Retorna o personagem selecionado
 	 */
-	public Integer getValidatedText( )
+	public Personagem getPersonagemSelecionado( )
 	{
-		return typedText;
+		return personagemSelecionado;
 	}
 
 	// Cria da Dialog
-	public JDInicitivaManual( JFPrincipal frame, Personagem personagem )
+	public JDIncluirPersonagem( JFPrincipal frame )
 	{
 		super( frame, true );
 
-		this.personagem = personagem;
-
 		setBounds( 50, 50, 400, 200 );
 
-		setTitle( personagem.toString( ) );
+		setTitle( "Adicionar Persoangem no Combate" );
 
-		textField = new JTextField( 10 );
+		comboBox = new JComboBox( listaPersonagens( ).toArray( ) );
 
-		String msgString1 = "Iniciativa";
+		String msgString1 = "Personagem";
 
 		Object[ ] array =
-		{ msgString1, textField };
+		{ msgString1, comboBox };
 
 		Object[ ] options =
 		{ btnString1, btnString2 };
@@ -65,7 +65,7 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 		{
 			public void windowClosing( WindowEvent we )
 			{
-				typedText = new Random( ).nextInt( 20 ) + 1 + personagem.getBonusIniciativa( );
+				personagemSelecionado = null;
 				optionPane.setValue( new Integer( JOptionPane.CLOSED_OPTION ) );
 			}
 		} );
@@ -74,11 +74,9 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 		{
 			public void componentShown( ComponentEvent ce )
 			{
-				textField.requestFocusInWindow( );
+				comboBox.requestFocusInWindow( );
 			}
 		} );
-
-		textField.addActionListener( this );
 
 		optionPane.addPropertyChangeListener( this );
 	}
@@ -106,24 +104,17 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 
 			if ( btnString1.equals( value ) )
 			{
-				if ( textField.getText( ).matches( "\\d+" ) )
-				{
-					typedText = Integer.parseInt( textField.getText( ) );
-					clearAndHide( );
-				} else
-				{
-					textField.selectAll( );
-					JOptionPane.showMessageDialog( JDInicitivaManual.this,
-							"Desculpe, \"" + textField.getText( ) + "\" " + "não é um valor válido.\n"
-									+ "Por favor, digite um número inteiro. ",
-							"Tente novamente", JOptionPane.ERROR_MESSAGE );
-					typedText = null;
-					textField.requestFocusInWindow( );
-				}
+				personagemSelecionado = ( Personagem ) comboBox.getSelectedItem( );
+				clearAndHide( );
+
+			} else if ( btnString2.equals( value ) )
+			{
+				personagemSelecionado = ( Personagem ) comboBox.getSelectedItem( );
+				personagemSelecionado.setReplica( 1 );
+				clearAndHide( );
 			} else
 			{
-				// Usuario optou por utilizar iniciativa automática para esse personagem
-				typedText = new Random( ).nextInt( 20 ) + 1 + personagem.getBonusIniciativa( );
+				personagemSelecionado = null;
 				clearAndHide( );
 			}
 		}
@@ -132,7 +123,16 @@ class JDInicitivaManual extends JDialog implements ActionListener, PropertyChang
 	// Metodo limpa a dialog e esconde ela
 	public void clearAndHide( )
 	{
-		textField.setText( null );
+		comboBox.setSelectedItem( 0 );
 		setVisible( false );
+	}
+
+	public List< Personagem > listaPersonagens( )
+	{
+		List< Personagem > lista = new ArrayList< Personagem >( );
+		PersonagemController pc = new PersonagemController( );
+		lista.addAll( pc.listarPJsAtivos( ) );
+		lista.addAll( pc.listarPDMsAtivos( ) );
+		return lista;
 	}
 }
