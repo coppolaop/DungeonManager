@@ -51,7 +51,8 @@ public class JPListarPersonagem extends JPPadrao
 		{
 			tabelaPJs.getColumnModel( ).getColumn( i ).setCellRenderer( centerRenderer );
 		}
-		tabelaPJs.setRowSelectionInterval( 0, 0 );
+		if ( modelPJs.getRowCount( ) > 0 )
+			tabelaPJs.setRowSelectionInterval( 0, 0 );
 		tabelaPJs.setSelectionMode( 0 );
 		tabelaPJs.setFont( new Font( tabelaPJs.getFont( ).getFontName( ), tabelaPJs.getFont( ).getStyle( ), 20 ) );
 		tabelaPJs.setRowHeight( 30 );
@@ -81,7 +82,8 @@ public class JPListarPersonagem extends JPPadrao
 		{
 			tabelaPDMs.getColumnModel( ).getColumn( i ).setCellRenderer( centerRenderer );
 		}
-		tabelaPDMs.setRowSelectionInterval( 0, 0 );
+		if ( modelPDMs.getRowCount( ) > 0 )
+			tabelaPDMs.setRowSelectionInterval( 0, 0 );
 		tabelaPDMs.setSelectionMode( 0 );
 		tabelaPDMs.setFont( new Font( tabelaPDMs.getFont( ).getFontName( ), tabelaPDMs.getFont( ).getStyle( ), 20 ) );
 		tabelaPDMs.setRowHeight( 30 );
