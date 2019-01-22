@@ -48,11 +48,13 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 		{ "Nome", "CA", "HP Atual", "HP Total" };
 		return colunas[columnIndex];
 	}
-	
+
 	public boolean contains( Personagem personagem )
-	{	
-		for(Personagem p : personagens) {
-			if(p.toString( ).equals( personagem.toString( ) )) {
+	{
+		for ( Personagem p : personagens )
+		{
+			if ( p.toString( ).equals( personagem.toString( ) ) )
+			{
 				return true;
 			}
 		}
@@ -135,8 +137,8 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 						log.setText( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( ) + " em "
 								+ ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
 					}
-					personagem.setHpAtual( Integer.parseInt( ( String ) value ) );
 				}
+				personagem.setHpAtual( Integer.parseInt( ( String ) value ) );
 				if ( personagem.getReplica( ) == 0 )
 					atualizarArquivo( row, column, value );
 			} else if ( column == COL_HPTOTAL )
