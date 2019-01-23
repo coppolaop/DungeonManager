@@ -12,7 +12,7 @@ Uma descrição clara e concisa do bug encontrado.
 
 **Para reproduzir**
 O passo-a-passo feito para encontrá-lo:
-1. vá em '...'
+1. Vá em '...'
 2. Clique em '....'
 3. Clique e arraste o '....'
 4. Veja o erro
