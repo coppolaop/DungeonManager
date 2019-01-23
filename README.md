@@ -25,7 +25,7 @@ Observe as funcionalidades:
 
 ### Instalação
 
-A aplicação é um arquivo executável, basta colocá-lo no diretório de interece.
+A aplicação é um arquivo executável, basta colocá-lo no diretório de interesse.
 No inicio da primeira execução, o sistema cria um diretório chamado resourses.
 Devido a isso, não recomendamos que o arquivo executável seja aberto na area de trabalho, ao invés disso, sugerimos que ele seja guardado em um diretório no sistema com um atalho na area de trabalho apontando para ele.
 
@@ -50,14 +50,15 @@ Nós utilizamos [SemVer](http://semver.org/) para versionamento. Para as versõe
 
 ## Criador
 
-* **Marcos "Coppola" Gonçalves** - *2018* - [Coppolaop](https://github.com/coppolaop)
+* **Marcos "Coppola" Gonçalves** - *2018-2019* - [Coppolaop](https://github.com/coppolaop)
 
 ## Desenvolvedores
 
-* **Marcos "Coppola" Gonçalves** - *2018* - [Coppolaop](https://github.com/coppolaop)
-* **Vitor Abel** - *2018* - [vitor-abel](https://github.com/vitor-abel)
+* **Marcos "Coppola" Gonçalves** - *2018-2019* - [Coppolaop](https://github.com/coppolaop)
+* **Vitor Abel** - *2018-2019* - [vitor-abel](https://github.com/vitor-abel)
+* **Igor Huayck** - *2019* - [Flaigor](https://github.com/Flaigor)
 
 
-## License
+## Licença
 
-Esse projeto é licensiado sobre a licensa Apache-2.0 - veja a [LICENSE.md](LICENSE.md) para mais detalhes.
+Esse projeto é licensiado sobre a licença Apache-2.0 - veja a [LICENSE.md](LICENSE) para mais detalhes.
