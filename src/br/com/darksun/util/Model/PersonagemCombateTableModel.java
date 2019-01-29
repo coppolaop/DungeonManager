@@ -154,8 +154,8 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 				{
 					System.out.println( "O HP máximo de " + personagem.toString( ) + " aumentou "
 							+ ( Integer.parseInt( value ) - HP ) + " pontos" );
-					log.setText( "O HP máximo de " + personagem.toString( ) + " diminuiu "
-							+ ( HP - Integer.parseInt( value ) ) + " pontos" );
+					log.setText( "O HP máximo de " + personagem.toString( ) + " aumentou "
+							+ ( Integer.parseInt( value ) - HP ) + " pontos" );
 				}
 				personagem.setHpMaximo( Integer.parseInt( value ) );
 				if ( personagem.getReplica( ) == 0 )
