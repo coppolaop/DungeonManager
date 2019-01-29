@@ -200,14 +200,14 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 				Integer CA = personagem.getCa( );
 				if ( number < CA )
 				{
-					System.out
-							.println( "A CA de " + personagem.getNome( ) + " diminuiu " + ( CA - number ) + " pontos" );
-					log.setText( "A CA de " + personagem.getNome( ) + " diminuiu " + ( CA - number ) + " pontos" );
+					System.out.println(
+							"A CA de " + personagem.toString( ) + " diminuiu " + ( CA - number ) + " pontos" );
+					log.setText( "A CA de " + personagem.toString( ) + " diminuiu " + ( CA - number ) + " pontos" );
 				} else if ( number > CA )
 				{
-					System.out
-							.println( "A CA de " + personagem.getNome( ) + " aumentou " + ( number - CA ) + " pontos" );
-					log.setText( "A CA de " + personagem.getNome( ) + " aumentou " + ( number - CA ) + " pontos" );
+					System.out.println(
+							"A CA de " + personagem.toString( ) + " aumentou " + ( number - CA ) + " pontos" );
+					log.setText( "A CA de " + personagem.toString( ) + " aumentou " + ( number - CA ) + " pontos" );
 				}
 				personagem.setCa( number );
 				if ( personagem.getReplica( ) == 0 )
@@ -217,31 +217,31 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 				Integer HP = personagem.getHpAtual( );
 				if ( number < HP )
 				{
-					if ( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ) )
+					if ( personagens.get( 0 ).toString( ).equals( personagem.toString( ) ) )
 					{
-						System.out.println( "Algo fez com que " + personagem.getNome( ) + " perdesse " + ( HP - number )
-								+ " pontos de vida no seu turno" );
-						log.setText( "Algo fez com que " + personagem.getNome( ) + " perdesse " + ( HP - number )
+						System.out.println( "Algo fez com que " + personagem.toString( ) + " perdesse "
+								+ ( HP - number ) + " pontos de vida no seu turno" );
+						log.setText( "Algo fez com que " + personagem.toString( ) + " perdesse " + ( HP - number )
 								+ " pontos de vida no seu turno" );
 					} else
 					{
-						System.out.println( personagens.get( 0 ).getNome( ) + " causou " + ( HP - number )
-								+ " pontos de dano em " + personagem.getNome( ) );
-						log.setText( personagens.get( 0 ).getNome( ) + " causou " + ( HP - number )
-								+ " pontos de dano em " + personagem.getNome( ) );
+						System.out.println( personagens.get( 0 ).toString( ) + " causou " + ( HP - number )
+								+ " pontos de dano em " + personagem.toString( ) );
+						log.setText( personagens.get( 0 ).toString( ) + " causou " + ( HP - number )
+								+ " pontos de dano em " + personagem.toString( ) );
 					}
 				} else if ( number > HP )
 				{
-					if ( personagens.get( 0 ).getNome( ).equals( personagem.getNome( ) ) )
+					if ( personagens.get( 0 ).toString( ).equals( personagem.toString( ) ) )
 					{
 						System.out.println(
-								personagem.getNome( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
-						log.setText( personagem.getNome( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
+								personagem.toString( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
+						log.setText( personagem.toString( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
 					} else
 					{
-						System.out.println( personagens.get( 0 ).getNome( ) + " curou " + personagem.getNome( ) + " em "
-								+ ( number - HP ) + " pontos de vida" );
-						log.setText( personagens.get( 0 ).getNome( ) + " curou " + personagem.getNome( ) + " em "
+						System.out.println( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( )
+								+ " em " + ( number - HP ) + " pontos de vida" );
+						log.setText( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( ) + " em "
 								+ ( number - HP ) + " pontos de vida" );
 					}
 				}
@@ -254,15 +254,15 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 				if ( number < HP )
 				{
 					System.out.println(
-							"O HP máximo de " + personagem.getNome( ) + " diminuiu " + ( HP - number ) + " pontos" );
+							"O HP máximo de " + personagem.toString( ) + " diminuiu " + ( HP - number ) + " pontos" );
 					log.setText(
-							"O HP máximo de " + personagem.getNome( ) + " diminuiu " + ( HP - number ) + " pontos" );
+							"O HP máximo de " + personagem.toString( ) + " diminuiu " + ( HP - number ) + " pontos" );
 				} else if ( number > HP )
 				{
 					System.out.println(
-							"O HP máximo de " + personagem.getNome( ) + " aumentou " + ( number - HP ) + " pontos" );
+							"O HP máximo de " + personagem.toString( ) + " aumentou " + ( number - HP ) + " pontos" );
 					log.setText(
-							"O HP máximo de " + personagem.getNome( ) + " aumentou " + ( number - HP ) + " pontos" );
+							"O HP máximo de " + personagem.toString( ) + " aumentou " + ( number - HP ) + " pontos" );
 				}
 				personagem.setHpMaximo( number );
 				if ( personagem.getReplica( ) == 0 )
@@ -273,9 +273,7 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 
 	public Class getColumnClass( int columnIndex )
 	{
-		// if ( columnIndex == COL_NOME )
 		return String.class;
-		// return Integer.class;
 	}
 
 	public boolean isCellEditable( int row, int column )
