@@ -76,7 +76,7 @@ public class JPCombate extends JPPadrao
 		labelLog.setFont( new Font( labelLog.getFont( ).getFontName( ), labelLog.getFont( ).getStyle( ), 16 ) );
 
 		JLabel labelTextoLog = new JLabel( "" );
-		labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150, width - ( 115 + ( ( width - 100 ) / 3 ) ),
+		labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150, width - ( 165 + ( ( width - 100 ) / 3 ) ),
 				30 );
 		labelTextoLog.setForeground( Color.WHITE );
 		labelTextoLog.setFont(
@@ -137,7 +137,7 @@ public class JPCombate extends JPPadrao
 				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
 				labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
 				labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150,
-						width - ( 115 + ( ( width - 100 ) / 3 ) ), 30 );
+						width - ( 165 + ( ( width - 100 ) / 3 ) ), 30 );
 			}
 		} );
 
@@ -187,10 +187,6 @@ public class JPCombate extends JPPadrao
 						ultimoDaRodada = model.getPersonagem( index );
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
-
-					Object[ ] aux =
-					{ tabela.getValueAt( index, 0 ), tabela.getValueAt( index, 1 ), tabela.getValueAt( index, 2 ),
-							tabela.getValueAt( index, 3 ) };
 
 					model.trocar( index, index + 1 );
 
