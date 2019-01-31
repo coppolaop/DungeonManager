@@ -140,6 +140,7 @@ public class JPCombate extends JPPadrao
 				labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
 				labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150,
 						width - ( 165 + ( ( width - 100 ) / 3 ) ), 30 );
+				tabela.setRowHeight( 30 );
 			}
 		} );
 
