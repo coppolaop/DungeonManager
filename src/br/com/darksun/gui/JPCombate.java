@@ -103,6 +103,8 @@ public class JPCombate extends JPPadrao
 		btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
 		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
 
+		tabela.getColumnModel( ).getColumn( 0 ).setPreferredWidth(  model.getMaiorNome( ) );
+		
 		add( listScroller );
 		add( btnAdicionarPersonagem );
 		add( btnRemoverPersonagem );
@@ -113,7 +115,7 @@ public class JPCombate extends JPPadrao
 		add( labelNumeroRodadas );
 		add( labelLog );
 		add( labelTextoLog );
-
+		
 		frame.repaint( );
 
 		tabela.setRowSelectionInterval( 0, 0 );

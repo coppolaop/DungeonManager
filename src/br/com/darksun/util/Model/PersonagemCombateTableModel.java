@@ -292,6 +292,16 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 	{
 		return personagens.get( row );
 	}
+	
+	public Integer getMaiorNome() {
+		int tamanho = 0;
+		for(Personagem personagem : personagens) {
+			if( personagem.toString( ).length( ) * 12 > tamanho ) {
+				tamanho = personagem.toString( ).length( ) * 12;
+			}
+		}
+		return tamanho;
+	}
 
 	public void adicionar( Personagem personagem )
 	{
