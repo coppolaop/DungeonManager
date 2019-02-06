@@ -2,19 +2,27 @@ package br.com.darksun.gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import br.com.darksun.entity.Personagem;
@@ -103,8 +111,14 @@ public class JPCombate extends JPPadrao
 		btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
 		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
 
-		tabela.getColumnModel( ).getColumn( 0 ).setPreferredWidth(  model.getMaiorNome( ) );
-		
+		JLabel labelImg = new JLabel( "" );
+		labelImg.setBounds( 215 + ( ( width - 100 ) / 3 ), 50, 200, 200 );
+		Border border = BorderFactory.createLineBorder( Color.WHITE, 5 );
+		labelImg.setBorder( border );
+		labelImg.setVisible( false );
+
+		tabela.getColumnModel( ).getColumn( 0 ).setPreferredWidth( model.getMaiorNome( ) );
+
 		add( listScroller );
 		add( btnAdicionarPersonagem );
 		add( btnRemoverPersonagem );
@@ -115,7 +129,8 @@ public class JPCombate extends JPPadrao
 		add( labelNumeroRodadas );
 		add( labelLog );
 		add( labelTextoLog );
-		
+		add( labelImg );
+
 		frame.repaint( );
 
 		tabela.setRowSelectionInterval( 0, 0 );
@@ -141,6 +156,7 @@ public class JPCombate extends JPPadrao
 				labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150,
 						width - ( 165 + ( ( width - 100 ) / 3 ) ), 30 );
 				tabela.setRowHeight( 30 );
+				labelImg.setBounds( 215 + ( ( width - 100 ) / 3 ), 50, 200, 200 );
 			}
 		} );
 
@@ -290,6 +306,55 @@ public class JPCombate extends JPPadrao
 				{
 					ex.printStackTrace( );
 				}
+			}
+		} );
+
+		tabela.addMouseListener( new MouseListener( )
+		{
+
+			@Override
+			public void mouseClicked( MouseEvent e )
+			{
+				Personagem personagem = model.getPersonagem( tabela.getSelectedRow( ) );
+				File imagem = new File( personagem.getImagem( ) );
+				if ( imagem.exists( ) )
+				{
+					Image logoApp = Toolkit.getDefaultToolkit( ).getImage( personagem.getImagem( ) );
+					labelImg.setIcon( new ImageIcon( logoApp.getScaledInstance( labelImg.getWidth( ),
+							labelImg.getHeight( ), logoApp.SCALE_DEFAULT ) ) );
+				} else
+				{
+					ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( )
+							.getResource( personagem.getIsPJ( ) ? "img/pjgenerico.jpg" : "img/pdmgenerico.jpg" ) );
+					labelImg.setIcon( new ImageIcon( logoApp.getImage( ).getScaledInstance( labelImg.getWidth( ),
+							labelImg.getHeight( ), logoApp.getImage( ).SCALE_DEFAULT ) ) );
+				}
+
+				labelImg.setVisible( true );
+			}
+
+			@Override
+			public void mousePressed( MouseEvent e )
+			{
+
+			}
+
+			@Override
+			public void mouseReleased( MouseEvent e )
+			{
+
+			}
+
+			@Override
+			public void mouseEntered( MouseEvent e )
+			{
+
+			}
+
+			@Override
+			public void mouseExited( MouseEvent e )
+			{
+
 			}
 		} );
 	}
