@@ -91,6 +91,7 @@ public class JPCombate extends JPPadrao
 				new Font( labelTextoLog.getFont( ).getFontName( ), labelTextoLog.getFont( ).getStyle( ), 16 ) );
 
 		PersonagemCombateTableModel model = new PersonagemCombateTableModel( personagens, labelTextoLog );
+		PersonagemCombateTableModel modelClone = new PersonagemCombateTableModel( personagens, labelTextoLog );
 		JTable tabela = new JTable( model );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );
@@ -237,9 +238,12 @@ public class JPCombate extends JPPadrao
 				}
 
 				if ( selected == 0 )
+				{
 					selected = tabela.getRowCount( ) - 1;
-				else
+				} else
+				{
 					selected--;
+				}
 
 				model.remover( personagem );
 				model.adicionar( personagem );
@@ -254,15 +258,22 @@ public class JPCombate extends JPPadrao
 				JDIncluirPersonagem ip = new JDIncluirPersonagem( frame );
 				ip.setVisible( true );
 				Personagem personagem = ip.getPersonagemSelecionado( );
+				int numero = ip.getNumeroSelecionado( );
 				if ( personagem != null )
 				{
-					while ( model.contains( personagem ) )
+					for ( int i = 0; i < numero; i++ )
 					{
+						while ( modelClone.contains( personagem ) )
+						{
+							personagem.setReplica( personagem.getReplica( ) + 1 );
+						}
+						model.adicionar( personagem );
+						modelClone.adicionar( personagem );
+						System.out.println( personagem + " foi adicionado ao combate" );
+						labelTextoLog.setText( personagem + " foi adicionado ao combate" );
+						personagem = personagem.clone( );
 						personagem.setReplica( personagem.getReplica( ) + 1 );
 					}
-					model.adicionar( personagem );
-					System.out.println( personagem + " foi adicionado ao combate" );
-					labelTextoLog.setText( personagem + " foi adicionado ao combate" );
 				}
 			}
 		} );
@@ -291,6 +302,11 @@ public class JPCombate extends JPPadrao
 					}
 
 					model.remover( personagem );
+
+					if ( personagem.getReplica( ).equals( 0 ) )
+					{
+						modelClone.remover( personagem );
+					}
 
 					if ( tabela.getRowCount( ) - 1 < removido )
 						tabela.setRowSelectionInterval( removido - 1, removido - 1 );

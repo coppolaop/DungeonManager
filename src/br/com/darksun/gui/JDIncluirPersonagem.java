@@ -8,13 +8,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerListModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
@@ -22,7 +26,9 @@ import br.com.darksun.entity.Personagem;
 class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyChangeListener
 {
 	private Personagem personagemSelecionado = null;
+	private Integer numeroSelecionado = null;
 	private JComboBox< Personagem > comboBox;
+	private JSpinner spinner;
 	private JOptionPane optionPane;
 
 	private String btnString1 = "Adicionar Personagem";
@@ -36,6 +42,14 @@ class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyCha
 		return personagemSelecionado;
 	}
 
+	/**
+	 * Retorna o número selecionado
+	 */
+	public Integer getNumeroSelecionado( )
+	{
+		return numeroSelecionado;
+	}
+
 	// Cria da Dialog
 	public JDIncluirPersonagem( JFPrincipal frame )
 	{
@@ -45,12 +59,29 @@ class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyCha
 
 		setTitle( "Adicionar Persoangem no Combate" );
 
+		Integer[ ] numbers = new Integer[ 99 ];
+
+		for ( int i = 0; i < 99; i++ )
+		{
+			numbers[i] = i + 1;
+		}
+
 		comboBox = new JComboBox( listaPersonagens( ).toArray( ) );
 
+		SpinnerListModel numberModel = new SpinnerListModel( numbers );
+		spinner = new JSpinner( numberModel );
+
 		String msgString1 = "Personagem";
+		String msgString2 = "Quantidade";
+
+		Object[ ] array1 =
+		{ msgString1, comboBox };
+
+		Object[ ] array2 =
+		{ msgString2, spinner };
 
 		Object[ ] array =
-		{ msgString1, comboBox };
+		{ array1, array2 };
 
 		Object[ ] options =
 		{ btnString1, btnString2 };
@@ -105,16 +136,19 @@ class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyCha
 			if ( btnString1.equals( value ) )
 			{
 				personagemSelecionado = ( Personagem ) comboBox.getSelectedItem( );
+				numeroSelecionado = ( Integer ) spinner.getValue( );
 				clearAndHide( );
 
 			} else if ( btnString2.equals( value ) )
 			{
 				personagemSelecionado = ( Personagem ) comboBox.getSelectedItem( );
 				personagemSelecionado.setReplica( 1 );
+				numeroSelecionado = ( Integer ) spinner.getValue( );
 				clearAndHide( );
 			} else
 			{
 				personagemSelecionado = null;
+				numeroSelecionado = 0;
 				clearAndHide( );
 			}
 		}
