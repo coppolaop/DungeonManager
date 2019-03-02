@@ -286,17 +286,20 @@ public class JPCombate extends JPPadrao
 				{
 					Integer removido = tabela.getSelectedRow( );
 					Personagem personagem = model.getPersonagem( removido );
-
 					System.out.println( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
-
 					labelTextoLog.setText( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
 
 					if ( model.getPersonagem( removido ).equals( ultimoDaRodada ) )
 					{
 						if ( removido == 0 )
-							ultimoDaRodada = model.getPersonagem( 1 );
-						else
+						{
+							ultimoDaRodada = model.getPersonagem( ( model.getRowCount( ) - 1 ) );
+							rodada++;
+							labelNumeroRodadas.setText( rodada.toString( ) );
+						} else
+						{
 							ultimoDaRodada = model.getPersonagem( removido - 1 );
+						}
 
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
