@@ -178,16 +178,19 @@ public class PersonagemController
 	}
 
 	public void criarPersonagem(	String ID, String nome, String classe, String CA, String bonusIniciativa,
-									String hpMaximo, Boolean isPJ )
+									String hpMaximo, String imagem, Boolean isPJ )
 	{
 		String path;
 
 		if ( isPJ )
+		{
 			path = "resources/pj/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties";
-		else
+		} else
+		{
 			path = "resources/pdm/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties";
+		}
 
-		criarPersonagem( ID, path, nome, classe, CA, bonusIniciativa, hpMaximo, hpMaximo, nome + ".jpg", isPJ, true );
+		criarPersonagem( ID, path, nome, classe, CA, bonusIniciativa, hpMaximo, hpMaximo, imagem, isPJ, true );
 	}
 
 	public void criarPersonagem(	String ID, String path, String nome, String classe, String CA, String bonusIniciativa,
@@ -195,6 +198,11 @@ public class PersonagemController
 	{
 		Properties prop = new Properties( );
 		OutputStream output = null;
+
+		if ( imagem != null && imagem.equals( "" ) )
+		{
+			imagem = nome + ".jpg";
+		}
 
 		try
 		{

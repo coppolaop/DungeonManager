@@ -112,7 +112,7 @@ public class PersonagemNomeListModel extends AbstractListModel
 		return personagens.toString( );
 	}
 
-	public Object[ ] toArray( )
+	public String[ ] toArray( )
 	{
 		String[ ] lista = new String[ getSize( ) ];
 		for ( int i = 0; i < getSize( ); i++ )

@@ -2,17 +2,17 @@ package br.com.darksun.gui.characterbuilder;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
+import java.nio.file.Files;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -35,8 +35,9 @@ public class JPFormularioPersonagem extends JPPadrao
 		JLabel labelImg = new JLabel( "" );
 		labelImg.setBounds( ( width - 200 ) / 2, 50, 200, 200 );
 		ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( ).getResource( frame.getIconPath( ) ) );
-		logoApp = new ImageIcon(logoApp.getImage( ).getScaledInstance(labelImg.getWidth(),labelImg.getHeight(), logoApp.getImage( ).SCALE_DEFAULT));
-		labelImg.setIcon(logoApp);
+		logoApp = new ImageIcon( logoApp.getImage( ).getScaledInstance( labelImg.getWidth( ), labelImg.getHeight( ),
+				logoApp.getImage( ).SCALE_DEFAULT ) );
+		labelImg.setIcon( logoApp );
 
 		JLabel labelNome = new JLabel( "Nome do Personagem:" );
 		labelNome.setBounds( 0, 50, 175, 30 );
@@ -53,6 +54,17 @@ public class JPFormularioPersonagem extends JPPadrao
 
 		JTextField fieldCA = new JTextField( );
 		fieldCA.setBounds( width - 150, 50, 50, 30 );
+
+		JLabel labelTxtImg = new JLabel( "Imagem:" );
+		labelTxtImg.setBounds( 0, 100, 175, 30 );
+		labelTxtImg.setForeground( Color.WHITE );
+		labelTxtImg.setHorizontalAlignment( SwingConstants.RIGHT );
+
+		JTextField fieldImg = new JTextField( );
+		fieldImg.setBounds( 200, 100, 150, 30 );
+
+		JButton btnImg = new JButton( "Selecionar" );
+		btnImg.setBounds( 375, 100, 100, 30 );
 
 		JLabel labelClasse = new JLabel( "Classe:" );
 		labelClasse.setBounds( 0, 150, 175, 30 );
@@ -93,6 +105,9 @@ public class JPFormularioPersonagem extends JPPadrao
 		add( fieldNome );
 		add( labelCA );
 		add( fieldCA );
+		add( labelTxtImg );
+		add( fieldImg );
+		add( btnImg );
 		add( labelClasse );
 		add( fieldClasse );
 		add( labelBonusIni );
@@ -101,8 +116,9 @@ public class JPFormularioPersonagem extends JPPadrao
 		add( fieldHP );
 		add( btnCriar );
 		add( labelError );
-		
-		if(personagem != null) {
+
+		if ( personagem != null )
+		{
 			fieldNome.setText( personagem.getNome( ) );
 			fieldCA.setText( personagem.getCa( ).toString( ) );
 			fieldClasse.setText( personagem.getClasse( ) );
@@ -137,6 +153,22 @@ public class JPFormularioPersonagem extends JPPadrao
 			}
 		} );
 
+		btnImg.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				final JFileChooser fChooser = new JFileChooser( );
+				int returnVal = fChooser.showOpenDialog( JPFormularioPersonagem.this );
+
+				if ( returnVal == JFileChooser.APPROVE_OPTION )
+				{
+					File file = fChooser.getSelectedFile( );
+					System.out.println( "Opening: " + file.getName( ) + "." );
+					fieldImg.setText( file.getAbsolutePath( ) );
+				}
+			}
+		} );
+
 		btnCriar.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
@@ -159,18 +191,57 @@ public class JPFormularioPersonagem extends JPPadrao
 					labelError.setText( "Campo HP está em branco" );
 				else if ( !patNumero.matcher( fieldHP.getText( ).toString( ) ).matches( ) )
 					labelError.setText( "Campo HP precisa conter somente números" );
-				else{
-					if(personagem != null) {
+				else
+				{
+					String imagem = "";
+					File img = new File( fieldImg.getText( ) );
+					if ( img.exists( ) && img.isFile( ) )
+					{
+						try
+						{
+							String location = "resources/img/" + ( isPJ ? "pj" : "pdm" ) + "/";
+							File folder = new File( location );
+							if ( !folder.exists( ) )
+							{
+								folder.mkdirs( );
+							}
+
+							File nf = new File( location + newID + ".jpg" );
+							if ( nf.exists( ) )
+							{
+								nf.delete( );
+							}
+							Files.copy( img.toPath( ), nf.toPath( ) );
+
+							imagem = nf.getPath( );
+						} catch ( Exception ex )
+						{
+							System.out.println( "Falha ao salvar imagem" );
+							ex.printStackTrace( );
+						}
+					} else
+					{
+						System.out.println( "Falha no carregamento da imagem" );
+					}
+
+					if ( personagem != null )
+					{
 						File file = new File( personagem.getFilePath( ) );
-						if(file.exists( ))
+						if ( file.exists( ) )
 							file.delete( );
 					}
-					
-					PersonagemController pc = new PersonagemController();
-					if( newID!=null )
-						pc.criarPersonagem( newID, fieldNome.getText( ), fieldClasse.getText( ), fieldCA.getText( ), fieldBonusIni.getText( ), fieldHP.getText( ), isPJ );
-					else
-						pc.criarPersonagem( personagem.getIdPersonagem( ).toString( ), fieldNome.getText( ), fieldClasse.getText( ), fieldCA.getText( ), fieldBonusIni.getText( ), fieldHP.getText( ), isPJ );
+
+					PersonagemController pc = new PersonagemController( );
+					if ( newID != null )
+					{
+						pc.criarPersonagem( newID, fieldNome.getText( ), fieldClasse.getText( ), fieldCA.getText( ),
+								fieldBonusIni.getText( ), fieldHP.getText( ), imagem, isPJ );
+					} else
+					{
+						pc.criarPersonagem( personagem.getIdPersonagem( ).toString( ), fieldNome.getText( ),
+								fieldClasse.getText( ), fieldCA.getText( ), fieldBonusIni.getText( ),
+								fieldHP.getText( ), imagem, isPJ );
+					}
 					frame.remove( JPFormularioPersonagem.this );
 					frame.setTela( new JPListarPersonagem( frame ) );
 				}
