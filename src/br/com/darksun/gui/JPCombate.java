@@ -289,7 +289,23 @@ public class JPCombate extends JPPadrao
 					System.out.println( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
 					labelTextoLog.setText( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
 
-					if ( model.getPersonagem( removido ).equals( ultimoDaRodada ) )
+					model.remover( personagem );
+
+					if ( personagem.getReplica( ).equals( 0 ) )
+					{
+						modelClone.remover( personagem );
+					}
+
+					if ( model.getRowCount( ) == 0 )
+					{
+						System.out.println( "------- Fim do combate -------" );
+						System.out.println( "------------------------------" );
+						frame.remove( JPCombate.this );
+						frame.setTela( new JPInicial( frame ) );
+						return;
+					}
+
+					if ( personagem.equals( ultimoDaRodada ) )
 					{
 						if ( removido == 0 )
 						{
@@ -304,23 +320,13 @@ public class JPCombate extends JPPadrao
 						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
 					}
 
-					model.remover( personagem );
-
-					if ( personagem.getReplica( ).equals( 0 ) )
-					{
-						modelClone.remover( personagem );
-					}
-
 					if ( tabela.getRowCount( ) - 1 < removido )
+					{
 						tabela.setRowSelectionInterval( removido - 1, removido - 1 );
-					else
+					} else
+					{
 						tabela.setRowSelectionInterval( removido, removido );
-				} catch ( IndexOutOfBoundsException ex )
-				{
-					System.out.println( "------- Fim do combate -------" );
-					System.out.println( "------------------------------" );
-					frame.remove( JPCombate.this );
-					frame.setTela( new JPInicial( frame ) );
+					}
 				} catch ( Exception ex )
 				{
 					ex.printStackTrace( );
