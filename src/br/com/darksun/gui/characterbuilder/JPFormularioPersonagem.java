@@ -163,7 +163,6 @@ public class JPFormularioPersonagem extends JPPadrao
 				if ( returnVal == JFileChooser.APPROVE_OPTION )
 				{
 					File file = fChooser.getSelectedFile( );
-					System.out.println( "Opening: " + file.getName( ) + "." );
 					fieldImg.setText( file.getAbsolutePath( ) );
 				}
 			}
@@ -206,7 +205,7 @@ public class JPFormularioPersonagem extends JPPadrao
 								folder.mkdirs( );
 							}
 
-							File nf = new File( location + newID + ".jpg" );
+							File nf = new File( location + "personagem" + newID + ".jpg" );
 							if ( nf.exists( ) )
 							{
 								nf.delete( );
