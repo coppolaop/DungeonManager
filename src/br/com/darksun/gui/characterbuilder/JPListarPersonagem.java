@@ -201,9 +201,14 @@ public class JPListarPersonagem extends JPPadrao
 				{
 					Personagem personagem = modelPJs.getPersonagem( index );
 
-					File arquivoProperties = new File( personagem.getFilePath( ) );
+					new File( personagem.getFilePath( ) ).delete( );
+					
+					File arquivoImagem = new File( personagem.getImagem( ) );
 
-					arquivoProperties.delete( );
+					if( arquivoImagem.exists( ) )
+					{
+						arquivoImagem.delete( );
+					}
 
 					modelPJs.remover( personagem );
 
@@ -263,9 +268,14 @@ public class JPListarPersonagem extends JPPadrao
 				{
 					Personagem personagem = modelPDMs.getPersonagem( index );
 
-					File arquivoProperties = new File( personagem.getFilePath( ) );
+					new File( personagem.getFilePath( ) ).delete( );
+					
+					File arquivoImagem = new File( personagem.getImagem( ) );
 
-					arquivoProperties.delete( );
+					if( arquivoImagem.exists( ) )
+					{
+						arquivoImagem.delete( );
+					}
 
 					modelPDMs.remover( personagem );
 
