@@ -232,9 +232,9 @@ public class JPCombate extends JPPadrao
 
 				if ( model.getPersonagem( 0 ).equals( ultimoDaRodada ) )
 				{
+					System.out.println( "-- A Rodada " + rodada + " acabou --" );
 					rodada++;
 					labelNumeroRodadas.setText( rodada.toString( ) );
-					System.out.println( "-- A Rodada " + rodada + " acabou --" );
 				}
 
 				if ( selected == 0 )
@@ -309,6 +309,7 @@ public class JPCombate extends JPPadrao
 					{
 						if ( removido == 0 )
 						{
+							System.out.println( "-- A Rodada " + rodada + " acabou --" );
 							ultimoDaRodada = model.getPersonagem( ( model.getRowCount( ) - 1 ) );
 							rodada++;
 							labelNumeroRodadas.setText( rodada.toString( ) );
