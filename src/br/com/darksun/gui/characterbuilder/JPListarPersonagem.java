@@ -170,7 +170,7 @@ public class JPListarPersonagem extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove( frame.getTela( ) );
-				frame.setTela( new JPFormularioPersonagem( frame, true, pcontrol.newId( ), null ) );
+				frame.setTela( new JPFormularioPersonagem( frame, true, pcontrol.newId( ), null ), false );
 			}
 		} );
 
@@ -185,7 +185,7 @@ public class JPListarPersonagem extends JPPadrao
 				} else
 				{
 					frame.remove( frame.getTela( ) );
-					frame.setTela( new JPFormularioPersonagem( frame, true, null, modelPJs.getPersonagem( index ) ) );
+					frame.setTela( new JPFormularioPersonagem( frame, true, null, modelPJs.getPersonagem( index ) ), false );
 				}
 
 			}
@@ -238,7 +238,7 @@ public class JPListarPersonagem extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				frame.remove( frame.getTela( ) );
-				frame.setTela( new JPFormularioPersonagem( frame, false, pcontrol.newId( ), null ) );
+				frame.setTela( new JPFormularioPersonagem( frame, false, pcontrol.newId( ), null ), false );
 			}
 		} );
 
@@ -253,7 +253,7 @@ public class JPListarPersonagem extends JPPadrao
 				} else
 				{
 					frame.remove( frame.getTela( ) );
-					frame.setTela( new JPFormularioPersonagem( frame, false, null, modelPDMs.getPersonagem( index ) ) );
+					frame.setTela( new JPFormularioPersonagem( frame, false, null, modelPDMs.getPersonagem( index ) ), false );
 				}
 			}
 		} );

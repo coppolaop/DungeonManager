@@ -298,10 +298,8 @@ public class JPCombate extends JPPadrao
 
 					if ( model.getRowCount( ) == 0 )
 					{
-						System.out.println( "------- Fim do combate -------" );
-						System.out.println( "------------------------------" );
 						frame.remove( JPCombate.this );
-						frame.setTela( new JPInicial( frame ) );
+						frame.setTela( new JPInicial( frame ), true );
 						return;
 					}
 
@@ -383,5 +381,11 @@ public class JPCombate extends JPPadrao
 
 			}
 		} );
+	}
+	
+	public void finaliza( )
+	{
+		System.out.println( "------- Fim do combate -------" );
+		System.out.println( "------------------------------" );
 	}
 }

@@ -20,4 +20,9 @@ public abstract class JPPadrao extends JPanel
 		setLayout( null );
 		setBackground( new Color( 100, 100, 100 ) );
 	}
+	
+	public void finaliza( )
+	{
+		
+	}
 }

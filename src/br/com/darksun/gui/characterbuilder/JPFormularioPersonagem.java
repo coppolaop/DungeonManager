@@ -242,7 +242,7 @@ public class JPFormularioPersonagem extends JPPadrao
 								fieldHP.getText( ), imagem, isPJ );
 					}
 					frame.remove( JPFormularioPersonagem.this );
-					frame.setTela( new JPListarPersonagem( frame ) );
+					frame.setTela( new JPListarPersonagem( frame ), true );
 				}
 			}
 		} );

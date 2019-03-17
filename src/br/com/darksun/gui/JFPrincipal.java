@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -71,7 +73,7 @@ public class JFPrincipal extends JFrame
 			new PersonagemController( ).criarPersonagemAleatorio( false );
 		}
 
-		setTela( new JPInicial( this ) );
+		setTela( new JPInicial( this ), true );
 
 		if ( !SYSTEM_IS_IN_BETA )
 			try
@@ -81,6 +83,17 @@ public class JFPrincipal extends JFrame
 			{
 
 			}
+		
+		this.addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+	            if( tela != null )
+	            {
+	            	tela.finaliza( );
+	            }
+	            System.exit(0);
+	        }
+	    });
 	}
 
 	public void preparaMenu( )
@@ -103,7 +116,7 @@ public class JFPrincipal extends JFrame
 			{
 				JFPrincipal.this.remove( getTela( ) );
 
-				setTela( new JPInicial( JFPrincipal.this ) );
+				setTela( new JPInicial( JFPrincipal.this ), true );
 
 				revalidate( );
 				repaint( );
@@ -116,7 +129,7 @@ public class JFPrincipal extends JFrame
 			{
 				JFPrincipal.this.remove( getTela( ) );
 
-				setTela( new JPListarPersonagem( JFPrincipal.this ) );
+				setTela( new JPListarPersonagem( JFPrincipal.this ), true );
 
 				revalidate( );
 				repaint( );
@@ -129,7 +142,7 @@ public class JFPrincipal extends JFrame
 			{
 				JFPrincipal.this.remove( getTela( ) );
 
-				setTela( new JPSobre( JFPrincipal.this ) );
+				setTela( new JPSobre( JFPrincipal.this ), true );
 
 				revalidate( );
 				repaint( );
@@ -156,8 +169,13 @@ public class JFPrincipal extends JFrame
 		return tela;
 	}
 
-	public void setTela( JPPadrao tela )
+	public void setTela( JPPadrao tela, boolean finaliza )
 	{
+		if( finaliza && this.tela != null)
+		{
+			this.tela.finaliza( );
+		}
+		
 		this.tela = tela;
 		this.add( tela );
 	}

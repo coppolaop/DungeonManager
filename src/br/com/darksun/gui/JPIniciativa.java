@@ -107,7 +107,7 @@ public class JPIniciativa extends JPPadrao
 					personagem.setIniciativa( personagem.getBonusIniciativa( ) + random.nextInt( 20 ) + 1 );
 
 				frame.remove( JPIniciativa.this );
-				frame.setTela( new JPCombate( frame, PJs, PDMs ) );
+				frame.setTela( new JPCombate( frame, PJs, PDMs ), false );
 			}
 
 		} );
@@ -129,7 +129,7 @@ public class JPIniciativa extends JPPadrao
 					personagem.setIniciativa( personagem.getBonusIniciativa( ) + new Random( ).nextInt( 20 ) + 1 );
 
 				frame.remove( JPIniciativa.this );
-				frame.setTela( new JPCombate( frame, PJs, PDMs ) );
+				frame.setTela( new JPCombate( frame, PJs, PDMs ), false );
 			}
 		} );
 
@@ -152,9 +152,15 @@ public class JPIniciativa extends JPPadrao
 				}
 
 				frame.remove( JPIniciativa.this );
-				frame.setTela( new JPCombate( frame, PJs, PDMs ) );
+				frame.setTela( new JPCombate( frame, PJs, PDMs ), false );
 			}
 
 		} );
+	}
+	
+	public void finaliza( )
+	{
+		System.out.println( "------ Combate cancelado ------" );
+		System.out.println( "------------------------------" );
 	}
 }

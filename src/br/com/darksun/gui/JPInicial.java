@@ -381,7 +381,7 @@ public class JPInicial extends JPPadrao
 				}
 
 				frame.remove( JPInicial.this );
-				frame.setTela( new JPIniciativa( frame, PJsSelecionados.toList( ), PDMsSelecionados.toList( ) ) );
+				frame.setTela( new JPIniciativa( frame, PJsSelecionados.toList( ), PDMsSelecionados.toList( ) ), false );
 
 			}
 		} );
