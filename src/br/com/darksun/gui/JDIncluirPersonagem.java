@@ -8,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +15,8 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerListModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
@@ -59,16 +57,9 @@ class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyCha
 
 		setTitle( "Adicionar Persoangem no Combate" );
 
-		Integer[ ] numbers = new Integer[ 99 ];
-
-		for ( int i = 0; i < 99; i++ )
-		{
-			numbers[i] = i + 1;
-		}
-
 		comboBox = new JComboBox( listaPersonagens( ).toArray( ) );
 
-		SpinnerListModel numberModel = new SpinnerListModel( numbers );
+		SpinnerModel numberModel = new SpinnerNumberModel( 1, 1, 100, 1 );
 		spinner = new JSpinner( numberModel );
 
 		String msgString1 = "Personagem";

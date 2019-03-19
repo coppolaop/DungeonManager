@@ -83,17 +83,19 @@ public class JFPrincipal extends JFrame
 			{
 
 			}
-		
-		this.addWindowListener(new WindowAdapter() {
-	        @Override
-	        public void windowClosing(WindowEvent e) {
-	            if( tela != null )
-	            {
-	            	tela.finaliza( );
-	            }
-	            System.exit(0);
-	        }
-	    });
+
+		this.addWindowListener( new WindowAdapter( )
+		{
+			@Override
+			public void windowClosing( WindowEvent e )
+			{
+				if ( tela != null )
+				{
+					tela.finaliza( );
+				}
+				System.exit( 0 );
+			}
+		} );
 	}
 
 	public void preparaMenu( )
@@ -171,11 +173,11 @@ public class JFPrincipal extends JFrame
 
 	public void setTela( JPPadrao tela, boolean finaliza )
 	{
-		if( finaliza && this.tela != null)
+		if ( finaliza && this.tela != null )
 		{
 			this.tela.finaliza( );
 		}
-		
+
 		this.tela = tela;
 		this.add( tela );
 	}
