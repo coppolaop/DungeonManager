@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -90,6 +92,17 @@ public class JPFormularioPersonagem extends JPPadrao
 		JTextField fieldHP = new JTextField( );
 		fieldHP.setBounds( width - 150, 150, 50, 30 );
 
+		JLabel labelDescricao = new JLabel( "Descrição:" );
+		labelDescricao.setBounds( 0, height / 2 + 70, 175, 30 );
+		labelDescricao.setForeground( Color.WHITE );
+		labelDescricao.setHorizontalAlignment( SwingConstants.RIGHT );
+
+		JTextArea areaDescricao = new JTextArea( 5, 5 );
+		JScrollPane areaScrollerDescricao = new JScrollPane( areaDescricao );
+		areaDescricao.setBounds( 200, height / 2 + 70, width - 400, height / 5 );
+		areaScrollerDescricao.setBounds( 200, height / 2 + 70, width - 400, height / 5 );
+		areaDescricao.setLineWrap( true );
+
 		String dono = isPJ ? "Jogador" : "Mestre";
 		JButton btnCriar = new JButton( "Criar Personagem do " + dono );
 		btnCriar.setBounds( width / 2 - 250 / 2, height / 2 - 30 / 2, 250, 30 );
@@ -116,6 +129,8 @@ public class JPFormularioPersonagem extends JPPadrao
 		add( fieldHP );
 		add( btnCriar );
 		add( labelError );
+		add( labelDescricao );
+		add( areaScrollerDescricao );
 
 		if ( personagem != null )
 		{
@@ -124,6 +139,7 @@ public class JPFormularioPersonagem extends JPPadrao
 			fieldClasse.setText( personagem.getClasse( ) );
 			fieldBonusIni.setText( personagem.getBonusIniciativa( ).toString( ) );
 			fieldHP.setText( personagem.getHpMaximo( ).toString( ) );
+			areaDescricao.setText( personagem.getDescricao( ) );
 		}
 
 		frame.repaint( );
@@ -150,6 +166,9 @@ public class JPFormularioPersonagem extends JPPadrao
 				fieldHP.setBounds( width - 150, 150, 50, 30 );
 				btnCriar.setBounds( width / 2 - 250 / 2, height / 2 - 30 / 2, 250, 30 );
 				labelError.setBounds( width / 2 - 500 / 2, height / 2 + 30 / 2, 500, 30 );
+				labelDescricao.setBounds( 0, height / 2 + 70, 175, 30 );
+				areaDescricao.setBounds( 200, height / 2 + 70, width - 400, height / 5 );
+				areaScrollerDescricao.setBounds( 200, height / 2 + 70, width - 400, height / 5 );
 			}
 		} );
 
@@ -234,12 +253,12 @@ public class JPFormularioPersonagem extends JPPadrao
 					if ( newID != null )
 					{
 						pc.criarPersonagem( newID, fieldNome.getText( ), fieldClasse.getText( ), fieldCA.getText( ),
-								fieldBonusIni.getText( ), fieldHP.getText( ), imagem, isPJ );
+								fieldBonusIni.getText( ), fieldHP.getText( ), imagem, isPJ, areaDescricao.getText( ) );
 					} else
 					{
 						pc.criarPersonagem( personagem.getIdPersonagem( ).toString( ), fieldNome.getText( ),
 								fieldClasse.getText( ), fieldCA.getText( ), fieldBonusIni.getText( ),
-								fieldHP.getText( ), imagem, isPJ );
+								fieldHP.getText( ), imagem, isPJ, areaDescricao.getText( ) );
 					}
 					frame.remove( JPFormularioPersonagem.this );
 					frame.setTela( new JPListarPersonagem( frame ), true );

@@ -89,6 +89,7 @@ public class PersonagemController
 			personagem.setIsPJ( isPj );
 			personagem.setStatus( Boolean.parseBoolean( prop.getProperty( "status" ) ) );
 			personagem.setReplica( 0 );
+			personagem.setDescricao( prop.getProperty( "descricao" ) );
 
 			return personagem;
 
@@ -142,6 +143,7 @@ public class PersonagemController
 			prop.setProperty( "hpMaximo", "100" );
 			prop.setProperty( "hpAtual", "10" );
 			prop.setProperty( "status", "true" );
+			prop.setProperty( "descricao", "Personagem de exemplo" );
 
 			prop.store( output, null );
 
@@ -174,11 +176,11 @@ public class PersonagemController
 		criarPersonagem( personagem.getIdPersonagem( ).toString( ), personagem.getFilePath( ), personagem.getNome( ),
 				personagem.getClasse( ), personagem.getCa( ).toString( ), personagem.getBonusIniciativa( ).toString( ),
 				personagem.getHpAtual( ).toString( ), personagem.getHpMaximo( ).toString( ), personagem.getImagem( ),
-				personagem.getIsPJ( ), personagem.getStatus( ) );
+				personagem.getIsPJ( ), personagem.getStatus( ), personagem.getDescricao( ) );
 	}
 
 	public void criarPersonagem(	String ID, String nome, String classe, String CA, String bonusIniciativa,
-									String hpMaximo, String imagem, Boolean isPJ )
+									String hpMaximo, String imagem, Boolean isPJ, String descricao )
 	{
 		String path;
 
@@ -190,11 +192,13 @@ public class PersonagemController
 			path = "resources/pdm/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties";
 		}
 
-		criarPersonagem( ID, path, nome, classe, CA, bonusIniciativa, hpMaximo, hpMaximo, imagem, isPJ, true );
+		criarPersonagem( ID, path, nome, classe, CA, bonusIniciativa, hpMaximo, hpMaximo, imagem, isPJ, true,
+				descricao );
 	}
 
 	public void criarPersonagem(	String ID, String path, String nome, String classe, String CA, String bonusIniciativa,
-									String hpAtual, String hpMaximo, String imagem, Boolean isPJ, Boolean status )
+									String hpAtual, String hpMaximo, String imagem, Boolean isPJ, Boolean status,
+									String descricao )
 	{
 		Properties prop = new Properties( );
 		OutputStream output = null;
@@ -218,6 +222,7 @@ public class PersonagemController
 			prop.setProperty( "hpAtual", hpMaximo );
 			prop.setProperty( "imagem", imagem );
 			prop.setProperty( "status", status.toString( ) );
+			prop.setProperty( "descricao", descricao );
 
 			prop.store( output, null );
 

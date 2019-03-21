@@ -7,6 +7,7 @@ public class Personagem implements Cloneable
 	private String nome;
 	private String classe;
 	private String imagem;
+	private String descricao;
 	private Integer ca;
 	private Integer bonusIniciativa;
 	private Integer iniciativa;
@@ -23,7 +24,7 @@ public class Personagem implements Cloneable
 
 	public Personagem( Integer idPersonagem, String filePath, String nome, String classe, String imagem, Integer ca,
 			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual, Boolean isPJ,
-			Boolean status, Integer replica )
+			Boolean status, Integer replica, String descricao )
 	{
 		super( );
 		this.idPersonagem = idPersonagem;
@@ -39,6 +40,7 @@ public class Personagem implements Cloneable
 		this.isPJ = isPJ;
 		this.status = status;
 		this.replica = replica;
+		this.descricao = descricao;
 	}
 
 	@Override
@@ -97,6 +99,16 @@ public class Personagem implements Cloneable
 	public void setImagem( String imagem )
 	{
 		this.imagem = imagem;
+	}
+
+	public String getDescricao( )
+	{
+		return descricao;
+	}
+
+	public void setDescricao( String descricao )
+	{
+		this.descricao = descricao;
 	}
 
 	public Integer getCa( )
