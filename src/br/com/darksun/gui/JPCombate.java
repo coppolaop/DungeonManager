@@ -21,10 +21,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.util.Model.PersonagemCombateTableModel;
 import br.com.darksun.util.comparator.IniciativaComparator;
@@ -32,8 +34,8 @@ import br.com.darksun.util.comparator.IniciativaComparator;
 public class JPCombate extends JPPadrao
 {
 	private Personagem ultimoDaRodada;
+	private Personagem personagemSelecionado;
 	private Integer rodada = 0;
-	String[ ][ ] dados;
 
 	public JPCombate( JFPrincipal frame, List< Personagem > PJs, List< Personagem > PDMs )
 	{
@@ -118,7 +120,25 @@ public class JPCombate extends JPPadrao
 		labelImg.setBorder( border );
 		labelImg.setVisible( false );
 
+		JTextArea areaDescricao = new JTextArea( 5, 5 );
+		JScrollPane areaScrollerDescricao = new JScrollPane( areaDescricao );
+		areaDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265, width - ( 265 + ( ( width - 100 ) / 3 ) ),
+				( height / 2 ) - 265 );
+		areaScrollerDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265, width - ( 265 + ( ( width - 100 ) / 3 ) ),
+				( height / 2 ) - 265 );
+		areaDescricao.setLineWrap( true );
+		areaDescricao.setVisible( false );
+		areaScrollerDescricao.setVisible( false );
+
+		JButton btnSalvarDescricao = new JButton( "Salvar" );
+		JButton btnDesfazerDescricao = new JButton( "Desfazer" );
+		btnSalvarDescricao.setBounds( width - 250, 235, 100, 30 );
+		btnDesfazerDescricao.setBounds( width - 150, 235, 100, 30 );
+		btnSalvarDescricao.setVisible( false );
+		btnDesfazerDescricao.setVisible( false );
+
 		tabela.getColumnModel( ).getColumn( 0 ).setPreferredWidth( model.getMaiorNome( ) );
+		personagemSelecionado = model.getPersonagem( 0 );
 
 		add( listScroller );
 		add( btnAdicionarPersonagem );
@@ -131,6 +151,9 @@ public class JPCombate extends JPPadrao
 		add( labelLog );
 		add( labelTextoLog );
 		add( labelImg );
+		add( areaScrollerDescricao );
+		add( btnSalvarDescricao );
+		add( btnDesfazerDescricao );
 
 		frame.repaint( );
 
@@ -158,6 +181,12 @@ public class JPCombate extends JPPadrao
 						width - ( 165 + ( ( width - 100 ) / 3 ) ), 30 );
 				tabela.setRowHeight( 30 );
 				labelImg.setBounds( 215 + ( ( width - 100 ) / 3 ), 50, 200, 200 );
+				areaDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265, width - ( 265 + ( ( width - 100 ) / 3 ) ),
+						( height / 2 ) - 265 );
+				areaScrollerDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265,
+						width - ( 265 + ( ( width - 100 ) / 3 ) ), ( height / 2 ) - 265 );
+				btnSalvarDescricao.setBounds( width - 250, 235, 100, 30 );
+				btnDesfazerDescricao.setBounds( width - 150, 235, 100, 30 );
 			}
 		} );
 
@@ -339,22 +368,31 @@ public class JPCombate extends JPPadrao
 			@Override
 			public void mouseClicked( MouseEvent e )
 			{
-				Personagem personagem = model.getPersonagem( tabela.getSelectedRow( ) );
-				File imagem = new File( personagem.getImagem( ) );
+				personagemSelecionado = model.getPersonagem( tabela.getSelectedRow( ) );
+				File imagem = new File( personagemSelecionado.getImagem( ) );
 				if ( imagem.exists( ) )
 				{
-					Image logoApp = Toolkit.getDefaultToolkit( ).getImage( personagem.getImagem( ) );
+					Image logoApp = Toolkit.getDefaultToolkit( ).getImage( personagemSelecionado.getImagem( ) );
 					labelImg.setIcon( new ImageIcon( logoApp.getScaledInstance( labelImg.getWidth( ),
 							labelImg.getHeight( ), logoApp.SCALE_DEFAULT ) ) );
 				} else
 				{
-					ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( )
-							.getResource( personagem.getIsPJ( ) ? "img/pjgenerico.jpg" : "img/pdmgenerico.jpg" ) );
+					ImageIcon logoApp = new ImageIcon( getClass( ).getClassLoader( ).getResource(
+							personagemSelecionado.getIsPJ( ) ? "img/pjgenerico.jpg" : "img/pdmgenerico.jpg" ) );
 					labelImg.setIcon( new ImageIcon( logoApp.getImage( ).getScaledInstance( labelImg.getWidth( ),
 							labelImg.getHeight( ), logoApp.getImage( ).SCALE_DEFAULT ) ) );
 				}
 
 				labelImg.setVisible( true );
+				areaDescricao.setVisible( true );
+				areaScrollerDescricao.setVisible( true );
+				btnSalvarDescricao.setVisible( true );
+				btnDesfazerDescricao.setVisible( true );
+
+				areaDescricao.setText( null );
+				areaDescricao.setText( personagemSelecionado.getDescricao( ) );
+				areaDescricao.repaint( );
+				labelImg.repaint( );
 			}
 
 			@Override
@@ -381,8 +419,29 @@ public class JPCombate extends JPPadrao
 
 			}
 		} );
+
+		btnSalvarDescricao.addActionListener( new ActionListener( )
+		{
+			@Override
+			public void actionPerformed( ActionEvent e )
+			{
+				personagemSelecionado.setDescricao( areaDescricao.getText( ) );
+				new PersonagemController( ).atualizarArquivo( personagemSelecionado.getFilePath( ), "descricao",
+						areaDescricao.getText( ) );
+			}
+		} );
+
+		btnDesfazerDescricao.addActionListener( new ActionListener( )
+		{
+			@Override
+			public void actionPerformed( ActionEvent e )
+			{
+				areaDescricao.setText( personagemSelecionado.getDescricao( ) );
+				areaDescricao.repaint( );
+			}
+		} );
 	}
-	
+
 	public void finaliza( )
 	{
 		System.out.println( "------- Fim do combate -------" );

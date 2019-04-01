@@ -2,6 +2,7 @@ package br.com.darksun.control;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -111,6 +112,45 @@ public class PersonagemController
 			}
 		}
 
+	}
+	
+	public void atualizarArquivo( String caminho, String campo, String valor ){
+		Properties prop = new Properties( );
+		OutputStream output = null;
+		FileInputStream in = null;
+		
+		try
+		{
+			in = new FileInputStream( caminho );	
+			prop.load( in );
+			output = new FileOutputStream( caminho );
+			prop.setProperty( campo, valor );
+			prop.store( output, null );
+			in.close( );
+
+		} catch ( FileNotFoundException ex )
+		{
+			System.out.println( "Arquivo não encontrado no caminho:" );
+			System.out.println( caminho );
+			ex.printStackTrace( );
+		} catch ( IOException ex )
+		{
+			System.out.println( "Não foi possível gravar as informações no arquivo do caminho:" );
+			System.out.println( caminho );
+			ex.printStackTrace( );
+		} finally
+		{
+			if ( output != null )
+			{
+				try
+				{
+					output.close( );
+				} catch ( IOException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+		}
 	}
 
 	public void criarPersonagemAleatorio( Boolean pj )

@@ -1,18 +1,14 @@
 package br.com.darksun.util.Model;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;
 
+import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 
 public class PersonagemCombateTableModel extends AbstractTableModel
@@ -292,11 +288,14 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 	{
 		return personagens.get( row );
 	}
-	
-	public Integer getMaiorNome() {
+
+	public Integer getMaiorNome( )
+	{
 		int tamanho = 0;
-		for(Personagem personagem : personagens) {
-			if( personagem.toString( ).length( ) * 12 > tamanho ) {
+		for ( Personagem personagem : personagens )
+		{
+			if ( personagem.toString( ).length( ) * 12 > tamanho )
+			{
 				tamanho = personagem.toString( ).length( ) * 12;
 			}
 		}
@@ -332,51 +331,16 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 
 	public void atualizarArquivo( int row, int column, Object value )
 	{
-		Properties prop = new Properties( );
-		OutputStream output = null;
-		FileInputStream in = null;
+		Personagem personagem = personagens.get( row );
+		String campo = null;
 
-		try
-		{
-			Personagem personagem = personagens.get( row );
-			String nome = personagem.getNome( );
+		if ( column == COL_CA )
+			campo = "ca";
+		else if ( column == COL_HPATUAL )
+			campo = "hpAtual";
+		else if ( column == COL_HPTOTAL )
+			campo = "hpMaximo";
 
-			if ( personagem.getIsPJ( ) )
-			{
-				in = new FileInputStream( "resources/pj/" + nome.replaceAll( " ", "_" ) + ".properties" );
-				prop.load( in );
-				output = new FileOutputStream( "resources/pj/" + nome.replaceAll( " ", "_" ) + ".properties" );
-			} else
-			{
-				in = new FileInputStream( "resources/pdm/" + nome.replaceAll( " ", "_" ) + ".properties" );
-				prop.load( in );
-				output = new FileOutputStream( "resources/pdm/" + nome.replaceAll( " ", "_" ) + ".properties" );
-			}
-			if ( column == COL_CA )
-				prop.setProperty( "ca", value.toString( ) );
-			else if ( column == COL_HPATUAL )
-				prop.setProperty( "hpAtual", value.toString( ) );
-			else if ( column == COL_HPTOTAL )
-				prop.setProperty( "hpMaximo", value.toString( ) );
-			prop.store( output, null );
-			in.close( );
-
-		} catch ( IOException io )
-		{
-			io.printStackTrace( );
-		} finally
-		{
-			if ( output != null )
-			{
-				try
-				{
-					output.close( );
-				} catch ( IOException e )
-				{
-					e.printStackTrace( );
-				}
-			}
-
-		}
+		new PersonagemController( ).atualizarArquivo( personagem.getFilePath( ), campo, value.toString( ) );
 	}
 }
