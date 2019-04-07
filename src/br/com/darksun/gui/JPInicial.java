@@ -77,7 +77,7 @@ public class JPInicial extends JPPadrao
 		JList listaPJ = new JList( PJsSelecionados );
 		JScrollPane listPJScroller = new JScrollPane( listaPJ );
 		listPJScroller.setVisible( false );
-		listPJScroller.setBounds( 50, 210, maiorNome, height /2 - 195 );
+		listPJScroller.setBounds( 50, 210, maiorNome, height / 2 - 195 );
 
 		JButton btnRemovePJ = new JButton( "Remover" );
 		btnRemovePJ.setBounds( maiorNome + 100, 210, 150, 30 );
@@ -103,7 +103,7 @@ public class JPInicial extends JPPadrao
 		JList listaPDM = new JList( PDMsSelecionados );
 		JScrollPane listPDMScroller = new JScrollPane( listaPDM );
 		listPDMScroller.setVisible( false );
-		listPDMScroller.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, height /2 - 195 );
+		listPDMScroller.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, height / 2 - 195 );
 
 		JButton btnRemovePDM = new JButton( "Remover" );
 		btnRemovePDM.setBounds( width - ( maiorNome + 250 ), 210, 150, 30 );
@@ -162,8 +162,8 @@ public class JPInicial extends JPPadrao
 						btnAddPDM.getBounds( ).height );
 				btnAddAllPDM.setBounds( width - ( maiorNome + 250 ), 130, btnAddAllPDM.getBounds( ).width,
 						btnAddAllPDM.getBounds( ).height );
-				listPJScroller.setBounds( 50, 210, maiorNome, height /2 - 195 );
-				listPDMScroller.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, height /2 - 195 );
+				listPJScroller.setBounds( 50, 210, maiorNome, height / 2 - 195 );
+				listPDMScroller.setBounds( width - ( maiorNome + 50 ), 210, maiorNome, height / 2 - 195 );
 				listaPJ.revalidate( );
 				listaPDM.revalidate( );
 				btnRemovePDM.setBounds( width - ( maiorNome + 250 ), 210, btnRemovePDM.getBounds( ).width,
@@ -262,12 +262,25 @@ public class JPInicial extends JPPadrao
 					btnRemoveAllPDM.setVisible( true );
 
 					Personagem personagem = ( ( Personagem ) PDMComboBox.getSelectedItem( ) ).clone( );
-					Integer replica = 1;
+					int replica = 1;
+					boolean encontrado = false;
 
-					for ( Personagem p : PDMsSelecionados.toList( ) )
+					for ( replica = 1; replica < PDMsSelecionados.getSize( ) + 1; replica++ )
 					{
-						if ( p.getIdPersonagem( ).equals( personagem.getIdPersonagem( ) ) )
-							replica++;
+						encontrado = false;
+						for ( Personagem p : PDMsSelecionados.toList( ) )
+						{
+							if ( p.getIdPersonagem( ).equals( personagem.getIdPersonagem( ) )
+									&& p.getReplica( ).equals( replica ) )
+							{
+								encontrado = true;
+								break;
+							}
+						}
+						if ( !encontrado )
+						{
+							break;
+						}
 					}
 
 					personagem.setReplica( replica );
