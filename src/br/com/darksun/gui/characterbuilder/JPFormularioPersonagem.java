@@ -104,7 +104,8 @@ public class JPFormularioPersonagem extends JPPadrao
 		areaDescricao.setLineWrap( true );
 
 		String dono = isPJ ? "Jogador" : "Mestre";
-		JButton btnCriar = new JButton( "Criar Personagem do " + dono );
+		String Str = personagem != null ? "Atualizar personagem do " : "Criar personagem do ";
+		JButton btnCriar = new JButton( Str + dono );
 		btnCriar.setBounds( width / 2 - 250 / 2, height / 2 - 30 / 2, 250, 30 );
 
 		JLabel labelError = new JLabel( "" );
