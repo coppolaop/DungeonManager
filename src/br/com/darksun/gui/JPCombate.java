@@ -426,8 +426,11 @@ public class JPCombate extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				personagemSelecionado.setDescricao( areaDescricao.getText( ) );
-				new PersonagemController( ).atualizarArquivo( personagemSelecionado.getFilePath( ), "descricao",
-						areaDescricao.getText( ) );
+				if ( personagemSelecionado.getReplica( ) == 0 )
+				{
+					new PersonagemController( ).atualizarArquivo( personagemSelecionado.getFilePath( ), "descricao",
+							areaDescricao.getText( ) );
+				}
 			}
 		} );
 
