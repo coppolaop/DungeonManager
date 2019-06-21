@@ -2,7 +2,7 @@ package br.com.darksun.entity;
 
 public class Aplicacao
 {
-	private String tag_name;
+	private String tag_name = "";
 	
 	public Aplicacao() {
 		

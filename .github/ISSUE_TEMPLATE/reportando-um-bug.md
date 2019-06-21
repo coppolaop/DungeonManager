@@ -25,6 +25,7 @@ Se for possível e você julgar necessário, adicione prints para nos facilitar 
 
 **Por favor, complete as seguintes informações:**
  - Seu Sistema Operacional: [e.g. iOS]
+ - A [versão do java](https://www.techtudo.com.br/dicas-e-tutoriais/noticia/2015/01/como-saber-qual-sua-versao-do-java.html) que você utiliza: [e.g. 1.8.0_211-b12]
  - A versão que você está utilizando do Dungeon Manager: [e.g. 1.1.0] (tente sempre utilizar a última)
 
 **Informações adicionais**

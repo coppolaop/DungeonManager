@@ -2,20 +2,20 @@ package br.com.darksun.entity;
 
 public class Personagem implements Cloneable
 {
-	private Integer idPersonagem;
-	private String filePath;
-	private String nome;
-	private String classe;
-	private String imagem;
-	private String descricao;
-	private Integer ca;
-	private Integer bonusIniciativa;
-	private Integer iniciativa;
-	private Integer hpMaximo;
-	private Integer hpAtual;
-	private Boolean isPJ;
-	private Boolean status;
-	private Integer replica;
+	private Integer idPersonagem	=	0;
+	private String filePath			=	"";
+	private String nome				=	"";
+	private String classe			=	"";
+	private String imagem			=	"";
+	private String descricao		=	"";
+	private Integer ca				=	0;
+	private Integer bonusIniciativa	=	0;
+	private Integer iniciativa		=	0;
+	private Integer hpMaximo		=	0;
+	private Integer hpAtual			=	0;
+	private Boolean isPJ			=	true;
+	private Boolean status			=	true;
+	private Integer replica			=	0;
 
 	public Personagem( )
 	{

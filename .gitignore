@@ -15,7 +15,7 @@ build/
 *.war
 *.nar
 *.ear
-*.zip
+#*.zip #documentacao
 *.tar.gz
 *.rar
 

@@ -27,13 +27,16 @@ Observe as funcionalidades:
 
 A aplicação é um arquivo executável, basta colocá-lo no diretório de interesse.
 No inicio da primeira execução, o sistema cria um diretório chamado resourses.
-Devido a isso, não recomendamos que o arquivo executável seja aberto na area de trabalho, ao invés disso, sugerimos que ele seja guardado em um diretório no sistema com um atalho na area de trabalho apontando para ele.
+Devido a isso, não recomendamos que o arquivo executável seja aberto na area de trabalho, ao invés disso, sugerimos que ele seja guardado em um diretório..
 
 Os arquivos de propriedades com dados dos personagens ficaram em dois diretórios na pasta resources.
 Os personagens dos Jogadores ficam na pasta pj e os personagens do mestre ficam na pasta pdm.
 Na primeira execução, um exemplo de cada um será criado.
+A aplicação cria novos arquivos com base nos personagens criados dentro dela.
 
 O sistema gera um log a cada execução, ele ficará guardado na pasta log, dentro do diretório resources.
+A pasta img é criada pelo sistema para armazenar as imagens dos personagens criados pela aplicação,
+dentro dela é contida uma pasta pdm para imagens dos PDMs, e uma pj, para imagens dos PJs.
 
 ```
 - DungeonManager.jar
@@ -41,6 +44,9 @@ O sistema gera um log a cada execução, ele ficará guardado na pasta log, dent
   -- pj
   -- pdm
   -- log
+  -- img
+    ---pj
+    ---pdm
   
 ```
 
@@ -50,7 +56,7 @@ Nós utilizamos [SemVer](http://semver.org/) para versionamento. Para as versõe
 
 ## Criador
 
-* **Marcos "Coppola" Gonçalves** - *2018-2019* - [Coppolaop](https://github.com/coppolaop)
+* **Marcos "Coppola" Gonçalves** - *2018* - [Coppolaop](https://github.com/coppolaop)
 
 ## Desenvolvedores
 
@@ -58,6 +64,10 @@ Nós utilizamos [SemVer](http://semver.org/) para versionamento. Para as versõe
 * **Vitor Abel** - *2018-2019* - [vitor-abel](https://github.com/vitor-abel)
 * **Igor Huayck** - *2019* - [Flaigor](https://github.com/Flaigor)
 
+## Testadores
+
+* **Marcos "Coppola" Gonçalves** - *2019-2019* - [Coppolaop](https://github.com/coppolaop)
+* **Vitor Abel** - *2019-2019* - [vitor-abel](https://github.com/vitor-abel)
 
 ## Licença
 
