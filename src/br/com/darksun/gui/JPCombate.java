@@ -11,8 +11,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -26,17 +24,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+import br.com.darksun.control.CombateController;
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
-import br.com.darksun.util.Model.PersonagemCombateTableModel;
-import br.com.darksun.util.comparator.IniciativaComparator;
+import br.com.darksun.util.adapter.JLabelAdapter;
 
 public class JPCombate extends JPPadrao
 {
-	private Personagem ultimoDaRodada;
 	private Personagem personagemSelecionado;
-	private Integer rodada = 0;
-
+	
 	public JPCombate( JFPrincipal frame, List< Personagem > PJs, List< Personagem > PDMs )
 	{
 		montaTelaCombate( frame, PJs, PDMs );
@@ -48,53 +44,34 @@ public class JPCombate extends JPPadrao
 		width = frame.getBounds( ).width;
 		height = frame.getBounds( ).height;
 		this.setBounds( 0, 0, frame.getWidth( ), frame.getHeight( ) );
-		List< Personagem > personagens = new ArrayList< Personagem >( );
-		System.out.println( "-------   Iniciativa   -------" );
-
-		for ( Personagem personagem : PJs )
-		{
-			personagens.add( personagem );
-			System.out.println( personagem.toString( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
-		}
-
-		System.out.println( "      ----- VS -----" );
-
-		for ( Personagem personagem : PDMs )
-		{
-			personagens.add( personagem );
-			System.out.println( personagem.toString( ) + " - " + personagem.getIniciativa( ) + " de Iniciativa" );
-		}
-
-		System.out.println( "------------------------------" );
-
-		Collections.sort( personagens, new IniciativaComparator( ) );
 
 		JLabel labelRodada = new JLabel( "Rodada: " );
 		labelRodada.setBounds( 50, 15, 100, 20 );
 		labelRodada.setForeground( Color.WHITE );
 		labelRodada
 				.setFont( new Font( labelRodada.getFont( ).getFontName( ), labelRodada.getFont( ).getStyle( ), 20 ) );
-		JLabel labelNumeroRodadas = new JLabel( rodada.toString( ) );
-		labelNumeroRodadas.setBounds( 150, 15, 80, 20 );
-		labelNumeroRodadas.setForeground( Color.WHITE );
-		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
-				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
 
 		JLabel labelLog = new JLabel( "Log: " );
 		labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
 		labelLog.setForeground( Color.WHITE );
 		labelLog.setFont( new Font( labelLog.getFont( ).getFontName( ), labelLog.getFont( ).getStyle( ), 16 ) );
 
-		JLabel labelTextoLog = new JLabel( "" );
+		JLabelAdapter labelTextoLog = new JLabelAdapter( "" );
 		labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150, width - ( 165 + ( ( width - 100 ) / 3 ) ),
 				30 );
 		labelTextoLog.setForeground( Color.WHITE );
 		labelTextoLog.setFont(
 				new Font( labelTextoLog.getFont( ).getFontName( ), labelTextoLog.getFont( ).getStyle( ), 16 ) );
 
-		PersonagemCombateTableModel model = new PersonagemCombateTableModel( personagens, labelTextoLog );
-		PersonagemCombateTableModel modelClone = new PersonagemCombateTableModel( personagens, labelTextoLog );
-		JTable tabela = new JTable( model );
+		JLabelAdapter labelNumeroRodadas = new JLabelAdapter( "0" );
+		labelNumeroRodadas.setBounds( 150, 15, 80, 20 );
+		labelNumeroRodadas.setForeground( Color.WHITE );
+		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
+				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
+
+		CombateController controller = new CombateController( PJs, PDMs, labelTextoLog, labelNumeroRodadas );
+		
+		JTable tabela = new JTable( controller.getModel( ) );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );
 		tabela.setSelectionMode( 0 );
@@ -137,8 +114,7 @@ public class JPCombate extends JPPadrao
 		btnSalvarDescricao.setVisible( false );
 		btnDesfazerDescricao.setVisible( false );
 
-		tabela.getColumnModel( ).getColumn( 0 ).setPreferredWidth( model.getMaiorNome( ) );
-		personagemSelecionado = model.getPersonagem( 0 );
+		tabela.getColumnModel( ).getColumn( 0 ).setPreferredWidth( controller.getModel( ).getMaiorNome( ) );
 
 		add( listScroller );
 		add( btnAdicionarPersonagem );
@@ -158,8 +134,6 @@ public class JPCombate extends JPPadrao
 		frame.repaint( );
 
 		tabela.setRowSelectionInterval( 0, 0 );
-
-		ultimoDaRodada = model.getPersonagem( tabela.getRowCount( ) - 1 );
 
 		frame.addComponentListener( new ComponentAdapter( )
 		{
@@ -196,22 +170,10 @@ public class JPCombate extends JPPadrao
 			{
 				int index = tabela.getSelectedRow( );
 
+				controller.subir( index );
+
 				if ( index > 0 )
 				{
-					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de "
-							+ tabela.getValueAt( index - 1, 0 ) );
-
-					labelTextoLog.setText( tabela.getValueAt( index, 0 ) + " foi reposicionado para antes de "
-							+ tabela.getValueAt( index - 1, 0 ) );
-
-					if ( model.getPersonagem( index ).equals( ultimoDaRodada ) )
-					{
-						ultimoDaRodada = model.getPersonagem( index - 1 );
-						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
-					}
-
-					model.trocar( index, index - 1 );
-
 					tabela.setRowSelectionInterval( index - 1, index - 1 );
 				}
 			}
@@ -223,22 +185,10 @@ public class JPCombate extends JPPadrao
 			{
 				int index = tabela.getSelectedRow( );
 
+				controller.descer( index );
+
 				if ( index < tabela.getRowCount( ) - 1 )
 				{
-					System.out.println( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
-							+ tabela.getValueAt( index + 1, 0 ) );
-
-					labelTextoLog.setText( tabela.getValueAt( index, 0 ) + " foi reposicionado para depois de "
-							+ tabela.getValueAt( index + 1, 0 ) );
-
-					if ( model.getPersonagem( index + 1 ).equals( ultimoDaRodada ) )
-					{
-						ultimoDaRodada = model.getPersonagem( index );
-						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
-					}
-
-					model.trocar( index, index + 1 );
-
 					tabela.setRowSelectionInterval( index + 1, index + 1 );
 				}
 			}
@@ -248,24 +198,10 @@ public class JPCombate extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				controller.finalizarTurno( labelNumeroRodadas );
+				
 				Integer selected = tabela.getSelectedRow( );
-				Personagem personagem = model.getPersonagem( 0 );
-
-				Object[ ] aux =
-				{ tabela.getValueAt( 0, 0 ), tabela.getValueAt( 0, 1 ), tabela.getValueAt( 0, 2 ),
-						tabela.getValueAt( 0, 3 ) };
-
-				System.out.println( aux[0] + " finalizou seu turno" );
-
-				labelTextoLog.setText( aux[0] + " finalizou seu turno" );
-
-				if ( model.getPersonagem( 0 ).equals( ultimoDaRodada ) )
-				{
-					System.out.println( "-- A Rodada " + rodada + " acabou --" );
-					rodada++;
-					labelNumeroRodadas.setText( rodada.toString( ) );
-				}
-
+				
 				if ( selected == 0 )
 				{
 					selected = tabela.getRowCount( ) - 1;
@@ -273,9 +209,6 @@ public class JPCombate extends JPPadrao
 				{
 					selected--;
 				}
-
-				model.remover( personagem );
-				model.adicionar( personagem );
 				tabela.setRowSelectionInterval( selected, selected );
 			}
 		} );
@@ -287,23 +220,8 @@ public class JPCombate extends JPPadrao
 				JDIncluirPersonagem ip = new JDIncluirPersonagem( frame );
 				ip.setVisible( true );
 				Personagem personagem = ip.getPersonagemSelecionado( );
-				int numero = ip.getNumeroSelecionado( );
-				if ( personagem != null )
-				{
-					for ( int i = 0; i < numero; i++ )
-					{
-						while ( modelClone.contains( personagem ) )
-						{
-							personagem.setReplica( personagem.getReplica( ) + 1 );
-						}
-						model.adicionar( personagem );
-						modelClone.adicionar( personagem );
-						System.out.println( personagem + " foi adicionado ao combate" );
-						labelTextoLog.setText( personagem + " foi adicionado ao combate" );
-						personagem = personagem.clone( );
-						personagem.setReplica( personagem.getReplica( ) + 1 );
-					}
-				}
+				int quantidade = ip.getNumeroSelecionado( );
+				controller.adicionarPersonagem( personagem, quantidade );
 			}
 		} );
 
@@ -311,53 +229,22 @@ public class JPCombate extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				try
+				Integer removido = tabela.getSelectedRow( );
+				Boolean fimDoCombate = controller.removerPersonagem( removido );
+				
+				if( fimDoCombate )
 				{
-					Integer removido = tabela.getSelectedRow( );
-					Personagem personagem = model.getPersonagem( removido );
-					System.out.println( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
-					labelTextoLog.setText( tabela.getValueAt( removido, 0 ) + " foi removido do combate" );
-
-					model.remover( personagem );
-
-					if ( personagem.getReplica( ).equals( 0 ) )
-					{
-						modelClone.remover( personagem );
-					}
-
-					if ( model.getRowCount( ) == 0 )
-					{
-						frame.remove( JPCombate.this );
-						frame.setTela( new JPInicial( frame ), true );
-						return;
-					}
-
-					if ( personagem.equals( ultimoDaRodada ) )
-					{
-						if ( removido == 0 )
-						{
-							System.out.println( "-- A Rodada " + rodada + " acabou --" );
-							ultimoDaRodada = model.getPersonagem( ( model.getRowCount( ) - 1 ) );
-							rodada++;
-							labelNumeroRodadas.setText( rodada.toString( ) );
-						} else
-						{
-							ultimoDaRodada = model.getPersonagem( removido - 1 );
-						}
-
-						System.out.println( "A rodada agora acaba depois de " + ultimoDaRodada );
-					}
-
-					if ( tabela.getRowCount( ) - 1 < removido )
-					{
-						tabela.setRowSelectionInterval( removido - 1, removido - 1 );
-					} else
-					{
-						tabela.setRowSelectionInterval( removido, removido );
-					}
-				} catch ( Exception ex )
+					frame.remove( JPCombate.this );
+					frame.setTela( new JPInicial( frame ), true );
+					return;
+				}
+				
+				if ( tabela.getRowCount( ) - 1 < removido )
 				{
-					ex.printStackTrace( );
+					tabela.setRowSelectionInterval( removido - 1, removido - 1 );
+				} else
+				{
+					tabela.setRowSelectionInterval( removido, removido );
 				}
 			}
 		} );
@@ -368,7 +255,7 @@ public class JPCombate extends JPPadrao
 			@Override
 			public void mouseClicked( MouseEvent e )
 			{
-				personagemSelecionado = model.getPersonagem( tabela.getSelectedRow( ) );
+				personagemSelecionado = controller.getModel( ).getPersonagem( tabela.getSelectedRow( ) );
 				File imagem = new File( personagemSelecionado.getImagem( ) );
 				if ( imagem.exists( ) )
 				{

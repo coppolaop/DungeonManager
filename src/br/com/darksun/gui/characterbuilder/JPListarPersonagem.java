@@ -22,7 +22,7 @@ import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.gui.JFPrincipal;
 import br.com.darksun.gui.JPPadrao;
-import br.com.darksun.util.Model.PersonagemListaTableModel;
+import br.com.darksun.model.TabelaPersonagem;
 
 public class JPListarPersonagem extends JPPadrao
 {
@@ -43,7 +43,7 @@ public class JPListarPersonagem extends JPPadrao
 
 		PJs = pcontrol.listarPJs( );
 
-		PersonagemListaTableModel modelPJs = new PersonagemListaTableModel( PJs );
+		TabelaPersonagem modelPJs = new TabelaPersonagem( PJs );
 		JTable tabelaPJs = new JTable( modelPJs );
 		tabelaPJs.setAutoCreateRowSorter( true );
 		tabelaPJs.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
@@ -74,7 +74,7 @@ public class JPListarPersonagem extends JPPadrao
 		// PDMs
 		PDMs = pcontrol.listarPDMs( );
 
-		PersonagemListaTableModel modelPDMs = new PersonagemListaTableModel( PDMs );
+		TabelaPersonagem modelPDMs = new TabelaPersonagem( PDMs );
 		JTable tabelaPDMs = new JTable( modelPDMs );
 		tabelaPDMs.setAutoCreateRowSorter( true );
 		tabelaPDMs.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );

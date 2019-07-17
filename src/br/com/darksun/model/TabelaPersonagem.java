@@ -1,4 +1,4 @@
-package br.com.darksun.util.Model;
+package br.com.darksun.model;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
 
 import br.com.darksun.entity.Personagem;
 
-public class PersonagemListaTableModel extends AbstractTableModel
+public class TabelaPersonagem extends AbstractTableModel
 {
 	private static final int COL_ID = 0;
 	private static final int COL_NOME = 1;
@@ -21,7 +21,7 @@ public class PersonagemListaTableModel extends AbstractTableModel
 	private static final int COL_STATUS = 3;
 	private List< Personagem > personagens;
 
-	public PersonagemListaTableModel( List< Personagem > personagens )
+	public TabelaPersonagem( List< Personagem > personagens )
 	{
 		this.personagens = new ArrayList< Personagem >( personagens );
 	}

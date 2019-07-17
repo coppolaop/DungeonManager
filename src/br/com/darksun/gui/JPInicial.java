@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
-import br.com.darksun.util.Model.PersonagemNomeListModel;
+import br.com.darksun.model.ListaPersonagem;
 import br.com.darksun.util.comparator.NomeComparator;
 
 public class JPInicial extends JPPadrao
@@ -73,7 +73,7 @@ public class JPInicial extends JPPadrao
 		JButton btnAddAllPJ = new JButton( "Adicionar Todos" );
 		btnAddAllPJ.setBounds( maiorNome + 100, 130, 150, 30 );
 
-		PersonagemNomeListModel PJsSelecionados = new PersonagemNomeListModel( );
+		ListaPersonagem PJsSelecionados = new ListaPersonagem( );
 		JList listaPJ = new JList( PJsSelecionados );
 		JScrollPane listPJScroller = new JScrollPane( listaPJ );
 		listPJScroller.setVisible( false );
@@ -99,7 +99,7 @@ public class JPInicial extends JPPadrao
 		JButton btnAddAllPDM = new JButton( "Adicionar Todos" );
 		btnAddAllPDM.setBounds( width - ( maiorNome + 250 ), 130, 150, 30 );
 
-		PersonagemNomeListModel PDMsSelecionados = new PersonagemNomeListModel( );
+		ListaPersonagem PDMsSelecionados = new ListaPersonagem( );
 		JList listaPDM = new JList( PDMsSelecionados );
 		JScrollPane listPDMScroller = new JScrollPane( listaPDM );
 		listPDMScroller.setVisible( false );

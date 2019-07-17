@@ -1,29 +1,33 @@
-package br.com.darksun.util.Model;
+package br.com.darksun.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;
 
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
+import br.com.darksun.util.interfaces.Textable;
 
-public class PersonagemCombateTableModel extends AbstractTableModel
+public class TabelaCombate extends AbstractTableModel
 {
 	private static final int COL_NOME = 0;
 	private static final int COL_CA = 1;
 	private static final int COL_HPATUAL = 2;
 	private static final int COL_HPTOTAL = 3;
 	private List< Personagem > personagens;
-	private JLabel log;
+	private Textable log;
+	private Textable labelRodadas;
+	private Personagem ultimoDaRodada;
+	private Integer rodada = 0;
 
-	public PersonagemCombateTableModel( List< Personagem > personagens, JLabel log )
+	public TabelaCombate( List< Personagem > personagens, Textable log, Textable labelRodadas )
 	{
 		this.personagens = new ArrayList< Personagem >( personagens );
 		this.log = log;
+		this.labelRodadas = labelRodadas;
 	}
 
 	@Override
@@ -36,6 +40,33 @@ public class PersonagemCombateTableModel extends AbstractTableModel
 	public int getRowCount( )
 	{
 		return personagens.size( );
+	}
+
+	public Personagem getUltimoDaRodada( )
+	{
+		return ultimoDaRodada;
+	}
+
+	public void setUltimoDaRodada( Personagem ultimoDaRodada )
+	{
+		this.ultimoDaRodada = ultimoDaRodada;
+	}
+
+	public Integer getRodada( )
+	{
+		return rodada;
+	}
+
+	public void setRodada( Integer rodada )
+	{
+		this.rodada = rodada;
+	}
+	
+	public void avancaRodada( )
+	{
+		System.out.println( "-- A Rodada " + this.rodada + " acabou --" );
+		this.rodada += 1;
+		this.labelRodadas.setText( rodada.toString( ) );
 	}
 
 	public String getColumnName( int columnIndex )

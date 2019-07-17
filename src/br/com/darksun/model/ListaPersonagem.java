@@ -1,4 +1,4 @@
-package br.com.darksun.util.Model;
+package br.com.darksun.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,16 +7,16 @@ import javax.swing.AbstractListModel;
 
 import br.com.darksun.entity.Personagem;
 
-public class PersonagemNomeListModel extends AbstractListModel
+public class ListaPersonagem extends AbstractListModel
 {
 	private List< Personagem > personagens;
 
-	public PersonagemNomeListModel( )
+	public ListaPersonagem( )
 	{
 		personagens = new ArrayList< Personagem >( );
 	}
 
-	public PersonagemNomeListModel( List< Personagem > personagens )
+	public ListaPersonagem( List< Personagem > personagens )
 	{
 		this.personagens = new ArrayList< Personagem >( personagens );
 	}
