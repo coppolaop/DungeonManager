@@ -55,34 +55,17 @@ public class LogStream extends OutputStream
 	public void write( int arg ) throws IOException
 	{
 		String text = String.valueOf( ( char ) arg );
-		javax.swing.SwingUtilities.invokeLater( new Runnable( )
+		textArea.append( text );
+
+		printWriter.print( text );
+		printWriter.flush( );
+
+		int quantLinhas = textArea.getLineCount( );
+
+		if ( quantLinhas > 1000 )
 		{
-			public void run( )
-			{
-				textArea.append( text );
-
-				boolean termina = textArea.getText( ).indexOf( "[ F I M ]" ) >= 0;
-
-				printWriter.print( text );
-				printWriter.flush( );
-
-				int quantLinhas = textArea.getLineCount( );
-
-				if ( quantLinhas > 1000 )
-					textArea.replaceRange( "", 0, quantLinhas - 1000 );
-
-				if ( termina )
-					try
-					{
-						printWriter.close( );
-						outputStream.close( );
-					} catch ( IOException ex )
-					{
-						ex.printStackTrace( );
-					}
-			}
-		} );
-
+			textArea.replaceRange( "", 0, quantLinhas - 1000 );
+		}
 	}
 
 	public void criaArquivoLog( ) throws Exception
