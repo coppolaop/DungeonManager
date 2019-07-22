@@ -192,7 +192,7 @@ public class JPFormularioPersonagem extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				Pattern patNumero = Pattern.compile( "[0-9]+" );
+				Pattern patNumero = Pattern.compile( "[+-]?[0-9]+" );
 
 				if ( fieldNome.getText( ).equals( "" ) )
 					labelError.setText( "Campo Nome está em branco" );
@@ -200,16 +200,22 @@ public class JPFormularioPersonagem extends JPPadrao
 					labelError.setText( "Campo CA está em branco" );
 				else if ( !patNumero.matcher( fieldCA.getText( ).toString( ) ).matches( ) )
 					labelError.setText( "Campo CA precisa conter somente números" );
+				else if ( !isInteger( fieldCA.getText( ).toString( ) ) )
+					labelError.setText( "Esse número de CA está grande demais" );
 				else if ( fieldClasse.getText( ).equals( "" ) )
 					labelError.setText( "Campo Classe está em branco" );
 				else if ( fieldBonusIni.getText( ).equals( "" ) )
 					labelError.setText( "Campo de Bonus de Iniciativa está em branco" );
 				else if ( !patNumero.matcher( fieldBonusIni.getText( ).toString( ) ).matches( ) )
 					labelError.setText( "Campo de Bonus de Iniciativa precisa conter somente números" );
+				else if ( !isInteger( fieldBonusIni.getText( ).toString( ) ) )
+					labelError.setText( "Esse número de Bonus de Iniciativa está grande demais" );
 				else if ( fieldHP.getText( ).equals( "" ) )
 					labelError.setText( "Campo HP está em branco" );
 				else if ( !patNumero.matcher( fieldHP.getText( ).toString( ) ).matches( ) )
 					labelError.setText( "Campo HP precisa conter somente números" );
+				else if ( !isInteger( fieldHP.getText( ).toString( ) ) )
+					labelError.setText( "Esse número de HP está grande demais" );
 				else
 				{
 					String imagem = "";
@@ -266,5 +272,17 @@ public class JPFormularioPersonagem extends JPPadrao
 				}
 			}
 		} );
+	}
+
+	public static Boolean isInteger( String valor )
+	{
+		try
+		{
+			Integer.parseInt( valor );
+			return true;
+		} catch ( NumberFormatException ex )
+		{
+			return false;
+		}
 	}
 }
