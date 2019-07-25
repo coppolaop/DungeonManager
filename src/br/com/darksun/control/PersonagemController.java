@@ -3,13 +3,21 @@ package br.com.darksun.control;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import br.com.darksun.entity.Personagem;
 
@@ -61,9 +69,60 @@ public class PersonagemController
 
 	public Personagem carregar( String path, Boolean isPj )
 	{
+		if ( path.endsWith( ".properties" ) )
+		{
+			return propertiesToJson( path, isPj );
+		}
 
+		JSONParser jsonParser = new JSONParser( );
+
+		try ( FileReader reader = new FileReader( path ) )
+		{
+			Object obj = jsonParser.parse( reader );
+
+			JSONObject personagemJson = ( JSONObject ) obj;
+			Personagem personagem = new Personagem( );
+			
+			Integer id = Integer.parseInt( ( String ) personagemJson.get( "idPersonagem" ) );
+			if ( id >= newID )
+				newID = id + 1;
+
+			personagem.setFilePath( path );
+			personagem.setIdPersonagem( id );
+			personagem.setNome( ( String ) personagemJson.get( "nome" ) );
+			personagem.setClasse( ( String ) personagemJson.get( "classe" ) );
+			personagem.setHpAtual( Integer.parseInt( ( String ) personagemJson.get( "hpAtual" ) ) );
+			personagem.setHpMaximo( Integer.parseInt( ( String ) personagemJson.get( "hpMaximo" ) ) );
+			personagem.setBonusIniciativa( Integer.parseInt( ( String ) personagemJson.get( "bonusIniciativa" ) ) );
+			personagem.setCa( Integer.parseInt( ( String ) personagemJson.get( "ca" ) ) );
+			personagem.setStatus( Boolean.parseBoolean( ( String ) personagemJson.get( "status" ) ) );
+			personagem.setDescricao( ( String ) personagemJson.get( "descricao" ) );
+			personagem.setImagem( ( String ) personagemJson.get( "imagem" ) );
+
+			return personagem;
+
+		} catch ( FileNotFoundException e )
+		{
+			e.printStackTrace( );
+			return null;
+		} catch ( IOException e )
+		{
+			e.printStackTrace( );
+			return null;
+		} catch ( ParseException e )
+		{
+			e.printStackTrace( );
+			return null;
+		}
+
+	}
+
+	public Personagem propertiesToJson( String path, Boolean isPj )
+	{
 		Properties prop = new Properties( );
 		InputStream input = null;
+
+		Personagem personagem = new Personagem( );
 
 		try
 		{
@@ -72,14 +131,14 @@ public class PersonagemController
 
 			prop.load( input );
 
-			Personagem personagem = new Personagem( );
-
 			Integer id = Integer.parseInt( prop.getProperty( "idPersonagem" ) );
 			if ( id >= newID )
 				newID = id + 1;
 
+			String newPath = path.substring( 0, path.length( ) - 10 ) + "json";
+
 			personagem.setIdPersonagem( id );
-			personagem.setFilePath( path );
+			personagem.setFilePath( newPath );
 			personagem.setNome( prop.getProperty( "nome" ) );
 			personagem.setClasse( prop.getProperty( "classe" ) );
 			personagem.setImagem( prop.getProperty( "imagem" ) );
@@ -91,9 +150,6 @@ public class PersonagemController
 			personagem.setStatus( Boolean.parseBoolean( prop.getProperty( "status" ) ) );
 			personagem.setReplica( 0 );
 			personagem.setDescricao( prop.getProperty( "descricao" ) );
-
-			return personagem;
-
 		} catch ( IOException ex )
 		{
 			ex.printStackTrace( );
@@ -112,97 +168,62 @@ public class PersonagemController
 			}
 		}
 
-	}
-	
-	public void atualizarArquivo( String caminho, String campo, String valor ){
-		Properties prop = new Properties( );
-		OutputStream output = null;
-		FileInputStream in = null;
-		
-		try
-		{
-			in = new FileInputStream( caminho );	
-			prop.load( in );
-			output = new FileOutputStream( caminho );
-			prop.setProperty( campo, valor );
-			prop.store( output, null );
-			in.close( );
+		criarPersonagem( personagem );
 
-		} catch ( FileNotFoundException ex )
+		File arquivo = new File( path );
+		arquivo.delete( );
+
+		return personagem;
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public void atualizarArquivo( String path, String campo, String valor )
+	{
+		JSONParser jsonParser = new JSONParser( );
+
+		try ( FileReader reader = new FileReader( path ) )
 		{
-			System.out.println( "Arquivo não encontrado no caminho:" );
-			System.out.println( caminho );
-			ex.printStackTrace( );
-		} catch ( IOException ex )
-		{
-			System.out.println( "Não foi possível gravar as informações no arquivo do caminho:" );
-			System.out.println( caminho );
-			ex.printStackTrace( );
-		} finally
-		{
-			if ( output != null )
+			Object obj = jsonParser.parse( reader );
+
+			JSONObject personagem = ( JSONObject ) obj;
+
+			personagem.put( campo, valor );
+
+			Gson gson = new GsonBuilder( ).setPrettyPrinting( ).create( );
+			String json = gson.toJson( personagem );
+
+			try ( FileWriter file = new FileWriter( path ) )
 			{
-				try
-				{
-					output.close( );
-				} catch ( IOException e )
-				{
-					e.printStackTrace( );
-				}
+
+				file.write( json );
+				file.flush( );
+
+			} catch ( IOException io )
+			{
+				io.printStackTrace( );
 			}
+		} catch ( FileNotFoundException e )
+		{
+			e.printStackTrace( );
+		} catch ( IOException e )
+		{
+			e.printStackTrace( );
+		} catch ( ParseException e )
+		{
+			e.printStackTrace( );
 		}
 	}
 
 	public void criarPersonagemAleatorio( Boolean pj )
 	{
-		Properties prop = new Properties( );
-		OutputStream output = null;
-
-		try
+		if ( pj )
 		{
-
-			if ( pj )
-			{
-				output = new FileOutputStream( "resources/pj/PJ_de_Exemplo.properties" );
-
-				prop.setProperty( "idPersonagem", "1" );
-				prop.setProperty( "nome", "PJ de Exemplo" );
-				prop.setProperty( "classe", "Exemplo" );
-				prop.setProperty( "imagem", "pjExemplo.jpg" );
-			} else
-			{
-				output = new FileOutputStream( "resources/pdm/PDM_de_Exemplo.properties" );
-
-				prop.setProperty( "idPersonagem", "2" );
-				prop.setProperty( "nome", "PDM de Exemplo" );
-				prop.setProperty( "classe", "Monstro" );
-				prop.setProperty( "imagem", "pdmExemplo.jpg" );
-			}
-			prop.setProperty( "ca", "12" );
-			prop.setProperty( "bonusIniciativa", "1" );
-			prop.setProperty( "hpMaximo", "100" );
-			prop.setProperty( "hpAtual", "10" );
-			prop.setProperty( "status", "true" );
-			prop.setProperty( "descricao", "Personagem de exemplo" );
-
-			prop.store( output, null );
-
-		} catch ( IOException io )
+			criarPersonagem( "0", "resources/pj/PJ_de_Exemplo.json", "PJ de Exemplo", "Exemplo", "12", "1", "10", "100",
+					"pjExemplo.jpg", true, true, "Personagem do Jogador de exemplo" );
+		} else
 		{
-			io.printStackTrace( );
-		} finally
-		{
-			if ( output != null )
-			{
-				try
-				{
-					output.close( );
-				} catch ( IOException e )
-				{
-					e.printStackTrace( );
-				}
-			}
-
+			criarPersonagem( "0", "resources/pdm/PDM_de_Exemplo.json", "PDM de Exemplo", "Exemplo", "12", "1", "10",
+					"100", "pdmExemplo.jpg", false, true, "Personagem do Mestre de exemplo" );
 		}
 	}
 
@@ -226,62 +247,53 @@ public class PersonagemController
 
 		if ( isPJ )
 		{
-			path = "resources/pj/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties";
+			path = "resources/pj/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".json";
 		} else
 		{
-			path = "resources/pdm/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".properties";
+			path = "resources/pdm/" + nome.replace( "\\", "_" ).replaceAll( "[ /|<>*:“\"]", "_" ) + ".json";
 		}
 
 		criarPersonagem( ID, path, nome, classe, CA, bonusIniciativa, hpMaximo, hpMaximo, imagem, isPJ, true,
 				descricao );
 	}
 
+	@SuppressWarnings( "unchecked" )
 	public void criarPersonagem(	String ID, String path, String nome, String classe, String CA, String bonusIniciativa,
 									String hpAtual, String hpMaximo, String imagem, Boolean isPJ, Boolean status,
 									String descricao )
 	{
-		Properties prop = new Properties( );
-		OutputStream output = null;
+		JSONObject personagem = new JSONObject( );
 
 		if ( imagem != null && imagem.equals( "" ) )
 		{
 			imagem = nome + ".jpg";
 		}
 
-		try
+		personagem.put( "idPersonagem", ID );
+		personagem.put( "nome", nome );
+		personagem.put( "classe", classe );
+		personagem.put( "ca", CA );
+		personagem.put( "bonusIniciativa", bonusIniciativa );
+		personagem.put( "hpAtual", hpAtual );
+		personagem.put( "hpMaximo", hpMaximo );
+		personagem.put( "hpAtual", hpMaximo );
+		personagem.put( "imagem", imagem );
+		personagem.put( "status", status.toString( ) );
+		personagem.put( "descricao", descricao );
+		personagem.put( "dataCriacao", LocalDate.now( ) );
+
+		Gson gson = new GsonBuilder( ).setPrettyPrinting( ).create( );
+		String json = gson.toJson( personagem );
+
+		try ( FileWriter file = new FileWriter( path ) )
 		{
-			output = new FileOutputStream( path );
 
-			prop.setProperty( "idPersonagem", ID );
-			prop.setProperty( "nome", nome );
-			prop.setProperty( "classe", classe );
-			prop.setProperty( "ca", CA );
-			prop.setProperty( "bonusIniciativa", bonusIniciativa );
-			prop.setProperty( "hpAtual", hpAtual );
-			prop.setProperty( "hpMaximo", hpMaximo );
-			prop.setProperty( "hpAtual", hpMaximo );
-			prop.setProperty( "imagem", imagem );
-			prop.setProperty( "status", status.toString( ) );
-			prop.setProperty( "descricao", descricao );
-
-			prop.store( output, null );
+			file.write( json );
+			file.flush( );
 
 		} catch ( IOException io )
 		{
 			io.printStackTrace( );
-		} finally
-		{
-			if ( output != null )
-			{
-				try
-				{
-					output.close( );
-				} catch ( IOException e )
-				{
-					e.printStackTrace( );
-				}
-			}
-
 		}
 	}
 }
