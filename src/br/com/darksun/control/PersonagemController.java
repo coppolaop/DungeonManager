@@ -23,7 +23,7 @@ import br.com.darksun.entity.Personagem;
 
 public class PersonagemController
 {
-	private Integer newID = 0;
+	private Integer newID = 1;
 
 	public List< Personagem > listarPJs( )
 	{
