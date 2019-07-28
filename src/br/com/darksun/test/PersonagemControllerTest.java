@@ -218,7 +218,7 @@ class PersonagemControllerTest
 	void testCarregar( )
 	{
 		String path = "resources/pj/PJ.json";
-		assertEquals( "PJ Genérico Ativo", controller.carregar( path, true ).getDescricao( ) );
+		assertEquals( "PJ Genérico Ativo", controller.carregar( path ).getDescricao( ) );
 	}
 
 	@Test
@@ -264,7 +264,7 @@ class PersonagemControllerTest
 
 		}
 
-		controller.propertiesToJson( path, false );
+		controller.propertiesToJson( path );
 
 		File file = new File( "resources/pdm/Tester.json" );
 		assertEquals( true, file.exists( ) );
@@ -275,7 +275,7 @@ class PersonagemControllerTest
 	{
 		String path = "resources/pdm/PDM.json";
 		controller.atualizarArquivo( path, "nome", "PJ Ativo" );
-		Personagem personagem = controller.carregar( path, false );
+		Personagem personagem = controller.carregar( path );
 		assertEquals( "PJ Ativo" , personagem.getNome( ) );
 	}
 

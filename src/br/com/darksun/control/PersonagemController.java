@@ -31,7 +31,7 @@ public class PersonagemController
 		File folder = new File( "resources/pj/" );
 		File[ ] lista = folder.listFiles( );
 		for ( File file : lista )
-			personagens.add( carregar( "resources/pj/" + file.getName( ), true ) );
+			personagens.add( carregar( "resources/pj/" + file.getName( ) ) );
 		return personagens;
 	}
 
@@ -52,7 +52,7 @@ public class PersonagemController
 		File folder = new File( "resources/pdm/" );
 		File[ ] lista = folder.listFiles( );
 		for ( File file : lista )
-			personagens.add( carregar( "resources/pdm/" + file.getName( ), false ) );
+			personagens.add( carregar( "resources/pdm/" + file.getName( ) ) );
 		return personagens;
 	}
 
@@ -67,11 +67,17 @@ public class PersonagemController
 		return ativos;
 	}
 
-	public Personagem carregar( String path, Boolean isPj )
+	public Personagem carregar( String path )
 	{
+		Boolean isPJ = true;
+		if ( path.split( "/" )[1].equalsIgnoreCase( "pdm" ) )
+		{
+			isPJ = false;
+		}
+
 		if ( path.endsWith( ".properties" ) )
 		{
-			return propertiesToJson( path, isPj );
+			return propertiesToJson( path );
 		}
 
 		JSONParser jsonParser = new JSONParser( );
@@ -82,7 +88,7 @@ public class PersonagemController
 
 			JSONObject personagemJson = ( JSONObject ) obj;
 			Personagem personagem = new Personagem( );
-			
+
 			Integer id = Integer.parseInt( ( String ) personagemJson.get( "idPersonagem" ) );
 			if ( id >= newID )
 				newID = id + 1;
@@ -98,6 +104,7 @@ public class PersonagemController
 			personagem.setStatus( Boolean.parseBoolean( ( String ) personagemJson.get( "status" ) ) );
 			personagem.setDescricao( ( String ) personagemJson.get( "descricao" ) );
 			personagem.setImagem( ( String ) personagemJson.get( "imagem" ) );
+			personagem.setIsPJ( isPJ );
 
 			return personagem;
 
@@ -117,8 +124,14 @@ public class PersonagemController
 
 	}
 
-	public Personagem propertiesToJson( String path, Boolean isPj )
+	public Personagem propertiesToJson( String path )
 	{
+		Boolean isPJ = true;
+		if ( path.split( "/" )[1].equalsIgnoreCase( "pdm" ) )
+		{
+			isPJ = false;
+		}
+
 		Properties prop = new Properties( );
 		InputStream input = null;
 
@@ -146,7 +159,7 @@ public class PersonagemController
 			personagem.setBonusIniciativa( Integer.parseInt( prop.getProperty( "bonusIniciativa" ) ) );
 			personagem.setHpMaximo( Integer.parseInt( prop.getProperty( "hpMaximo" ) ) );
 			personagem.setHpAtual( Integer.parseInt( prop.getProperty( "hpAtual" ) ) );
-			personagem.setIsPJ( isPj );
+			personagem.setIsPJ( isPJ );
 			personagem.setStatus( Boolean.parseBoolean( prop.getProperty( "status" ) ) );
 			personagem.setReplica( 0 );
 			personagem.setDescricao( prop.getProperty( "descricao" ) );
