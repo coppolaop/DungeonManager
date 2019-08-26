@@ -27,6 +27,7 @@ import javax.swing.plaf.basic.BasicArrowButton;
 import br.com.darksun.control.CombateController;
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
+import br.com.darksun.util.RowPainter;
 import br.com.darksun.util.adapter.JLabelAdapter;
 
 public class JPCombate extends JPPadrao
@@ -77,6 +78,8 @@ public class JPCombate extends JPPadrao
 		tabela.setSelectionMode( 0 );
 		tabela.setFont( new Font( tabela.getFont( ).getFontName( ), tabela.getFont( ).getStyle( ), 20 ) );
 		tabela.setRowHeight( 30 );
+		RowPainter painter = new RowPainter( );
+		tabela.setDefaultRenderer( tabela.getColumnClass( 0 ), painter );
 		JScrollPane listScroller = new JScrollPane( tabela );
 		listScroller.setBounds( 50, 50, ( width - 100 ) / 3, height - 150 );
 
@@ -85,11 +88,19 @@ public class JPCombate extends JPPadrao
 		JButton btnSetaCima = new BasicArrowButton( BasicArrowButton.NORTH );
 		JButton btnSetaBaixo = new BasicArrowButton( BasicArrowButton.SOUTH );
 		JButton btnFinalTurno = new JButton( "Finalizar Turno" );
+		JButton btnMaisBuff = new JButton( "+ Buff" );
+		JButton btnMenosBuff = new JButton( "- Buff" );
+		JButton btnMaisDebuff = new JButton( "+ Debuff" );
+		JButton btnMenosDebuff = new JButton( "- Debuff" );
 		btnAdicionarPersonagem.setBounds( ( ( width - 100 ) / 3 ) - 195, 10, 180, 30 );
 		btnRemoverPersonagem.setBounds( 5 + ( ( width - 100 ) / 3 ), 10, 180, 30 );
 		btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
 		btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
 		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
+		btnMaisBuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 230, 120, 30 );
+		btnMenosBuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 270, 120, 30 );
+		btnMaisDebuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 310, 120, 30 );
+		btnMenosDebuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 350, 120, 30 );
 
 		JLabel labelImg = new JLabel( "" );
 		labelImg.setBounds( 215 + ( ( width - 100 ) / 3 ), 50, 200, 200 );
@@ -122,6 +133,10 @@ public class JPCombate extends JPPadrao
 		add( btnSetaCima );
 		add( btnSetaBaixo );
 		add( btnFinalTurno );
+		add( btnMaisBuff );
+		add( btnMenosBuff );
+		add( btnMaisDebuff );
+		add( btnMenosDebuff );
 		add( labelRodada );
 		add( labelNumeroRodadas );
 		add( labelLog );
@@ -150,6 +165,10 @@ public class JPCombate extends JPPadrao
 				btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
 				btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
 				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
+				btnMaisBuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 230, 120, 30 );
+				btnMenosBuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 270, 120, 30 );
+				btnMaisDebuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 310, 120, 30 );
+				btnMenosDebuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 350, 120, 30 );
 				labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
 				labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150,
 						width - ( 165 + ( ( width - 100 ) / 3 ) ), 30 );
@@ -210,6 +229,46 @@ public class JPCombate extends JPPadrao
 					selected--;
 				}
 				tabela.setRowSelectionInterval( selected, selected );
+			}
+		} );
+		
+		btnMaisBuff.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = tabela.getSelectedRow( );
+
+				painter.addPositivo( controller.getModel( ).getPersonagem( index ) );
+			}
+		} );
+		
+		btnMenosBuff.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = tabela.getSelectedRow( );
+
+				painter.removePositivo( controller.getModel( ).getPersonagem( index ) );
+			}
+		} );
+		
+		btnMaisDebuff.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = tabela.getSelectedRow( );
+
+				painter.addNegativo( controller.getModel( ).getPersonagem( index ) );
+			}
+		} );
+		
+		btnMenosDebuff.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int index = tabela.getSelectedRow( );
+
+				painter.removeNegativo( controller.getModel( ).getPersonagem( index ) );
 			}
 		} );
 

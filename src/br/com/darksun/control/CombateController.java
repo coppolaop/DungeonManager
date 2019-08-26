@@ -9,8 +9,6 @@ import java.util.List;
 import javax.swing.JLabel;
 
 import br.com.darksun.entity.Personagem;
-import br.com.darksun.gui.JPCombate;
-import br.com.darksun.gui.JPInicial;
 import br.com.darksun.model.TabelaCombate;
 import br.com.darksun.util.comparator.IniciativaComparator;
 import br.com.darksun.util.interfaces.Textable;
