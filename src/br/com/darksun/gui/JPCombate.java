@@ -217,9 +217,9 @@ public class JPCombate extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				controller.finalizarTurno( labelNumeroRodadas );
-				
 				Integer selected = tabela.getSelectedRow( );
+				
+				controller.finalizarTurno( labelNumeroRodadas );
 				
 				if ( selected == 0 )
 				{
