@@ -190,4 +190,28 @@ class CombateControllerTest
 		Integer condicao = controller.condicaoPersonagem( controller.getModel( ).getPersonagem( 1 ) );
 		Assert.assertEquals( "0", condicao.toString( ) );
 	}
+
+	@Test
+	void testRemoverCondicao( )
+	{
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP", true );
+		controller.adicionarCondicao( 1, sangramento, 2, 3 );
+		Condicao condicao = controller.getModel( ).getPersonagem( 1 ).getCondicoes( ).get( 0 );
+		controller.removerCondicao( 1, condicao );
+		Assert.assertEquals( true, controller.getModel( ).getPersonagem( 1 ).getCondicoes( ).isEmpty( ) );
+	}
+
+	@Test
+	void testRemoverApenasUmaCondicao( )
+	{
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP", true );
+		controller.adicionarCondicao( 1, sangramento, 2, 3 );
+		Efeito aumentoDeCA = new Efeito( 2, null, "Aumento de CA", 10, true, "CA", false );
+		controller.adicionarCondicao( 1, aumentoDeCA, 12, 2 );
+		controller.adicionarCondicao( 1, aumentoDeCA, 12, 2 );
+		Condicao condicao = controller.getModel( ).getPersonagem( 1 ).getCondicoes( ).get( 1 );
+		controller.removerCondicao( 1, condicao );
+		Integer situacao = controller.condicaoPersonagem( controller.getModel( ).getPersonagem( 1 ) );
+		Assert.assertEquals( "1", situacao.toString( ) );
+	}
 }

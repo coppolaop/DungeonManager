@@ -230,11 +230,14 @@ public class JPCombate extends JPPadrao
 			{
 				int index = tabela.getSelectedRow( );
 
-				JDIncluirEfeito ie = new JDIncluirEfeito( frame );
-				ie.setVisible( true );
+				JDIncluirCondicao ic = new JDIncluirCondicao( frame );
+				ic.setVisible( true );
 
-				painter.setSituacao( tabela, index, controller.adicionarCondicao( index, ie.getEfeitoSelecionado( ),
-						ie.getDuracaoSelecionada( ), ie.getValorSelecionado( ) ) );
+				if ( ic.getEfeitoSelecionado( ) != null )
+				{
+					painter.setSituacao( tabela, index, controller.adicionarCondicao( index, ic.getEfeitoSelecionado( ),
+							ic.getDuracaoSelecionada( ), ic.getValorSelecionado( ) ) );
+				}
 			}
 		} );
 
@@ -242,9 +245,16 @@ public class JPCombate extends JPPadrao
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				// int index = tabela.getSelectedRow( );
-				//
-				// painter.removePositivo( controller.getModel( ).getPersonagem( index ) );
+				int index = tabela.getSelectedRow( );
+
+				JDRemoverCondicao rc = new JDRemoverCondicao( frame, controller.getModel( ).getPersonagem( index ) );
+				rc.setVisible( true );
+
+				if ( rc.getCondicaoSelecionada( ) != null )
+				{
+					painter.setSituacao( tabela, index,
+							controller.removerCondicao( index, rc.getCondicaoSelecionada( ) ) );
+				}
 			}
 		} );
 

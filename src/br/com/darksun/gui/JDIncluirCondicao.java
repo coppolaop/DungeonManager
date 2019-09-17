@@ -21,7 +21,7 @@ import javax.swing.SpinnerNumberModel;
 import br.com.darksun.control.EfeitoController;
 import br.com.darksun.entity.Efeito;
 
-class JDIncluirEfeito extends JDialog implements ActionListener, PropertyChangeListener
+class JDIncluirCondicao extends JDialog implements ActionListener, PropertyChangeListener
 {
 	private Efeito efeitoSelecionado = null;
 	private Integer duracaoSelecionada = null;
@@ -58,13 +58,13 @@ class JDIncluirEfeito extends JDialog implements ActionListener, PropertyChangeL
 	}
 
 	// Cria da Dialog
-	public JDIncluirEfeito( JFPrincipal frame )
+	public JDIncluirCondicao( JFPrincipal frame )
 	{
 		super( frame, true );
 
 		setBounds( 50, 50, 400, 250 );
 
-		setTitle( "Adicionar Efeito ao Persoangem" );
+		setTitle( "Adicionar Condição ao Persoangem" );
 
 		comboBox = new JComboBox( listaEfeitos( ).toArray( ) );
 

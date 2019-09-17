@@ -21,6 +21,12 @@ public class Condicao
 		this.efeito = efeito;
 	}
 
+	@Override
+	public String toString( )
+	{
+		return this.efeito.getNome( ) + " de valor " + this.valor + " e duração " + this.duracaoAtual;
+	}
+
 	public Integer getIdCondicao( )
 	{
 		return idCondicao;
