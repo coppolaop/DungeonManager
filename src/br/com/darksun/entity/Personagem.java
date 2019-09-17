@@ -1,21 +1,27 @@
 package br.com.darksun.entity;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class Personagem implements Cloneable
 {
-	private Integer idPersonagem	=	0;
-	private String filePath			=	"";
-	private String nome				=	"";
-	private String classe			=	"";
-	private String imagem			=	"";
-	private String descricao		=	"";
-	private Integer ca				=	0;
-	private Integer bonusIniciativa	=	0;
-	private Integer iniciativa		=	0;
-	private Integer hpMaximo		=	0;
-	private Integer hpAtual			=	0;
-	private Boolean isPJ			=	true;
-	private Boolean status			=	true;
-	private Integer replica			=	0;
+	private Integer idPersonagem 		= 0;
+	private String filePath 			= "";
+	private String nome 				= "";
+	private String classe 				= "";
+	private String imagem 				= "";
+	private String descricao 			= "";
+	private Integer ca 					= 0;
+	private Integer bonusIniciativa 	= 0;
+	private Integer iniciativa 			= 0;
+	private Integer hpMaximo 			= 0;
+	private Integer hpAtual 			= 0;
+	private Boolean isPJ 				= true;
+	private Boolean status 				= true;
+	private Integer replica 			= 0;
+
+	private List< Condicao > condicoes = new ArrayList< Condicao >( );
 
 	public Personagem( )
 	{
@@ -199,6 +205,26 @@ public class Personagem implements Cloneable
 		this.replica = replica;
 	}
 
+	public List< Condicao > getCondicoes( )
+	{
+		return Collections.unmodifiableList( condicoes );
+	}
+
+	public void addCondicao( Condicao condicao )
+	{
+		this.condicoes.add( condicao );
+	}
+
+	public void removeCondicao( Condicao condicao )
+	{
+		this.condicoes.remove( condicao );
+	}
+
+	public Integer countCondicao( )
+	{
+		return condicoes.size( );
+	}
+
 	public Personagem clone( )
 	{
 		Personagem clone = null;
@@ -206,6 +232,7 @@ public class Personagem implements Cloneable
 		try
 		{
 			clone = ( Personagem ) super.clone( );
+			clone.condicoes = new ArrayList< Condicao >( );
 		} catch ( CloneNotSupportedException ex )
 		{
 			ex.printStackTrace( );

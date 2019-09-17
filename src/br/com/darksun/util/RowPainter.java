@@ -13,65 +13,52 @@ import br.com.darksun.model.TabelaCombate;
 
 public class RowPainter extends DefaultTableCellRenderer
 {
-	List< Personagem > listPositivos = new ArrayList< Personagem >( );
-	List< Personagem > listNegativos = new ArrayList< Personagem >( );
+	List< String > nomePersonagens = new ArrayList< String >( );
+	List< Integer > situacoes = new ArrayList< Integer >( );
 
 	public Component getTableCellRendererComponent(	JTable table, Object value, boolean isSelected, boolean hasFocus,
 													int row, int column )
 	{
 		TabelaCombate model = ( TabelaCombate ) table.getModel( );
-		Personagem personagem = ( Personagem ) model.getPersonagem( row );
+		Personagem personagemSelecionado = ( Personagem ) model.getPersonagem( row );
+		Integer situacao = 0;
 
-		Integer quantidadePositivo = 0;
-		Integer quantidadeNegativo = 0;
-
-		for ( Personagem positivo : listPositivos )
+		for ( String nome : nomePersonagens )
 		{
-			if ( positivo.toString( ).equals( personagem.toString( ) ) )
+			if ( nome.equals( personagemSelecionado.toString( ) ) )
 			{
-				quantidadePositivo++;
+				situacao = situacoes.get( nomePersonagens.indexOf( nome ) );
 			}
 		}
 
-		for ( Personagem negativo : listNegativos )
+		if ( situacao > 0 )
 		{
-			if ( negativo.toString( ).equals( personagem.toString( ) ) )
-			{
-				quantidadeNegativo++;
-			}
-		}
-
-		if( quantidadeNegativo == 0 && quantidadePositivo == 0) {
-			setBackground( Color.WHITE );
-		}
-		else if ( quantidadeNegativo > quantidadePositivo )
+			setBackground( new Color( 0, 255, 0, 100 ) );
+		} else if ( situacao < 0 )
 		{
 			setBackground( new Color( 255, 0, 0, 100 ) );
 		} else
 		{
-			setBackground( new Color( 0, 255, 0, 100 ) );
+			setBackground( Color.WHITE );
 		}
 
 		return super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
 	}
-	
-	public void addPositivo( Personagem personagem )
+
+	public void setSituacao( JTable table, Integer row, Integer situacao )
 	{
-		listPositivos.add( personagem );
-	}
-	
-	public void removePositivo( Personagem personagem )
-	{
-		listPositivos.remove( personagem );
-	}
-	
-	public void addNegativo( Personagem personagem )
-	{
-		listNegativos.add( personagem );
-	}
-	
-	public void removeNegativo( Personagem personagem )
-	{
-		listNegativos.remove( personagem );
+		TabelaCombate model = ( TabelaCombate ) table.getModel( );
+		Personagem personagem = ( Personagem ) model.getPersonagem( row );
+
+		if ( nomePersonagens.contains( personagem.toString( ) ) )
+		{
+			int index = nomePersonagens.indexOf( personagem.toString( ) );
+			situacoes.remove( index );
+			situacoes.add( index, situacao );
+		} else
+		{
+			nomePersonagens.add( personagem.toString( ) );
+			situacoes.add( situacao );
+		}
 	}
 }

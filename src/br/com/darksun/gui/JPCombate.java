@@ -33,7 +33,7 @@ import br.com.darksun.util.adapter.JLabelAdapter;
 public class JPCombate extends JPPadrao
 {
 	private Personagem personagemSelecionado;
-	
+
 	public JPCombate( JFPrincipal frame, List< Personagem > PJs, List< Personagem > PDMs )
 	{
 		montaTelaCombate( frame, PJs, PDMs );
@@ -71,7 +71,7 @@ public class JPCombate extends JPPadrao
 				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
 
 		CombateController controller = new CombateController( PJs, PDMs, labelTextoLog, labelNumeroRodadas );
-		
+
 		JTable tabela = new JTable( controller.getModel( ) );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
 		tabela.setRowSelectionInterval( 0, 0 );
@@ -88,19 +88,15 @@ public class JPCombate extends JPPadrao
 		JButton btnSetaCima = new BasicArrowButton( BasicArrowButton.NORTH );
 		JButton btnSetaBaixo = new BasicArrowButton( BasicArrowButton.SOUTH );
 		JButton btnFinalTurno = new JButton( "Finalizar Turno" );
-		JButton btnMaisBuff = new JButton( "+ Buff" );
-		JButton btnMenosBuff = new JButton( "- Buff" );
-		JButton btnMaisDebuff = new JButton( "+ Debuff" );
-		JButton btnMenosDebuff = new JButton( "- Debuff" );
+		JButton btnMaisCondicao = new JButton( "+ Efeito" );
+		JButton btnMenosCondicao = new JButton( "- Efeito" );
 		btnAdicionarPersonagem.setBounds( ( ( width - 100 ) / 3 ) - 195, 10, 180, 30 );
 		btnRemoverPersonagem.setBounds( 5 + ( ( width - 100 ) / 3 ), 10, 180, 30 );
 		btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
 		btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
 		btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
-		btnMaisBuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 230, 120, 30 );
-		btnMenosBuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 270, 120, 30 );
-		btnMaisDebuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 310, 120, 30 );
-		btnMenosDebuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 350, 120, 30 );
+		btnMaisCondicao.setBounds( 65 + ( ( width - 100 ) / 3 ), 230, 120, 30 );
+		btnMenosCondicao.setBounds( 65 + ( ( width - 100 ) / 3 ), 270, 120, 30 );
 
 		JLabel labelImg = new JLabel( "" );
 		labelImg.setBounds( 215 + ( ( width - 100 ) / 3 ), 50, 200, 200 );
@@ -133,10 +129,8 @@ public class JPCombate extends JPPadrao
 		add( btnSetaCima );
 		add( btnSetaBaixo );
 		add( btnFinalTurno );
-		add( btnMaisBuff );
-		add( btnMenosBuff );
-		add( btnMaisDebuff );
-		add( btnMenosDebuff );
+		add( btnMaisCondicao );
+		add( btnMenosCondicao );
 		add( labelRodada );
 		add( labelNumeroRodadas );
 		add( labelLog );
@@ -165,10 +159,8 @@ public class JPCombate extends JPPadrao
 				btnSetaCima.setBounds( 65 + ( ( width - 100 ) / 3 ), 70, 120, 30 );
 				btnSetaBaixo.setBounds( 65 + ( ( width - 100 ) / 3 ), 110, 120, 30 );
 				btnFinalTurno.setBounds( 65 + ( ( width - 100 ) / 3 ), 150, 120, 30 );
-				btnMaisBuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 230, 120, 30 );
-				btnMenosBuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 270, 120, 30 );
-				btnMaisDebuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 310, 120, 30 );
-				btnMenosDebuff.setBounds( 65 + ( ( width - 100 ) / 3 ), 350, 120, 30 );
+				btnMaisCondicao.setBounds( 65 + ( ( width - 100 ) / 3 ), 230, 120, 30 );
+				btnMenosCondicao.setBounds( 65 + ( ( width - 100 ) / 3 ), 270, 120, 30 );
 				labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
 				labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150,
 						width - ( 165 + ( ( width - 100 ) / 3 ) ), 30 );
@@ -218,9 +210,9 @@ public class JPCombate extends JPPadrao
 			public void actionPerformed( ActionEvent e )
 			{
 				Integer selected = tabela.getSelectedRow( );
-				
+
 				controller.finalizarTurno( labelNumeroRodadas );
-				
+
 				if ( selected == 0 )
 				{
 					selected = tabela.getRowCount( ) - 1;
@@ -231,44 +223,28 @@ public class JPCombate extends JPPadrao
 				tabela.setRowSelectionInterval( selected, selected );
 			}
 		} );
-		
-		btnMaisBuff.addActionListener( new ActionListener( )
+
+		btnMaisCondicao.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
 			{
 				int index = tabela.getSelectedRow( );
 
-				painter.addPositivo( controller.getModel( ).getPersonagem( index ) );
+				JDIncluirEfeito ie = new JDIncluirEfeito( frame );
+				ie.setVisible( true );
+
+				painter.setSituacao( tabela, index, controller.adicionarCondicao( index, ie.getEfeitoSelecionado( ),
+						ie.getDuracaoSelecionada( ), ie.getValorSelecionado( ) ) );
 			}
 		} );
-		
-		btnMenosBuff.addActionListener( new ActionListener( )
+
+		btnMenosCondicao.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				int index = tabela.getSelectedRow( );
-
-				painter.removePositivo( controller.getModel( ).getPersonagem( index ) );
-			}
-		} );
-		
-		btnMaisDebuff.addActionListener( new ActionListener( )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				int index = tabela.getSelectedRow( );
-
-				painter.addNegativo( controller.getModel( ).getPersonagem( index ) );
-			}
-		} );
-		
-		btnMenosDebuff.addActionListener( new ActionListener( )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				int index = tabela.getSelectedRow( );
-
-				painter.removeNegativo( controller.getModel( ).getPersonagem( index ) );
+				// int index = tabela.getSelectedRow( );
+				//
+				// painter.removePositivo( controller.getModel( ).getPersonagem( index ) );
 			}
 		} );
 
@@ -290,14 +266,14 @@ public class JPCombate extends JPPadrao
 			{
 				Integer removido = tabela.getSelectedRow( );
 				Boolean fimDoCombate = controller.removerPersonagem( removido );
-				
-				if( fimDoCombate )
+
+				if ( fimDoCombate )
 				{
 					frame.remove( JPCombate.this );
 					frame.setTela( new JPInicial( frame ), true );
 					return;
 				}
-				
+
 				if ( tabela.getRowCount( ) - 1 < removido )
 				{
 					tabela.setRowSelectionInterval( removido - 1, removido - 1 );

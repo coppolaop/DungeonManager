@@ -20,6 +20,7 @@ import javax.swing.JMenuItem;
 
 import com.google.gson.Gson;
 
+import br.com.darksun.control.EfeitoController;
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Aplicacao;
 import br.com.darksun.gui.characterbuilder.JPListarPersonagem;
@@ -71,6 +72,13 @@ public class JFPrincipal extends JFrame
 		{
 			dirPDM.mkdirs( );
 			new PersonagemController( ).criarPersonagemAleatorio( false );
+		}
+
+		File dirEfeito = new File( "resources/efeito/" );
+		if ( !dirEfeito.exists( ) )
+		{
+			dirEfeito.mkdirs( );
+			new EfeitoController( ).criarEfeitosAleatorios( );
 		}
 
 		setTela( new JPInicial( this ), true );

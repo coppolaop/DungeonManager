@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.swing.JLabel;
 
+import br.com.darksun.entity.Condicao;
+import br.com.darksun.entity.Efeito;
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.model.TabelaCombate;
 import br.com.darksun.util.comparator.IniciativaComparator;
@@ -19,7 +21,8 @@ public class CombateController implements ActionListener
 	private TabelaCombate modelClone;
 	private Textable labelTextoLog;
 
-	public CombateController( List< Personagem > PJs, List< Personagem > PDMs, Textable labelTextoLog, Textable labelRodadas )
+	public CombateController( List< Personagem > PJs, List< Personagem > PDMs, Textable labelTextoLog,
+			Textable labelRodadas )
 	{
 		List< Personagem > personagens = new ArrayList< Personagem >( );
 		System.out.println( "-------   Iniciativa   -------" );
@@ -43,10 +46,10 @@ public class CombateController implements ActionListener
 		Collections.sort( personagens, new IniciativaComparator( ) );
 
 		this.labelTextoLog = labelTextoLog;
-		
+
 		model = new TabelaCombate( personagens, labelTextoLog, labelRodadas );
 		model.setUltimoDaRodada( model.getPersonagem( model.getRowCount( ) - 1 ) );
-		
+
 		modelClone = new TabelaCombate( personagens, labelTextoLog, labelRodadas );
 	}
 
@@ -57,12 +60,12 @@ public class CombateController implements ActionListener
 			System.out.println( model.getValueAt( index, 0 ) + " foi reposicionado para antes de "
 					+ model.getValueAt( index - 1, 0 ) );
 
-			if( labelTextoLog instanceof JLabel )
+			if ( labelTextoLog instanceof JLabel )
 			{
-			( ( JLabel ) labelTextoLog ).setText( model.getValueAt( index, 0 ) + " foi reposicionado para antes de "
-					+ model.getValueAt( index - 1, 0 ) );
+				( ( JLabel ) labelTextoLog ).setText( model.getValueAt( index, 0 ) + " foi reposicionado para antes de "
+						+ model.getValueAt( index - 1, 0 ) );
 			}
-			
+
 			if ( model.getPersonagem( index ).equals( model.getUltimoDaRodada( ) ) )
 			{
 				model.setUltimoDaRodada( model.getPersonagem( index - 1 ) );
@@ -72,7 +75,7 @@ public class CombateController implements ActionListener
 			model.trocar( index, index - 1 );
 		}
 	}
-	
+
 	public void descer( Integer index )
 	{
 		if ( index < model.getRowCount( ) - 1 )
@@ -80,10 +83,10 @@ public class CombateController implements ActionListener
 			System.out.println( model.getValueAt( index, 0 ) + " foi reposicionado para depois de "
 					+ model.getValueAt( index + 1, 0 ) );
 
-			if( labelTextoLog instanceof JLabel )
+			if ( labelTextoLog instanceof JLabel )
 			{
-				( ( JLabel ) labelTextoLog ).setText( model.getValueAt( index, 0 ) + " foi reposicionado para depois de "
-						+ model.getValueAt( index + 1, 0 ) );
+				( ( JLabel ) labelTextoLog ).setText( model.getValueAt( index, 0 )
+						+ " foi reposicionado para depois de " + model.getValueAt( index + 1, 0 ) );
 			}
 
 			if ( model.getPersonagem( index + 1 ).equals( model.getUltimoDaRodada( ) ) )
@@ -95,22 +98,23 @@ public class CombateController implements ActionListener
 			model.trocar( index, index + 1 );
 		}
 	}
-	
+
+	public void ativaCondicao( )
+	{
+
+	}
+
 	public void finalizarTurno( Textable labelNumeroRodadas )
 	{
 		Personagem personagem = model.getPersonagem( 0 );
 
-		Object[ ] aux =
-		{ model.getValueAt( 0, 0 ), model.getValueAt( 0, 1 ), model.getValueAt( 0, 2 ),
-			model.getValueAt( 0, 3 ) };
+		System.out.println( personagem + " finalizou seu turno" );
 
-		System.out.println( aux[0] + " finalizou seu turno" );
-
-		if( labelTextoLog instanceof JLabel )
+		if ( labelTextoLog instanceof JLabel )
 		{
-			( ( JLabel ) labelTextoLog ).setText( aux[0] + " finalizou seu turno" );
+			( ( JLabel ) labelTextoLog ).setText( personagem + " finalizou seu turno" );
 		}
-		
+
 		if ( model.getPersonagem( 0 ).equals( model.getUltimoDaRodada( ) ) )
 		{
 			model.avancaRodada( );
@@ -118,7 +122,7 @@ public class CombateController implements ActionListener
 		model.remover( personagem );
 		model.adicionar( personagem );
 	}
-	
+
 	public void adicionarPersonagem( Personagem personagem, Integer quantidade )
 	{
 		if ( personagem != null )
@@ -138,9 +142,10 @@ public class CombateController implements ActionListener
 			}
 		}
 	}
-	
-	public Boolean removerPersonagem( Integer removido ) {
-		
+
+	public Boolean removerPersonagem( Integer removido )
+	{
+
 		Personagem personagem = model.getPersonagem( removido );
 		System.out.println( model.getValueAt( removido, 0 ) + " foi removido do combate" );
 		labelTextoLog.setText( model.getValueAt( removido, 0 ) + " foi removido do combate" );
@@ -172,6 +177,44 @@ public class CombateController implements ActionListener
 		}
 
 		return false;
+	}
+
+	public Integer condicaoPersonagem( Personagem personagem )
+	{
+		Integer contagem = 0;
+		for ( Condicao condicao : personagem.getCondicoes( ) )
+		{
+			if ( condicao.getEfeito( ).getIsPositivo( ) )
+			{
+				contagem++;
+			} else
+			{
+				contagem--;
+			}
+		}
+
+		if ( contagem == 0 && !personagem.getCondicoes( ).isEmpty( ) )
+		{
+			contagem++;
+		}
+
+		return contagem;
+	}
+
+	public Integer adicionarCondicao( Integer index, Efeito efeito, Integer duracao, Integer valor )
+	{
+		Personagem personagem = model.getPersonagem( index );
+		personagem.addCondicao( new Condicao( personagem.countCondicao( ) + 1, duracao, valor, efeito ) );
+		System.out.println( personagem + " recebeu a condição " + efeito.getNome( ) + " por " + duracao + " turno(s)" );
+		return condicaoPersonagem( personagem );
+	}
+
+	public Integer removerCondicao( Integer index, Condicao condicao )
+	{
+		Personagem personagem = model.getPersonagem( index );
+		personagem.removeCondicao( condicao );
+		System.out.println( personagem + " perdeu a condição " + condicao.getEfeito( ).getNome( ) );
+		return condicaoPersonagem( personagem );
 	}
 
 	public TabelaCombate getModel( )
