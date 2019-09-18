@@ -221,6 +221,7 @@ public class JPCombate extends JPPadrao
 					selected--;
 				}
 				tabela.setRowSelectionInterval( selected, selected );
+				painter.setSituacao( tabela, 0, controller.condicaoPersonagem( controller.getModel( ).getPersonagem( 0 ) ) );
 			}
 		} );
 

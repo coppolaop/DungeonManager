@@ -146,7 +146,7 @@ class CombateControllerTest
 	@Test
 	void testAdicionarCondicao( )
 	{
-		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP", true );
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
 		controller.adicionarCondicao( 1, sangramento, 2, 3 );
 		Condicao condicao = controller.getModel( ).getPersonagem( 1 ).getCondicoes( ).get( 0 );
 		Assert.assertEquals( "Sangramento", condicao.getEfeito( ).getNome( ) );
@@ -164,7 +164,7 @@ class CombateControllerTest
 	@Test
 	void testCondicaoPersonagemNeutra( )
 	{
-		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP", true );
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
 		controller.adicionarCondicao( 1, sangramento, 2, 3 );
 		Efeito aumentoDeCA = new Efeito( 2, null, "Aumento de CA", 10, true, "CA", false );
 		controller.adicionarCondicao( 1, aumentoDeCA, 12, 2 );
@@ -175,7 +175,7 @@ class CombateControllerTest
 	@Test
 	void testCondicaoPersonagemNegativa( )
 	{
-		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP", true );
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
 		controller.adicionarCondicao( 1, sangramento, 2, 3 );
 		controller.adicionarCondicao( 1, sangramento, 2, 3 );
 		Efeito aumentoDeCA = new Efeito( 2, null, "Aumento de CA", 10, true, "CA", false );
@@ -194,7 +194,7 @@ class CombateControllerTest
 	@Test
 	void testRemoverCondicao( )
 	{
-		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP", true );
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
 		controller.adicionarCondicao( 1, sangramento, 2, 3 );
 		Condicao condicao = controller.getModel( ).getPersonagem( 1 ).getCondicoes( ).get( 0 );
 		controller.removerCondicao( 1, condicao );
@@ -204,7 +204,7 @@ class CombateControllerTest
 	@Test
 	void testRemoverApenasUmaCondicao( )
 	{
-		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP", true );
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
 		controller.adicionarCondicao( 1, sangramento, 2, 3 );
 		Efeito aumentoDeCA = new Efeito( 2, null, "Aumento de CA", 10, true, "CA", false );
 		controller.adicionarCondicao( 1, aumentoDeCA, 12, 2 );
@@ -213,5 +213,54 @@ class CombateControllerTest
 		controller.removerCondicao( 1, condicao );
 		Integer situacao = controller.condicaoPersonagem( controller.getModel( ).getPersonagem( 1 ) );
 		Assert.assertEquals( "1", situacao.toString( ) );
+	}
+	
+	@Test
+	void testDuracaoAtivaCondicao( )
+	{
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
+		controller.adicionarCondicao( 0, sangramento, 2, 3 );
+		controller.ativaCondicao( );
+		Assert.assertEquals( "1", controller.getModel( ).getPersonagem( 0 ).getCondicoes( ).get( 0 ).getDuracaoAtual( ).toString( ) );
+	}
+	
+	@Test
+	void testDanoAtivaCondicao( )
+	{
+		Personagem personagem = controller.getModel( ).getPersonagem( 0 );
+		Integer hpInicial = personagem.getHpAtual( );
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
+		controller.adicionarCondicao( 0, sangramento, 2, 3 );
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		Integer hpFinal = personagem.getHpAtual( );
+		Assert.assertEquals( 6, hpInicial - hpFinal );
+	}
+	
+	@Test
+	void testUltimaAtivaCondicao( )
+	{
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
+		controller.adicionarCondicao( 0, sangramento, 2, 3 );
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		Assert.assertEquals( true, controller.getModel( ).getPersonagem( 0 ).getCondicoes( ).isEmpty( ) );
+	}
+	
+	@Test
+	void testUltimaAtivaCondicaoNaoContinua( )
+	{
+		Integer valor = 2;
+		Personagem personagem = controller.getModel( ).getPersonagem( 0 );
+		Efeito aumentoDeCA = new Efeito( 2, null, "Aumento de CA", 10, true, "CA", false );
+		controller.adicionarCondicao( 0, aumentoDeCA, 3, valor );
+		Integer posEfeito = personagem.getCa( );
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		Integer fimEfeito = personagem.getCa( );
+		Integer contagem = posEfeito - fimEfeito;
+		Assert.assertEquals( valor.toString( ), contagem.toString( ) );
 	}
 }

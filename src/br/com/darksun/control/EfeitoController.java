@@ -100,7 +100,7 @@ public class EfeitoController
 	public void criarEfeitosAleatorios( )
 	{
 		new EfeitoController( ).criarEfeito(
-				new Efeito( 1, "resources/efeito/sangramento.json", "Sangramento", 1, false, "HP", true ) );
+				new Efeito( 1, "resources/efeito/sangramento.json", "Sangramento", 1, false, "HP Atual", true ) );
 		new EfeitoController( ).criarEfeito(
 				new Efeito( 2, "resources/efeito/incrementodeca.json", "Incremento de CA", 10, true, "CA", false ) );
 	}

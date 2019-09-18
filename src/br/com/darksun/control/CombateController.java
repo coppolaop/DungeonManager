@@ -20,6 +20,8 @@ public class CombateController implements ActionListener
 	private TabelaCombate model;
 	private TabelaCombate modelClone;
 	private Textable labelTextoLog;
+	private String colunas[] =
+	{ "Nome", "CA", "HP Atual", "HP Total" };
 
 	public CombateController( List< Personagem > PJs, List< Personagem > PDMs, Textable labelTextoLog,
 			Textable labelRodadas )
@@ -101,7 +103,66 @@ public class CombateController implements ActionListener
 
 	public void ativaCondicao( )
 	{
+		Personagem personagem = model.getPersonagem( 0 );
 
+		List< Condicao > removidos = new ArrayList< Condicao >( );
+		for ( Condicao condicao : personagem.getCondicoes( ) )
+		{
+			Efeito efeito = condicao.getEfeito( );
+			if ( efeito.getIsContinuo( ) )
+			{
+				if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[1] ) )
+				{
+					if ( efeito.getIsPositivo( ) )
+					{
+						personagem.setCa( personagem.getCa( ) + condicao.getValor( ) );
+						System.out.println( personagem + " recebeu " + condicao.getValor( )
+								+ " a mais na CA pela condição " + condicao.getEfeito( ).getNome( ) );
+					} else
+					{
+						personagem.setCa( personagem.getCa( ) - condicao.getValor( ) );
+						System.out.println( personagem + " recebeu " + condicao.getValor( )
+								+ " a menos na CA pela condição " + condicao.getEfeito( ).getNome( ) );
+					}
+				} else if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[2] ) )
+				{
+					if ( efeito.getIsPositivo( ) )
+					{
+						personagem.setHpAtual( personagem.getHpAtual( ) + condicao.getValor( ) );
+						System.out.println( personagem + " recebeu " + condicao.getValor( ) + " de cura pela condição "
+								+ condicao.getEfeito( ).getNome( ) );
+					} else
+					{
+						personagem.setHpAtual( personagem.getHpAtual( ) - condicao.getValor( ) );
+						System.out.println( personagem + " recebeu " + condicao.getValor( ) + " de dano pela condição "
+								+ condicao.getEfeito( ).getNome( ) );
+					}
+				} else if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[3] ) )
+				{
+					if ( efeito.getIsPositivo( ) )
+					{
+						personagem.setHpMaximo( personagem.getHpMaximo( ) + condicao.getValor( ) );
+						System.out.println( personagem + " recebeu " + condicao.getValor( )
+								+ " a mais no HP Total pela condição " + condicao.getEfeito( ).getNome( ) );
+					} else
+					{
+						personagem.setHpMaximo( personagem.getHpMaximo( ) - condicao.getValor( ) );
+						System.out.println( personagem + " recebeu " + condicao.getValor( )
+								+ " a menos no HP Total pela condição " + condicao.getEfeito( ).getNome( ) );
+					}
+				}
+			}
+
+			condicao.setDuracaoAtual( condicao.getDuracaoAtual( ) - 1 );
+			if ( condicao.getDuracaoAtual( ) == 0 )
+			{
+				removidos.add( condicao );
+			}
+		}
+		for ( Condicao condicao : removidos )
+		{
+			this.removerCondicao( 0, condicao );
+		}
 	}
 
 	public void finalizarTurno( Textable labelNumeroRodadas )
@@ -121,6 +182,7 @@ public class CombateController implements ActionListener
 		}
 		model.remover( personagem );
 		model.adicionar( personagem );
+		ativaCondicao( );
 	}
 
 	public void adicionarPersonagem( Personagem personagem, Integer quantidade )
@@ -204,14 +266,82 @@ public class CombateController implements ActionListener
 	public Integer adicionarCondicao( Integer index, Efeito efeito, Integer duracao, Integer valor )
 	{
 		Personagem personagem = model.getPersonagem( index );
-		personagem.addCondicao( new Condicao( personagem.countCondicao( ) + 1, duracao, valor, efeito ) );
+		Condicao condicao = new Condicao( personagem.countCondicao( ) + 1, duracao, valor, efeito );
+		personagem.addCondicao( condicao );
 		System.out.println( personagem + " recebeu a condição " + efeito.getNome( ) + " por " + duracao + " turno(s)" );
+
+		if ( !condicao.getEfeito( ).getIsContinuo( ) )
+		{
+			if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[1] ) )
+			{
+				if ( efeito.getIsPositivo( ) )
+				{
+					personagem.setCa( personagem.getCa( ) + condicao.getValor( ) );
+				} else
+				{
+					personagem.setCa( personagem.getCa( ) - condicao.getValor( ) );
+				}
+			} else if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[2] ) )
+			{
+				if ( efeito.getIsPositivo( ) )
+				{
+					personagem.setHpAtual( personagem.getHpAtual( ) + condicao.getValor( ) );
+				} else
+				{
+					personagem.setHpAtual( personagem.getHpAtual( ) - condicao.getValor( ) );
+				}
+			} else if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[3] ) )
+			{
+				if ( efeito.getIsPositivo( ) )
+				{
+					personagem.setHpMaximo( personagem.getHpMaximo( ) + condicao.getValor( ) );
+				} else
+				{
+					personagem.setHpMaximo( personagem.getHpMaximo( ) - condicao.getValor( ) );
+				}
+			}
+		}
+
 		return condicaoPersonagem( personagem );
 	}
 
 	public Integer removerCondicao( Integer index, Condicao condicao )
 	{
 		Personagem personagem = model.getPersonagem( index );
+
+		Efeito efeito = condicao.getEfeito( );
+		if ( !condicao.getEfeito( ).getIsContinuo( ) )
+		{
+			if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[1] ) )
+			{
+				if ( efeito.getIsPositivo( ) )
+				{
+					personagem.setCa( personagem.getCa( ) - condicao.getValor( ) );
+				} else
+				{
+					personagem.setCa( personagem.getCa( ) + condicao.getValor( ) );
+				}
+			} else if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[2] ) )
+			{
+				if ( efeito.getIsPositivo( ) )
+				{
+					personagem.setHpAtual( personagem.getHpAtual( ) - condicao.getValor( ) );
+				} else
+				{
+					personagem.setHpAtual( personagem.getHpAtual( ) + condicao.getValor( ) );
+				}
+			} else if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[3] ) )
+			{
+				if ( efeito.getIsPositivo( ) )
+				{
+					personagem.setHpMaximo( personagem.getHpMaximo( ) - condicao.getValor( ) );
+				} else
+				{
+					personagem.setHpMaximo( personagem.getHpMaximo( ) + condicao.getValor( ) );
+				}
+			}
+		}
+
 		personagem.removeCondicao( condicao );
 		System.out.println( personagem + " perdeu a condição " + condicao.getEfeito( ).getNome( ) );
 		return condicaoPersonagem( personagem );
