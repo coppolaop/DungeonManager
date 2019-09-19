@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 import br.com.darksun.control.EfeitoController;
 import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Aplicacao;
+import br.com.darksun.gui.characterbuilder.JPListarEfeito;
 import br.com.darksun.gui.characterbuilder.JPListarPersonagem;
 
 public class JFPrincipal extends JFrame
@@ -117,6 +118,7 @@ public class JFPrincipal extends JFrame
 
 		JMenuItem itemNovoCombate = new JMenuItem( "Novo Combate" );
 		JMenuItem listarPersonagens = new JMenuItem( "Listar Personagens" );
+		JMenuItem listarEfeitos = new JMenuItem( "Listar Efeitos" );
 		JMenuItem itemSobre = new JMenuItem( "Sobre" );
 		JMenuItem itemSair = new JMenuItem( "Sair" );
 
@@ -140,6 +142,19 @@ public class JFPrincipal extends JFrame
 				JFPrincipal.this.remove( getTela( ) );
 
 				setTela( new JPListarPersonagem( JFPrincipal.this ), true );
+
+				revalidate( );
+				repaint( );
+			}
+		} );
+		
+		listarEfeitos.addActionListener( new ActionListener( )
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				JFPrincipal.this.remove( getTela( ) );
+
+				setTela( new JPListarEfeito( JFPrincipal.this ), true );
 
 				revalidate( );
 				repaint( );
@@ -169,6 +184,7 @@ public class JFPrincipal extends JFrame
 
 		fileMenu.add( itemNovoCombate );
 		fileMenu.add( listarPersonagens ); // Projeto Character Builder
+		fileMenu.add( listarEfeitos );
 		fileMenu.add( itemSobre );
 		fileMenu.addSeparator( );
 		fileMenu.add( itemSair );

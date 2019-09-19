@@ -74,6 +74,13 @@ public class EfeitoController
 		}
 	}
 
+	public void criarEfeito(	Integer idEfeito, String nome, Integer duracaoPadrao, Boolean isPositivo,
+								String atributoAfetado, Boolean isContinuo )
+	{
+		String filePath = "resources/efeito/" + nome + ".json";
+		criarEfeito( new Efeito( idEfeito, filePath, nome, duracaoPadrao, isPositivo, atributoAfetado, isContinuo ) );
+	}
+
 	@SuppressWarnings( "unchecked" )
 	public void criarEfeito( Efeito efeito )
 	{
@@ -103,5 +110,10 @@ public class EfeitoController
 				new Efeito( 1, "resources/efeito/sangramento.json", "Sangramento", 1, false, "HP Atual", true ) );
 		new EfeitoController( ).criarEfeito(
 				new Efeito( 2, "resources/efeito/incrementodeca.json", "Incremento de CA", 10, true, "CA", false ) );
+	}
+
+	public String newId( )
+	{
+		return newID.toString( );
 	}
 }
