@@ -77,8 +77,7 @@ public class EfeitoController
 	public void criarEfeito(	Integer idEfeito, String nome, Integer duracaoPadrao, Boolean isPositivo,
 								String atributoAfetado, Boolean isContinuo )
 	{
-		String filePath = "resources/efeito/" + nome + ".json";
-		criarEfeito( new Efeito( idEfeito, filePath, nome, duracaoPadrao, isPositivo, atributoAfetado, isContinuo ) );
+		criarEfeito( new Efeito( idEfeito, null, nome, duracaoPadrao, isPositivo, atributoAfetado, isContinuo ) );
 	}
 
 	@SuppressWarnings( "unchecked" )

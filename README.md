@@ -43,6 +43,7 @@ dentro dela é contida uma pasta pdm para imagens dos PDMs, e uma pj, para image
 - resources
   -- pj
   -- pdm
+  -- efeito
   -- log
   -- img
     ---pj

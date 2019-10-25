@@ -7,8 +7,8 @@ import java.util.List;
 public class Personagem implements Cloneable
 {
 	private Integer idPersonagem 		= 0;
-	private String filePath 			= "";
 	private String nome 				= "";
+	private String filePath 			= "";
 	private String classe 				= "";
 	private String imagem 				= "";
 	private String descricao 			= "";
@@ -21,23 +21,24 @@ public class Personagem implements Cloneable
 	private Boolean status 				= true;
 	private Integer replica 			= 0;
 
-	private List< Condicao > condicoes = new ArrayList< Condicao >( );
+	private List< Condicao > condicoes 	= new ArrayList< Condicao >( );
 
 	public Personagem( )
 	{
 
 	}
 
-	public Personagem( Integer idPersonagem, String filePath, String nome, String classe, String imagem, Integer ca,
-			Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo, Integer hpAtual, Boolean isPJ,
-			Boolean status, Integer replica, String descricao )
+	public Personagem( Integer idPersonagem, String nome, String filePath, String classe, String imagem,
+			String descricao, Integer ca, Integer bonusIniciativa, Integer iniciativa, Integer hpMaximo,
+			Integer hpAtual, Boolean isPJ, Boolean status, Integer replica )
 	{
 		super( );
 		this.idPersonagem = idPersonagem;
-		this.filePath = filePath;
 		this.nome = nome;
+		this.filePath = filePath;
 		this.classe = classe;
 		this.imagem = imagem;
+		this.descricao = descricao;
 		this.ca = ca;
 		this.bonusIniciativa = bonusIniciativa;
 		this.iniciativa = iniciativa;
@@ -46,7 +47,6 @@ public class Personagem implements Cloneable
 		this.isPJ = isPJ;
 		this.status = status;
 		this.replica = replica;
-		this.descricao = descricao;
 	}
 
 	@Override
@@ -67,16 +67,6 @@ public class Personagem implements Cloneable
 		this.idPersonagem = idPersonagem;
 	}
 
-	public String getFilePath( )
-	{
-		return filePath;
-	}
-
-	public void setFilePath( String filePath )
-	{
-		this.filePath = filePath;
-	}
-
 	public String getNome( )
 	{
 		return nome;
@@ -85,6 +75,16 @@ public class Personagem implements Cloneable
 	public void setNome( String nome )
 	{
 		this.nome = nome;
+	}
+
+	public String getFilePath( )
+	{
+		return filePath;
+	}
+
+	public void setFilePath( String filePath )
+	{
+		this.filePath = filePath;
 	}
 
 	public String getClasse( )

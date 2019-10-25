@@ -34,21 +34,21 @@ class CombateControllerTest
 	void setUp( ) throws Exception
 	{
 		// Instanciando PJs
-		PJ1 = new Personagem( 1, "resources/pj/Marcos.properties", "Marcos", "Guerreiro", "", 32, 2, 16, 180, 180, true,
-				true, 0, "" );
-		PJ2 = new Personagem( 2, "resources/pj/Igor.properties", "Igor", "Guerreiro", "", 22, 4, 14, 180, 150, true,
-				true, 0, "" );
-		PJ3 = new Personagem( 3, "resources/pj/Abel.properties", "Abel", "Clérigo", "", 26, 0, 10, 160, 150, true, true,
-				0, "" );
+		PJ1 = new Personagem( 1, "Marcos" , "resources/pj/Marcos.properties", "Guerreiro", "", "", 32, 2, 16, 180, 180, true,
+				true, 0 );
+		PJ2 = new Personagem( 2, "resources/pj/Igor.properties", "Igor", "Guerreiro", "", "",  22, 4, 14, 180, 150, true,
+				true, 0 );
+		PJ3 = new Personagem( 3, "Abel", "resources/pj/Abel.properties", "Clérigo", "", "", 26, 0, 10, 160, 150, true, true,
+				0 );
 		// Instanciando PDMs
-		PDM1 = new Personagem( 4, "resources/pdm/Elfo_Arqueiro.properties", "Elfo arqueiro", "Patrulheiro", "", 26, 6,
-				16, 100, 100, false, true, 1, "" );
-		PDM2 = new Personagem( 5, "resources/pdm/Fantasma.properties", "Fantasma", "Morto-vivo", "", 12, 2, 14, 70, 70,
-				false, true, 1, "" );
-		PDM3 = new Personagem( 6, "resources/pdm/Lobo_Gigante.properties", "Lobo Gigante", "Animal Selvagem", "", 20,
-				10, 10, 60, 80, false, true, 1, "" );
-		PDM4 = new Personagem( 5, "resources/pdm/Fantasma.properties", "Fantasma", "Morto-vivo", "", 12, 2, 22, 40, 70,
-				false, true, 2, "" );
+		PDM1 = new Personagem( 4, "Elfo arqueiro", "resources/pdm/Elfo_Arqueiro.properties", "Patrulheiro", "", "", 26, 6,
+				16, 100, 100, false, true, 1);
+		PDM2 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12, 2, 14, 70, 70,
+				false, true, 1 );
+		PDM3 = new Personagem( 6, "Lobo Gigante", "resources/pdm/Lobo_Gigante.properties", "Animal Selvagem", "", "", 20,
+				10, 10, 60, 80, false, true, 1 );
+		PDM4 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12, 2, 22, 40, 70,
+				false, true, 2);
 		// Criando Listas
 		List< Personagem > PJs = new ArrayList< Personagem >( );
 		List< Personagem > PDMs = new ArrayList< Personagem >( );
@@ -113,8 +113,8 @@ class CombateControllerTest
 	@Test
 	void testAdicionarPersonagem( )
 	{
-		Personagem PDM5 = new Personagem( 5, "resources/pdm/Fantasma.properties", "Fantasma", "Morto-vivo", "", 12, 2,
-				22, 40, 70, false, true, 3, "" );
+		Personagem PDM5 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12, 2,
+				22, 40, 70, false, true, 3 );
 		controller.adicionarPersonagem( PDM5, 1 );
 		Assert.assertEquals( PDM5, controller.getModel( ).getPersonagem( 7 ) );
 	}
