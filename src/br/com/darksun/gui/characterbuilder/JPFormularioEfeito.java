@@ -74,7 +74,7 @@ public class JPFormularioEfeito extends JPPadrao
 		JComboBox ComboBoxIsPositivo = new JComboBox( booleano );
 		ComboBoxIsPositivo.setBounds( width - 150, 100, 50, 30 );
 
-		JLabel labelIsContinuo = new JLabel( "O Efeito é Contínuo:" );
+		JLabel labelIsContinuo = new JLabel( "O Efeito é causado todo turno:" );
 		labelIsContinuo.setBounds( width - 350, 150, 175, 30 );
 		labelIsContinuo.setForeground( Color.WHITE );
 		labelIsContinuo.setHorizontalAlignment( SwingConstants.RIGHT );
