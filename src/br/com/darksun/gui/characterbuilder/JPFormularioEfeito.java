@@ -26,7 +26,7 @@ public class JPFormularioEfeito extends JPPadrao
 	private String[ ] booleano =
 	{ "Sim", "Não" };
 	private String[ ] atributos =
-	{ "CA", "HP Atual", "HP Maximo" };
+	{ "CA", "HP Atual", "HP Maximo", "Outro" };
 
 	public JPFormularioEfeito( JFPrincipal frame, Boolean isPJ, String newID, Efeito efeito )
 	{
@@ -121,6 +121,9 @@ public class JPFormularioEfeito extends JPPadrao
 			} else if ( atributoAfetado.equals( "HP Maximo" ) )
 			{
 				ComboBoxAtributoAfetado.setSelectedIndex( 2 );
+			} else if ( atributoAfetado.equals( "Outro" ) )
+			{
+				ComboBoxAtributoAfetado.setSelectedIndex( 3 );
 			}
 
 			ComboBoxIsContinuo.setSelectedIndex( efeito.getIsContinuo( ) ? 0 : 1 );
@@ -189,6 +192,9 @@ public class JPFormularioEfeito extends JPPadrao
 						break;
 					case 2:
 						atributoAfetado = "HP Maximo";
+						break;
+					case 3:
+						atributoAfetado = "Outro";
 						break;
 					}
 

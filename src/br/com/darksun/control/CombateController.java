@@ -150,6 +150,17 @@ public class CombateController implements ActionListener
 						System.out.println( personagem + " recebeu " + condicao.getValor( )
 								+ " a menos no HP Total pela condição " + condicao.getEfeito( ).getNome( ) );
 					}
+				} else
+				{
+					if ( efeito.getIsPositivo( ) )
+					{
+						System.out.println( personagem + " recebeu " + condicao.getValor( )
+								+ " a mais no atributo da condição " + condicao.getEfeito( ).getNome( ) );
+					} else
+					{
+						System.out.println( personagem + " recebeu " + condicao.getValor( )
+								+ " a menos no atributo da condição " + condicao.getEfeito( ).getNome( ) );
+					}
 				}
 			}
 

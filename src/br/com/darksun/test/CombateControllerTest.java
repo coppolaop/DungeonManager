@@ -263,4 +263,25 @@ class CombateControllerTest
 		Integer contagem = posEfeito - fimEfeito;
 		Assert.assertEquals( valor.toString( ), contagem.toString( ) );
 	}
+	
+	@Test
+	void testAtributoOutroAtivaCondicao( )
+	{
+		Personagem personagem = controller.getModel( ).getPersonagem( 0 );
+		Efeito velocidade = new Efeito( 3, null, "Velocidade", 3, true, "Outro", false );
+		Integer[] atributosIniciais = { personagem.getHpAtual( ), personagem.getHpMaximo( ), personagem.getCa( ) };
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		Integer[] atributosFinais = { personagem.getHpAtual( ), personagem.getHpMaximo( ), personagem.getCa( ) };
+		Boolean atributosAfetados = false;
+		for ( int i = 0; i < atributosIniciais.length; i++ )
+		{
+			if( atributosIniciais[i] != atributosFinais[i] )
+			{
+				atributosAfetados = true;
+			}
+		}
+		Assert.assertEquals( false, atributosAfetados );
+	}
 }
