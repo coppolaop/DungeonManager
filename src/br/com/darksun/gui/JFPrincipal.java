@@ -147,7 +147,7 @@ public class JFPrincipal extends JFrame
 				repaint( );
 			}
 		} );
-		
+
 		listarEfeitos.addActionListener( new ActionListener( )
 		{
 			public void actionPerformed( ActionEvent e )

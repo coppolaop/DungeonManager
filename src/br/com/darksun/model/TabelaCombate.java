@@ -61,10 +61,11 @@ public class TabelaCombate extends AbstractTableModel
 	{
 		this.rodada = rodada;
 	}
-	
+
 	public void avancaRodada( )
 	{
-		System.out.println( "-- A Rodada " + this.rodada + " acabou --" );
+		System.out.println( "-- A Rodada " + this.rodada + " acabou --\n" );
+		log.append( "-- A Rodada " + this.rodada + " acabou --\n\n", "normal" );
 		this.rodada += 1;
 		this.labelRodadas.setText( rodada.toString( ) );
 	}
@@ -119,14 +120,14 @@ public class TabelaCombate extends AbstractTableModel
 				{
 					System.out.println( "A CA de " + personagem.toString( ) + " diminuiu "
 							+ ( CA - Integer.parseInt( value ) ) + " pontos" );
-					log.setText( "A CA de " + personagem.toString( ) + " diminuiu " + ( CA - Integer.parseInt( value ) )
-							+ " pontos" );
+					log.append( "A CA de " + personagem.toString( ) + " diminuiu " + ( CA - Integer.parseInt( value ) )
+							+ " pontos\n" );
 				} else if ( Integer.parseInt( value ) > CA )
 				{
 					System.out.println( "A CA de " + personagem.toString( ) + " aumentou "
 							+ ( Integer.parseInt( value ) - CA ) + " pontos" );
-					log.setText( "A CA de " + personagem.toString( ) + " aumentou " + ( Integer.parseInt( value ) - CA )
-							+ " pontos" );
+					log.append( "A CA de " + personagem.toString( ) + " aumentou " + ( Integer.parseInt( value ) - CA )
+							+ " pontos\n" );
 				}
 				personagem.setCa( Integer.parseInt( value ) );
 				if ( personagem.getReplica( ) == 0 )
@@ -140,14 +141,14 @@ public class TabelaCombate extends AbstractTableModel
 					{
 						System.out.println( "Algo fez com que " + personagem.toString( ) + " perdesse "
 								+ ( HP - Integer.parseInt( value ) ) + " pontos de vida no seu turno" );
-						log.setText( "Algo fez com que " + personagem.toString( ) + " perdesse "
-								+ ( HP - Integer.parseInt( value ) ) + " pontos de vida no seu turno" );
+						log.append( "Algo fez com que " + personagem.toString( ) + " perdesse "
+								+ ( HP - Integer.parseInt( value ) ) + " pontos de vida no seu turno\n" );
 					} else
 					{
 						System.out.println( personagens.get( 0 ).toString( ) + " causou "
 								+ ( HP - Integer.parseInt( value ) ) + " pontos de dano em " + personagem.toString( ) );
-						log.setText( personagens.get( 0 ).toString( ) + " causou " + ( HP - Integer.parseInt( value ) )
-								+ " pontos de dano em " + personagem.toString( ) );
+						log.append( personagens.get( 0 ).toString( ) + " causou " + ( HP - Integer.parseInt( value ) )
+								+ " pontos de dano em " + personagem.toString( ) + "\n" );
 					}
 				} else if ( Integer.parseInt( value ) > HP )
 				{
@@ -155,14 +156,14 @@ public class TabelaCombate extends AbstractTableModel
 					{
 						System.out.println( personagem.toString( ) + " se curou em "
 								+ ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
-						log.setText( personagem.toString( ) + " se curou em " + ( Integer.parseInt( value ) - HP )
-								+ " pontos de vida" );
+						log.append( personagem.toString( ) + " se curou em " + ( Integer.parseInt( value ) - HP )
+								+ " pontos de vida\n" );
 					} else
 					{
 						System.out.println( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( )
 								+ " em " + ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
-						log.setText( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( ) + " em "
-								+ ( Integer.parseInt( value ) - HP ) + " pontos de vida" );
+						log.append( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( ) + " em "
+								+ ( Integer.parseInt( value ) - HP ) + " pontos de vida\n" );
 					}
 				}
 				personagem.setHpAtual( Integer.parseInt( ( String ) value ) );
@@ -175,14 +176,14 @@ public class TabelaCombate extends AbstractTableModel
 				{
 					System.out.println( "O HP máximo de " + personagem.toString( ) + " diminuiu "
 							+ ( HP - Integer.parseInt( value ) ) + " pontos" );
-					log.setText( "O HP máximo de " + personagem.toString( ) + " diminuiu "
-							+ ( HP - Integer.parseInt( value ) ) + " pontos" );
+					log.append( "O HP máximo de " + personagem.toString( ) + " diminuiu "
+							+ ( HP - Integer.parseInt( value ) ) + " pontos\n" );
 				} else if ( Integer.parseInt( value ) > HP )
 				{
 					System.out.println( "O HP máximo de " + personagem.toString( ) + " aumentou "
 							+ ( Integer.parseInt( value ) - HP ) + " pontos" );
-					log.setText( "O HP máximo de " + personagem.toString( ) + " aumentou "
-							+ ( Integer.parseInt( value ) - HP ) + " pontos" );
+					log.append( "O HP máximo de " + personagem.toString( ) + " aumentou "
+							+ ( Integer.parseInt( value ) - HP ) + " pontos\n" );
 				}
 				personagem.setHpMaximo( Integer.parseInt( value ) );
 				if ( personagem.getReplica( ) == 0 )
@@ -229,12 +230,12 @@ public class TabelaCombate extends AbstractTableModel
 				{
 					System.out.println(
 							"A CA de " + personagem.toString( ) + " diminuiu " + ( CA - number ) + " pontos" );
-					log.setText( "A CA de " + personagem.toString( ) + " diminuiu " + ( CA - number ) + " pontos" );
+					log.append( "A CA de " + personagem.toString( ) + " diminuiu " + ( CA - number ) + " pontos\n" );
 				} else if ( number > CA )
 				{
 					System.out.println(
 							"A CA de " + personagem.toString( ) + " aumentou " + ( number - CA ) + " pontos" );
-					log.setText( "A CA de " + personagem.toString( ) + " aumentou " + ( number - CA ) + " pontos" );
+					log.append( "A CA de " + personagem.toString( ) + " aumentou " + ( number - CA ) + " pontos\n" );
 				}
 				personagem.setCa( number );
 				if ( personagem.getReplica( ) == 0 )
@@ -248,14 +249,14 @@ public class TabelaCombate extends AbstractTableModel
 					{
 						System.out.println( "Algo fez com que " + personagem.toString( ) + " perdesse "
 								+ ( HP - number ) + " pontos de vida no seu turno" );
-						log.setText( "Algo fez com que " + personagem.toString( ) + " perdesse " + ( HP - number )
-								+ " pontos de vida no seu turno" );
+						log.append( "Algo fez com que " + personagem.toString( ) + " perdesse " + ( HP - number )
+								+ " pontos de vida no seu turno\n" );
 					} else
 					{
 						System.out.println( personagens.get( 0 ).toString( ) + " causou " + ( HP - number )
 								+ " pontos de dano em " + personagem.toString( ) );
-						log.setText( personagens.get( 0 ).toString( ) + " causou " + ( HP - number )
-								+ " pontos de dano em " + personagem.toString( ) );
+						log.append( personagens.get( 0 ).toString( ) + " causou " + ( HP - number )
+								+ " pontos de dano em " + personagem.toString( ) + "\n" );
 					}
 				} else if ( number > HP )
 				{
@@ -263,13 +264,13 @@ public class TabelaCombate extends AbstractTableModel
 					{
 						System.out.println(
 								personagem.toString( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
-						log.setText( personagem.toString( ) + " se curou em " + ( number - HP ) + " pontos de vida" );
+						log.append( personagem.toString( ) + " se curou em " + ( number - HP ) + " pontos de vida\n" );
 					} else
 					{
 						System.out.println( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( )
 								+ " em " + ( number - HP ) + " pontos de vida" );
-						log.setText( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( ) + " em "
-								+ ( number - HP ) + " pontos de vida" );
+						log.append( personagens.get( 0 ).toString( ) + " curou " + personagem.toString( ) + " em "
+								+ ( number - HP ) + " pontos de vida\n" );
 					}
 				}
 				personagem.setHpAtual( number );
@@ -282,14 +283,14 @@ public class TabelaCombate extends AbstractTableModel
 				{
 					System.out.println(
 							"O HP máximo de " + personagem.toString( ) + " diminuiu " + ( HP - number ) + " pontos" );
-					log.setText(
-							"O HP máximo de " + personagem.toString( ) + " diminuiu " + ( HP - number ) + " pontos" );
+					log.append(
+							"O HP máximo de " + personagem.toString( ) + " diminuiu " + ( HP - number ) + " pontos\n" );
 				} else if ( number > HP )
 				{
 					System.out.println(
 							"O HP máximo de " + personagem.toString( ) + " aumentou " + ( number - HP ) + " pontos" );
-					log.setText(
-							"O HP máximo de " + personagem.toString( ) + " aumentou " + ( number - HP ) + " pontos" );
+					log.append(
+							"O HP máximo de " + personagem.toString( ) + " aumentou " + ( number - HP ) + " pontos\n" );
 				}
 				personagem.setHpMaximo( number );
 				if ( personagem.getReplica( ) == 0 )

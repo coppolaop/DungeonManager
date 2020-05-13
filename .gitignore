@@ -31,6 +31,8 @@ local.properties
 .loadpath
 .recommenders
 Thumbs.db
+.classpath
+.project
 
 # External tool builders
 .externalToolBuilders/

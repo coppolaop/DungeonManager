@@ -34,21 +34,21 @@ class CombateControllerTest
 	void setUp( ) throws Exception
 	{
 		// Instanciando PJs
-		PJ1 = new Personagem( 1, "Marcos" , "resources/pj/Marcos.properties", "Guerreiro", "", "", 32, 2, 16, 180, 180, true,
+		PJ1 = new Personagem( 1, "Marcos", "resources/pj/Marcos.properties", "Guerreiro", "", "", 32, 2, 16, 180, 180,
+				true, true, 0 );
+		PJ2 = new Personagem( 2, "resources/pj/Igor.properties", "Igor", "Guerreiro", "", "", 22, 4, 14, 180, 150, true,
 				true, 0 );
-		PJ2 = new Personagem( 2, "resources/pj/Igor.properties", "Igor", "Guerreiro", "", "",  22, 4, 14, 180, 150, true,
+		PJ3 = new Personagem( 3, "Abel", "resources/pj/Abel.properties", "Clérigo", "", "", 26, 0, 10, 160, 150, true,
 				true, 0 );
-		PJ3 = new Personagem( 3, "Abel", "resources/pj/Abel.properties", "Clérigo", "", "", 26, 0, 10, 160, 150, true, true,
-				0 );
 		// Instanciando PDMs
-		PDM1 = new Personagem( 4, "Elfo arqueiro", "resources/pdm/Elfo_Arqueiro.properties", "Patrulheiro", "", "", 26, 6,
-				16, 100, 100, false, true, 1);
-		PDM2 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12, 2, 14, 70, 70,
-				false, true, 1 );
-		PDM3 = new Personagem( 6, "Lobo Gigante", "resources/pdm/Lobo_Gigante.properties", "Animal Selvagem", "", "", 20,
-				10, 10, 60, 80, false, true, 1 );
-		PDM4 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12, 2, 22, 40, 70,
-				false, true, 2);
+		PDM1 = new Personagem( 4, "Elfo arqueiro", "resources/pdm/Elfo_Arqueiro.properties", "Patrulheiro", "", "", 26,
+				6, 16, 100, 100, false, true, 1 );
+		PDM2 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12, 2, 14, 70,
+				70, false, true, 1 );
+		PDM3 = new Personagem( 6, "Lobo Gigante", "resources/pdm/Lobo_Gigante.properties", "Animal Selvagem", "", "",
+				20, 10, 10, 60, 80, false, true, 1 );
+		PDM4 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12, 2, 22, 40,
+				70, false, true, 2 );
 		// Criando Listas
 		List< Personagem > PJs = new ArrayList< Personagem >( );
 		List< Personagem > PDMs = new ArrayList< Personagem >( );
@@ -99,22 +99,22 @@ class CombateControllerTest
 	@Test
 	void testFinalizarTurnoPrimeiro( )
 	{
-		controller.finalizarTurno( labelRodadas );
+		controller.finalizarTurno( );
 		Assert.assertEquals( PDM1, controller.getModel( ).getPersonagem( 0 ) );
 	}
 
 	@Test
 	void testFinalizarTurnoUltimo( )
 	{
-		controller.finalizarTurno( labelRodadas );
+		controller.finalizarTurno( );
 		Assert.assertEquals( PDM4, controller.getModel( ).getPersonagem( 6 ) );
 	}
 
 	@Test
 	void testAdicionarPersonagem( )
 	{
-		Personagem PDM5 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12, 2,
-				22, 40, 70, false, true, 3 );
+		Personagem PDM5 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12,
+				2, 22, 40, 70, false, true, 3 );
 		controller.adicionarPersonagem( PDM5, 1 );
 		Assert.assertEquals( PDM5, controller.getModel( ).getPersonagem( 7 ) );
 	}
@@ -138,7 +138,7 @@ class CombateControllerTest
 	{
 		for ( int i = 0; i < 15; i++ ) // 7 personagens, 2 turnos passados
 		{
-			controller.finalizarTurno( labelRodadas );
+			controller.finalizarTurno( );
 		}
 		Assert.assertEquals( "2", labelRodadas.getText( ) );
 	}
@@ -214,16 +214,17 @@ class CombateControllerTest
 		Integer situacao = controller.condicaoPersonagem( controller.getModel( ).getPersonagem( 1 ) );
 		Assert.assertEquals( "1", situacao.toString( ) );
 	}
-	
+
 	@Test
 	void testDuracaoAtivaCondicao( )
 	{
 		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
 		controller.adicionarCondicao( 0, sangramento, 2, 3 );
 		controller.ativaCondicao( );
-		Assert.assertEquals( "1", controller.getModel( ).getPersonagem( 0 ).getCondicoes( ).get( 0 ).getDuracaoAtual( ).toString( ) );
+		Assert.assertEquals( "1",
+				controller.getModel( ).getPersonagem( 0 ).getCondicoes( ).get( 0 ).getDuracaoAtual( ).toString( ) );
 	}
-	
+
 	@Test
 	void testDanoAtivaCondicao( )
 	{
@@ -236,7 +237,7 @@ class CombateControllerTest
 		Integer hpFinal = personagem.getHpAtual( );
 		Assert.assertEquals( 6, hpInicial - hpFinal );
 	}
-	
+
 	@Test
 	void testUltimaAtivaCondicao( )
 	{
@@ -247,7 +248,7 @@ class CombateControllerTest
 		controller.ativaCondicao( );
 		Assert.assertEquals( true, controller.getModel( ).getPersonagem( 0 ).getCondicoes( ).isEmpty( ) );
 	}
-	
+
 	@Test
 	void testUltimaAtivaCondicaoNaoContinua( )
 	{
@@ -263,21 +264,23 @@ class CombateControllerTest
 		Integer contagem = posEfeito - fimEfeito;
 		Assert.assertEquals( valor.toString( ), contagem.toString( ) );
 	}
-	
+
 	@Test
 	void testAtributoOutroAtivaCondicao( )
 	{
 		Personagem personagem = controller.getModel( ).getPersonagem( 0 );
 		Efeito velocidade = new Efeito( 3, null, "Velocidade", 3, true, "Outro", false );
-		Integer[] atributosIniciais = { personagem.getHpAtual( ), personagem.getHpMaximo( ), personagem.getCa( ) };
+		Integer[ ] atributosIniciais =
+		{ personagem.getHpAtual( ), personagem.getHpMaximo( ), personagem.getCa( ) };
 		controller.ativaCondicao( );
 		controller.ativaCondicao( );
 		controller.ativaCondicao( );
-		Integer[] atributosFinais = { personagem.getHpAtual( ), personagem.getHpMaximo( ), personagem.getCa( ) };
+		Integer[ ] atributosFinais =
+		{ personagem.getHpAtual( ), personagem.getHpMaximo( ), personagem.getCa( ) };
 		Boolean atributosAfetados = false;
 		for ( int i = 0; i < atributosIniciais.length; i++ )
 		{
-			if( atributosIniciais[i] != atributosFinais[i] )
+			if ( atributosIniciais[i] != atributosFinais[i] )
 			{
 				atributosAfetados = true;
 			}

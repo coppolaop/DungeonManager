@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+//import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -29,6 +30,7 @@ import br.com.darksun.control.PersonagemController;
 import br.com.darksun.entity.Personagem;
 import br.com.darksun.util.RowPainter;
 import br.com.darksun.util.adapter.JLabelAdapter;
+import br.com.darksun.util.adapter.JTextPaneAdapter;
 
 public class JPCombate extends JPPadrao
 {
@@ -64,13 +66,23 @@ public class JPCombate extends JPPadrao
 		labelTextoLog.setFont(
 				new Font( labelTextoLog.getFont( ).getFontName( ), labelTextoLog.getFont( ).getStyle( ), 16 ) );
 
+		JTextPaneAdapter PaneLog = new JTextPaneAdapter( "" );
+
+		JScrollPane areaScrollerLog = new JScrollPane( PaneLog );
+		PaneLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 365, width - ( 115 + ( ( width - 100 ) / 3 ) ),
+				( height - 365 ) - 120 );
+		areaScrollerLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 365,
+				width - ( 115 + ( ( width - 100 ) / 3 ) ), ( height - 365 ) - 120 );
+		PaneLog.setFont( new Font( PaneLog.getFont( ).getFontName( ), Font.BOLD, 15 ) );
+		PaneLog.setEditable( false );
+
 		JLabelAdapter labelNumeroRodadas = new JLabelAdapter( "0" );
 		labelNumeroRodadas.setBounds( 150, 15, 80, 20 );
 		labelNumeroRodadas.setForeground( Color.WHITE );
 		labelNumeroRodadas.setFont( new Font( labelNumeroRodadas.getFont( ).getFontName( ),
 				labelNumeroRodadas.getFont( ).getStyle( ), 20 ) );
 
-		CombateController controller = new CombateController( PJs, PDMs, labelTextoLog, labelNumeroRodadas );
+		CombateController controller = new CombateController( PJs, PDMs, PaneLog, labelNumeroRodadas );
 
 		JTable tabela = new JTable( controller.getModel( ) );
 		tabela.setSelectionMode( ListSelectionModel.SINGLE_INTERVAL_SELECTION );
@@ -106,10 +118,12 @@ public class JPCombate extends JPPadrao
 
 		JTextArea areaDescricao = new JTextArea( 5, 5 );
 		JScrollPane areaScrollerDescricao = new JScrollPane( areaDescricao );
+
 		areaDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265, width - ( 265 + ( ( width - 100 ) / 3 ) ),
 				( height / 2 ) - 265 );
 		areaScrollerDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265, width - ( 265 + ( ( width - 100 ) / 3 ) ),
 				( height / 2 ) - 265 );
+
 		areaDescricao.setLineWrap( true );
 		areaDescricao.setVisible( false );
 		areaScrollerDescricao.setVisible( false );
@@ -133,8 +147,7 @@ public class JPCombate extends JPPadrao
 		add( btnMenosCondicao );
 		add( labelRodada );
 		add( labelNumeroRodadas );
-		add( labelLog );
-		add( labelTextoLog );
+		add( areaScrollerLog );
 		add( labelImg );
 		add( areaScrollerDescricao );
 		add( btnSalvarDescricao );
@@ -164,12 +177,25 @@ public class JPCombate extends JPPadrao
 				labelLog.setBounds( 65 + ( ( width - 100 ) / 3 ), height - 150, 50, 30 );
 				labelTextoLog.setBounds( 115 + ( ( width - 100 ) / 3 ), height - 150,
 						width - ( 165 + ( ( width - 100 ) / 3 ) ), 30 );
+				PaneLog.setBounds( 65 + ( ( width - 100 ) / 3 ), 385, width - ( 115 + ( ( width - 100 ) / 3 ) ),
+						( height - 365 ) - 120 );
+				areaScrollerLog.setBounds( 65 + ( ( width - 100 ) / 3 ), 385, width - ( 115 + ( ( width - 100 ) / 3 ) ),
+						( height - 365 ) - 120 );
 				tabela.setRowHeight( 30 );
 				labelImg.setBounds( 215 + ( ( width - 100 ) / 3 ), 50, 200, 200 );
-				areaDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265, width - ( 265 + ( ( width - 100 ) / 3 ) ),
-						( height / 2 ) - 265 );
-				areaScrollerDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265,
-						width - ( 265 + ( ( width - 100 ) / 3 ) ), ( height / 2 ) - 265 );
+				if ( height < 475 )
+				{
+					areaDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265,
+							width - ( 265 + ( ( width - 100 ) / 3 ) ), ( height - 100 ) - 265 );
+					areaScrollerDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265,
+							width - ( 265 + ( ( width - 100 ) / 3 ) ), ( height - 100 ) - 265 );
+				} else
+				{
+					areaDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265,
+							width - ( 265 + ( ( width - 100 ) / 3 ) ), 110 );
+					areaScrollerDescricao.setBounds( 215 + ( ( width - 100 ) / 3 ), 265,
+							width - ( 265 + ( ( width - 100 ) / 3 ) ), 110 );
+				}
 				btnSalvarDescricao.setBounds( width - 250, 235, 100, 30 );
 				btnDesfazerDescricao.setBounds( width - 150, 235, 100, 30 );
 			}
@@ -211,7 +237,7 @@ public class JPCombate extends JPPadrao
 			{
 				Integer selected = tabela.getSelectedRow( );
 
-				controller.finalizarTurno( labelNumeroRodadas );
+				controller.finalizarTurno( );
 
 				if ( selected == 0 )
 				{
@@ -221,7 +247,8 @@ public class JPCombate extends JPPadrao
 					selected--;
 				}
 				tabela.setRowSelectionInterval( selected, selected );
-				painter.setSituacao( tabela, 0, controller.condicaoPersonagem( controller.getModel( ).getPersonagem( 0 ) ) );
+				painter.setSituacao( tabela, 0,
+						controller.condicaoPersonagem( controller.getModel( ).getPersonagem( 0 ) ) );
 			}
 		} );
 

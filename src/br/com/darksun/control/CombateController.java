@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JLabel;
-
 import br.com.darksun.entity.Condicao;
 import br.com.darksun.entity.Efeito;
 import br.com.darksun.entity.Personagem;
@@ -62,16 +60,14 @@ public class CombateController implements ActionListener
 			System.out.println( model.getValueAt( index, 0 ) + " foi reposicionado para antes de "
 					+ model.getValueAt( index - 1, 0 ) );
 
-			if ( labelTextoLog instanceof JLabel )
-			{
-				( ( JLabel ) labelTextoLog ).setText( model.getValueAt( index, 0 ) + " foi reposicionado para antes de "
-						+ model.getValueAt( index - 1, 0 ) );
-			}
+			labelTextoLog.append( model.getValueAt( index, 0 ) + " foi reposicionado para antes de "
+					+ model.getValueAt( index - 1, 0 ) + "\n" );
 
 			if ( model.getPersonagem( index ).equals( model.getUltimoDaRodada( ) ) )
 			{
 				model.setUltimoDaRodada( model.getPersonagem( index - 1 ) );
 				System.out.println( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) );
+				labelTextoLog.append( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) + "\n" );
 			}
 
 			model.trocar( index, index - 1 );
@@ -85,16 +81,14 @@ public class CombateController implements ActionListener
 			System.out.println( model.getValueAt( index, 0 ) + " foi reposicionado para depois de "
 					+ model.getValueAt( index + 1, 0 ) );
 
-			if ( labelTextoLog instanceof JLabel )
-			{
-				( ( JLabel ) labelTextoLog ).setText( model.getValueAt( index, 0 )
-						+ " foi reposicionado para depois de " + model.getValueAt( index + 1, 0 ) );
-			}
+			labelTextoLog.append( model.getValueAt( index, 0 ) + " foi reposicionado para depois de "
+					+ model.getValueAt( index + 1, 0 ) + "\n" );
 
 			if ( model.getPersonagem( index + 1 ).equals( model.getUltimoDaRodada( ) ) )
 			{
 				model.setUltimoDaRodada( model.getPersonagem( index ) );
 				System.out.println( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) );
+				labelTextoLog.append( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) + "\n" );
 			}
 
 			model.trocar( index, index + 1 );
@@ -118,11 +112,15 @@ public class CombateController implements ActionListener
 						personagem.setCa( personagem.getCa( ) + condicao.getValor( ) );
 						System.out.println( personagem + " recebeu " + condicao.getValor( )
 								+ " a mais na CA pela condição " + condicao.getEfeito( ).getNome( ) );
+						labelTextoLog.append( personagem + " recebeu " + condicao.getValor( )
+								+ " a mais na CA pela condição " + condicao.getEfeito( ).getNome( ) + "\n" );
 					} else
 					{
 						personagem.setCa( personagem.getCa( ) - condicao.getValor( ) );
 						System.out.println( personagem + " recebeu " + condicao.getValor( )
 								+ " a menos na CA pela condição " + condicao.getEfeito( ).getNome( ) );
+						labelTextoLog.append( personagem + " recebeu " + condicao.getValor( )
+								+ " a menos na CA pela condição " + condicao.getEfeito( ).getNome( ) + "\n" );
 					}
 				} else if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[2] ) )
 				{
@@ -131,11 +129,15 @@ public class CombateController implements ActionListener
 						personagem.setHpAtual( personagem.getHpAtual( ) + condicao.getValor( ) );
 						System.out.println( personagem + " recebeu " + condicao.getValor( ) + " de cura pela condição "
 								+ condicao.getEfeito( ).getNome( ) );
+						labelTextoLog.append( personagem + " recebeu " + condicao.getValor( )
+								+ " de cura pela condição " + condicao.getEfeito( ).getNome( ) + "\n" );
 					} else
 					{
 						personagem.setHpAtual( personagem.getHpAtual( ) - condicao.getValor( ) );
 						System.out.println( personagem + " recebeu " + condicao.getValor( ) + " de dano pela condição "
 								+ condicao.getEfeito( ).getNome( ) );
+						labelTextoLog.append( personagem + " recebeu " + condicao.getValor( )
+								+ " de dano pela condição " + condicao.getEfeito( ).getNome( ) + "\n" );
 					}
 				} else if ( efeito.getAtributoAfetado( ).equalsIgnoreCase( colunas[3] ) )
 				{
@@ -144,11 +146,15 @@ public class CombateController implements ActionListener
 						personagem.setHpMaximo( personagem.getHpMaximo( ) + condicao.getValor( ) );
 						System.out.println( personagem + " recebeu " + condicao.getValor( )
 								+ " a mais no HP Total pela condição " + condicao.getEfeito( ).getNome( ) );
+						labelTextoLog.append( personagem + " recebeu " + condicao.getValor( )
+								+ " a mais no HP Total pela condição " + condicao.getEfeito( ).getNome( ) + "\n" );
 					} else
 					{
 						personagem.setHpMaximo( personagem.getHpMaximo( ) - condicao.getValor( ) );
 						System.out.println( personagem + " recebeu " + condicao.getValor( )
 								+ " a menos no HP Total pela condição " + condicao.getEfeito( ).getNome( ) );
+						labelTextoLog.append( personagem + " recebeu " + condicao.getValor( )
+								+ " a menos no HP Total pela condição " + condicao.getEfeito( ).getNome( ) + "\n" );
 					}
 				} else
 				{
@@ -156,10 +162,14 @@ public class CombateController implements ActionListener
 					{
 						System.out.println( personagem + " recebeu " + condicao.getValor( )
 								+ " a mais no atributo da condição " + condicao.getEfeito( ).getNome( ) );
+						labelTextoLog.append( personagem + " recebeu " + condicao.getValor( )
+								+ " a mais no atributo da condição " + condicao.getEfeito( ).getNome( ) + "\n" );
 					} else
 					{
 						System.out.println( personagem + " recebeu " + condicao.getValor( )
 								+ " a menos no atributo da condição " + condicao.getEfeito( ).getNome( ) );
+						labelTextoLog.append( personagem + " recebeu " + condicao.getValor( )
+								+ " a menos no atributo da condição " + condicao.getEfeito( ).getNome( ) + "\n" );
 					}
 				}
 			}
@@ -176,16 +186,13 @@ public class CombateController implements ActionListener
 		}
 	}
 
-	public void finalizarTurno( Textable labelNumeroRodadas )
+	public void finalizarTurno( )
 	{
 		Personagem personagem = model.getPersonagem( 0 );
 
-		System.out.println( personagem + " finalizou seu turno" );
+		System.out.println( personagem + " finalizou seu turno\n" );
 
-		if ( labelTextoLog instanceof JLabel )
-		{
-			( ( JLabel ) labelTextoLog ).setText( personagem + " finalizou seu turno" );
-		}
+		labelTextoLog.append( personagem + " finalizou seu turno\n\n" );
 
 		if ( model.getPersonagem( 0 ).equals( model.getUltimoDaRodada( ) ) )
 		{
@@ -209,7 +216,7 @@ public class CombateController implements ActionListener
 				model.adicionar( personagem );
 				modelClone.adicionar( personagem );
 				System.out.println( personagem + " foi adicionado ao combate" );
-				labelTextoLog.setText( personagem + " foi adicionado ao combate" );
+				labelTextoLog.append( personagem + " foi adicionado ao combate\n" );
 				personagem = personagem.clone( );
 				personagem.setReplica( personagem.getReplica( ) + 1 );
 			}
@@ -221,7 +228,7 @@ public class CombateController implements ActionListener
 
 		Personagem personagem = model.getPersonagem( removido );
 		System.out.println( model.getValueAt( removido, 0 ) + " foi removido do combate" );
-		labelTextoLog.setText( model.getValueAt( removido, 0 ) + " foi removido do combate" );
+		labelTextoLog.append( model.getValueAt( removido, 0 ) + " foi removido do combate\n" );
 
 		model.remover( personagem );
 
@@ -247,6 +254,7 @@ public class CombateController implements ActionListener
 			}
 
 			System.out.println( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) );
+			labelTextoLog.append( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) + "\n" );
 		}
 
 		return false;
@@ -280,6 +288,8 @@ public class CombateController implements ActionListener
 		Condicao condicao = new Condicao( personagem.countCondicao( ) + 1, duracao, valor, efeito );
 		personagem.addCondicao( condicao );
 		System.out.println( personagem + " recebeu a condição " + efeito.getNome( ) + " por " + duracao + " turno(s)" );
+		labelTextoLog
+				.append( personagem + " recebeu a condição " + efeito.getNome( ) + " por " + duracao + " turno(s)\n" );
 
 		if ( !condicao.getEfeito( ).getIsContinuo( ) )
 		{
@@ -355,6 +365,8 @@ public class CombateController implements ActionListener
 
 		personagem.removeCondicao( condicao );
 		System.out.println( personagem + " perdeu a condição " + condicao.getEfeito( ).getNome( ) );
+		labelTextoLog.append( personagem + " perdeu a condição " + condicao.getEfeito( ).getNome( ) + "\n",
+				"destaque" );
 		return condicaoPersonagem( personagem );
 	}
 
