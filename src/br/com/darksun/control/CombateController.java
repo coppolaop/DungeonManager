@@ -174,11 +174,14 @@ public class CombateController implements ActionListener
 				}
 			}
 
-			condicao.setDuracaoAtual( condicao.getDuracaoAtual( ) - 1 );
-			if ( condicao.getDuracaoAtual( ) == 0 )
+			if ( condicao.getDuracaoAtual( ) == 1 )
 			{
 				removidos.add( condicao );
+			} else if ( condicao.getDuracaoAtual( ) > 0 )
+			{
+				condicao.setDuracaoAtual( condicao.getDuracaoAtual( ) - 1 );
 			}
+
 		}
 		for ( Condicao condicao : removidos )
 		{

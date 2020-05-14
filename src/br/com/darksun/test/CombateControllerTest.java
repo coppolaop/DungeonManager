@@ -287,4 +287,15 @@ class CombateControllerTest
 		}
 		Assert.assertEquals( false, atributosAfetados );
 	}
+
+	@Test
+	void testAtivaCondicaoSemDuracao( )
+	{
+		Efeito sangramento = new Efeito( 1, null, "Sangramento", 1, false, "HP Atual", true );
+		controller.adicionarCondicao( 0, sangramento, 0, 3 );
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		controller.ativaCondicao( );
+		Assert.assertEquals( true, controller.getModel( ).getPersonagem( 0 ).getCondicoes( ).size( ) == 1 );
+	}
 }

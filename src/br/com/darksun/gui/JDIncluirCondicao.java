@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -24,6 +25,7 @@ import br.com.darksun.entity.Efeito;
 class JDIncluirCondicao extends JDialog implements ActionListener, PropertyChangeListener
 {
 	private Efeito efeitoSelecionado = null;
+	private Boolean hasDuracao = true;
 	private Integer duracaoSelecionada = null;
 	private Integer valorSelecionado = null;
 	private JComboBox< Efeito > comboBox;
@@ -68,8 +70,9 @@ class JDIncluirCondicao extends JDialog implements ActionListener, PropertyChang
 
 		comboBox = new JComboBox( listaEfeitos( ).toArray( ) );
 
+		JCheckBox checkBox = new JCheckBox( "Sem duração" );
 		SpinnerModel numberModel1 = new SpinnerNumberModel( 1, 1, 100, 1 );
-		SpinnerModel numberModel2 = new SpinnerNumberModel( 1, 1, 100, 1 );
+		SpinnerModel numberModel2 = new SpinnerNumberModel( 0, 0, 100, 1 );
 		spinnerDuracao = new JSpinner( numberModel1 );
 		spinnerValor = new JSpinner( numberModel2 );
 
@@ -81,13 +84,16 @@ class JDIncluirCondicao extends JDialog implements ActionListener, PropertyChang
 		{ msgString1, comboBox };
 
 		Object[ ] array2 =
-		{ msgString2, spinnerDuracao };
+		{ checkBox };
 
 		Object[ ] array3 =
+		{ msgString2, spinnerDuracao };
+
+		Object[ ] array4 =
 		{ msgString3, spinnerValor };
 
 		Object[ ] array =
-		{ array1, array2, array3 };
+		{ array1, array2, array3, array4 };
 
 		Object[ ] options =
 		{ btnString1 };
@@ -116,6 +122,23 @@ class JDIncluirCondicao extends JDialog implements ActionListener, PropertyChang
 		} );
 
 		optionPane.addPropertyChangeListener( this );
+
+		checkBox.addActionListener( new ActionListener( )
+		{
+			@Override
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( checkBox.isSelected( ) )
+				{
+					hasDuracao = false;
+
+				} else
+				{
+					hasDuracao = true;
+				}
+				spinnerDuracao.setEnabled( hasDuracao );
+			}
+		} );
 	}
 
 	public void actionPerformed( ActionEvent e )
@@ -142,7 +165,13 @@ class JDIncluirCondicao extends JDialog implements ActionListener, PropertyChang
 			if ( btnString1.equals( value ) )
 			{
 				efeitoSelecionado = ( Efeito ) comboBox.getSelectedItem( );
-				duracaoSelecionada = ( Integer ) spinnerDuracao.getValue( );
+				if ( hasDuracao )
+				{
+					duracaoSelecionada = ( Integer ) spinnerDuracao.getValue( );
+				} else
+				{
+					duracaoSelecionada = 0;
+				}
 				valorSelecionado = ( Integer ) spinnerValor.getValue( );
 				clearAndHide( );
 
