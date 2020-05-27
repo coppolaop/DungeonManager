@@ -340,6 +340,12 @@ public class TabelaCombate extends AbstractTableModel
 		fireTableRowsInserted( personagens.size( ), personagens.size( ) );
 	}
 
+	public void adicionar( Personagem personagem, Integer posicao )
+	{
+		personagens.add( posicao, personagem );
+		fireTableRowsInserted( personagens.size( ), personagens.size( ) );
+	}
+
 	public void remover( Personagem personagem )
 	{
 		int index = personagens.indexOf( personagem );

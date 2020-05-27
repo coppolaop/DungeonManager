@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -28,6 +29,7 @@ class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyCha
 	private JComboBox< Personagem > comboBox;
 	private JSpinner spinner;
 	private JOptionPane optionPane;
+	private JCheckBox hasIniciativa;
 
 	private String btnString1 = "Adicionar Personagem";
 	private String btnString2 = "Adicionar Réplica";
@@ -48,12 +50,17 @@ class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyCha
 		return numeroSelecionado;
 	}
 
+	public Boolean getHasIniciativa( )
+	{
+		return hasIniciativa.isSelected( );
+	}
+
 	// Cria da Dialog
 	public JDIncluirPersonagem( JFPrincipal frame )
 	{
 		super( frame, true );
 
-		setBounds( 50, 50, 400, 200 );
+		setBounds( 50, 50, 400, 220 );
 
 		setTitle( "Adicionar Persoangem no Combate" );
 
@@ -61,6 +68,7 @@ class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyCha
 
 		SpinnerModel numberModel = new SpinnerNumberModel( 1, 1, 100, 1 );
 		spinner = new JSpinner( numberModel );
+		hasIniciativa = new JCheckBox( "Rolagem de iniciativa" );
 
 		String msgString1 = "Personagem";
 		String msgString2 = "Quantidade";
@@ -71,8 +79,11 @@ class JDIncluirPersonagem extends JDialog implements ActionListener, PropertyCha
 		Object[ ] array2 =
 		{ msgString2, spinner };
 
+		Object[ ] array3 =
+		{ hasIniciativa };
+
 		Object[ ] array =
-		{ array1, array2 };
+		{ array1, array2, array3 };
 
 		Object[ ] options =
 		{ btnString1, btnString2 };

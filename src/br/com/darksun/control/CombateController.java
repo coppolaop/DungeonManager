@@ -70,6 +70,8 @@ public class CombateController implements ActionListener
 				labelTextoLog.append( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) + "\n" );
 			}
 
+			model.getPersonagem( index ).setIniciativa( model.getPersonagem( index - 1 ).getIniciativa( ) );
+
 			model.trocar( index, index - 1 );
 		}
 	}
@@ -90,6 +92,8 @@ public class CombateController implements ActionListener
 				System.out.println( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) );
 				labelTextoLog.append( "A rodada agora acaba depois de " + model.getUltimoDaRodada( ) + "\n" );
 			}
+
+			model.getPersonagem( index ).setIniciativa( model.getPersonagem( index + 1 ).getIniciativa( ) );
 
 			model.trocar( index, index + 1 );
 		}
@@ -206,7 +210,7 @@ public class CombateController implements ActionListener
 		ativaCondicao( );
 	}
 
-	public void adicionarPersonagem( Personagem personagem, Integer quantidade )
+	public void adicionarPersonagem( Personagem personagem, Integer quantidade, List< Integer > iniciativas )
 	{
 		if ( personagem != null )
 		{
@@ -216,10 +220,92 @@ public class CombateController implements ActionListener
 				{
 					personagem.setReplica( personagem.getReplica( ) + 1 );
 				}
-				model.adicionar( personagem );
-				modelClone.adicionar( personagem );
-				System.out.println( personagem + " foi adicionado ao combate" );
-				labelTextoLog.append( personagem + " foi adicionado ao combate\n" );
+
+				if ( iniciativas != null )
+				{
+					Integer iniciativa = iniciativas.get( i );
+					personagem.setIniciativa( iniciativa );
+					Boolean inserido = false;
+					Integer listSize = model.getPersonagens( ).size( );
+					Integer posicaoPrimeiro = 0;
+					Integer iniciativaPrimeiro = 0;
+
+					for ( int j = 0; j < listSize; j++ )
+					{
+						if ( model.getPersonagem( j ).getIniciativa( ) > iniciativaPrimeiro )
+						{
+							iniciativaPrimeiro = model.getPersonagem( j ).getIniciativa( );
+							posicaoPrimeiro = j;
+						}
+					}
+
+					for ( int j = posicaoPrimeiro; j < listSize; j++ )
+					{
+						Personagem personagemDaLista = model.getPersonagem( j );
+						Integer comparacao = new IniciativaComparator( ).compare( personagem, personagemDaLista );
+						if ( !( comparacao > 0 ) )
+						{
+							model.adicionar( personagem, j );
+							modelClone.adicionar( personagem, j );
+							inserido = true;
+							break;
+						}
+					}
+
+					if ( !inserido )
+					{
+						for ( int j = 0; j < posicaoPrimeiro; j++ )
+						{
+							Personagem personagemDaLista = model.getPersonagem( j );
+							Integer comparacao = new IniciativaComparator( ).compare( personagem, personagemDaLista );
+							if ( !( comparacao > 0 ) )
+							{
+								model.adicionar( personagem, j );
+								modelClone.adicionar( personagem, j );
+								inserido = true;
+								break;
+							}
+						}
+					}
+
+					if ( !inserido )
+					{
+						Integer comparacao = new IniciativaComparator( ).compare( personagem,
+								model.getPersonagem( 0 ) );
+						if ( !( comparacao > 0 ) )
+						{
+							model.adicionar( personagem, posicaoPrimeiro );
+							modelClone.adicionar( personagem, posicaoPrimeiro );
+						} else
+						{
+							model.adicionar( personagem, listSize );
+							modelClone.adicionar( personagem, listSize );
+						}
+
+					}
+
+					System.out.println( personagem + " foi adicionado ao combate com iniciativa " + iniciativa );
+					labelTextoLog
+							.append( personagem + " foi adicionado ao combate com iniciativa " + iniciativa + "\n" );
+
+					if ( model.getUltimoDaRodada( ).getIniciativa( ) > personagem.getIniciativa( ) )
+					{
+						model.setUltimoDaRodada( personagem );
+						System.out.println( "A rodada agora acaba depois de " + personagem );
+						labelTextoLog.append( "A rodada agora acaba depois de " + personagem + "\n" );
+					}
+
+				} else
+				{
+					model.adicionar( personagem );
+					modelClone.adicionar( personagem );
+					model.setUltimoDaRodada( personagem );
+					System.out.println( personagem + " foi adicionado ao combate" );
+					labelTextoLog.append( personagem + " foi adicionado ao combate\n" );
+					System.out.println( "A rodada agora acaba depois de " + personagem );
+					labelTextoLog.append( "A rodada agora acaba depois de " + personagem + "\n" );
+				}
+
 				personagem = personagem.clone( );
 				personagem.setReplica( personagem.getReplica( ) + 1 );
 			}

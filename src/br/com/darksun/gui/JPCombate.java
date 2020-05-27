@@ -11,6 +11,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -293,8 +294,22 @@ public class JPCombate extends JPPadrao
 				JDIncluirPersonagem ip = new JDIncluirPersonagem( frame );
 				ip.setVisible( true );
 				Personagem personagem = ip.getPersonagemSelecionado( );
-				int quantidade = ip.getNumeroSelecionado( );
-				controller.adicionarPersonagem( personagem, quantidade );
+				Integer quantidade = ip.getNumeroSelecionado( );
+				if ( ip.getHasIniciativa( ) )
+				{
+					List< Integer > iniciativas = new ArrayList< Integer >( );
+					for ( int i = 0; i < quantidade; i++ )
+					{
+						JDInicitivaManual im = new JDInicitivaManual( frame, personagem );
+						im.setVisible( true );
+						iniciativas.add( im.getValidatedText( ) );
+					}
+					controller.adicionarPersonagem( personagem, quantidade, iniciativas );
+				} else
+				{
+					controller.adicionarPersonagem( personagem, quantidade, null );
+				}
+
 			}
 		} );
 

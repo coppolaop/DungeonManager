@@ -111,12 +111,105 @@ class CombateControllerTest
 	}
 
 	@Test
-	void testAdicionarPersonagem( )
+	void testAdicionarPersonagemSemIniciativa( )
 	{
 		Personagem PDM5 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12,
 				2, 22, 40, 70, false, true, 3 );
-		controller.adicionarPersonagem( PDM5, 1 );
+		controller.adicionarPersonagem( PDM5, 1, null );
 		Assert.assertEquals( PDM5, controller.getModel( ).getPersonagem( 7 ) );
+	}
+
+	@Test
+	void testAdicionarPersonagemNormalFim( )
+	{
+		Personagem PDM5 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12,
+				2, 3, 40, 70, false, true, 3 );
+		List< Integer > lista = new ArrayList< Integer >( );
+		lista.add( 3 );
+		controller.adicionarPersonagem( PDM5, 1, lista );
+		Assert.assertEquals( PDM5, controller.getModel( ).getPersonagem( 7 ) );
+	}
+
+	@Test
+	void testAdicionarPersonagemNormalMeio( )
+	{
+		Personagem PDM5 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12,
+				2, 3, 40, 70, false, true, 3 );
+		List< Integer > lista = new ArrayList< Integer >( );
+		lista.add( 15 );
+		controller.adicionarPersonagem( PDM5, 1, lista );
+		Assert.assertEquals( PDM5, controller.getModel( ).getPersonagem( 3 ) );
+	}
+
+	@Test
+	void testAdicionarPersonagemNormalInicio( )
+	{
+		Personagem PDM5 = new Personagem( 5, "Fantasma", "resources/pdm/Fantasma.properties", "Morto-vivo", "", "", 12,
+				2, 3, 40, 70, false, true, 3 );
+		List< Integer > lista = new ArrayList< Integer >( );
+		lista.add( 23 );
+		controller.adicionarPersonagem( PDM5, 1, lista );
+		Assert.assertEquals( PDM5, controller.getModel( ).getPersonagem( 0 ) );
+	}
+
+	@Test
+	void testAdicionarPersonagemNormalCompleto( )
+	{
+		Personagem PDM5 = new Personagem( 5, "Yeti", "resources/pdm/Yeti.properties", "Monstro de Gelo", "", "", 12, 2,
+				3, 40, 70, false, true, 3 );
+		List< Integer > lista = new ArrayList< Integer >( );
+		lista.add( 23 );
+		lista.add( 15 );
+		lista.add( 3 );
+		controller.adicionarPersonagem( PDM5, 3, lista );
+		Boolean funcionamento = true;
+
+		if ( !controller.getModel( ).getPersonagem( 0 ).getNome( ).equals( PDM5.getNome( ) ) )
+		{
+			funcionamento = false;
+		} else if ( !controller.getModel( ).getPersonagem( 4 ).getNome( ).equals( PDM5.getNome( ) ) )
+		{
+			funcionamento = false;
+		} else if ( !controller.getModel( ).getPersonagem( 9 ).getNome( ).equals( PDM5.getNome( ) ) )
+		{
+			funcionamento = false;
+		}
+
+		Assert.assertEquals( true, funcionamento );
+	}
+
+	@Test
+	void testAdicionarPersonagemUltimoComIniciativaPositivo( )
+	{
+		Personagem PDM5 = new Personagem( 5, "Yeti", "resources/pdm/Yeti.properties", "Monstro de Gelo", "", "", 12, 2,
+				3, 40, 70, false, true, 3 );
+		List< Integer > lista = new ArrayList< Integer >( );
+		lista.add( 3 );
+		controller.adicionarPersonagem( PDM5, 1, lista );
+
+		Assert.assertEquals( true, controller.getModel( ).getUltimoDaRodada( ).equals( PDM5 ) );
+	}
+
+	@Test
+	void testAdicionarPersonagemUltimoComIniciativaNegativo( )
+	{
+		Personagem PDM5 = new Personagem( 5, "Yeti", "resources/pdm/Yeti.properties", "Monstro de Gelo", "", "", 12, 2,
+				3, 40, 70, false, true, 3 );
+		List< Integer > lista = new ArrayList< Integer >( );
+		lista.add( 23 );
+		controller.adicionarPersonagem( PDM5, 1, lista );
+
+		Assert.assertEquals( false, controller.getModel( ).getUltimoDaRodada( ).equals( PDM5 ) );
+	}
+
+	@Test
+	void testAdicionarPersonagemUltimoSemIniciativa( )
+	{
+		Personagem PDM5 = new Personagem( 5, "Yeti", "resources/pdm/Yeti.properties", "Monstro de Gelo", "", "", 12, 2,
+				3, 40, 70, false, true, 3 );
+		controller.adicionarPersonagem( PDM5, 1, null );
+
+		Assert.assertEquals( true, controller.getModel( ).getUltimoDaRodada( ).equals( PDM5 ) );
 	}
 
 	@Test
