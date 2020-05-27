@@ -61,13 +61,13 @@ Nós utilizamos [SemVer](http://semver.org/) para versionamento. Para as versõe
 
 ## Desenvolvedores
 
-* **Marcos "Coppola" Gonçalves** - *2018-2019* - [Coppolaop](https://github.com/coppolaop)
+* **Marcos "Coppola" Gonçalves** - *2018-2020* - [Coppolaop](https://github.com/coppolaop)
 * **Vitor Abel** - *2018-2019* - [vitor-abel](https://github.com/vitor-abel)
-* **Igor Huayck** - *2019* - [Flaigor](https://github.com/Flaigor)
+* **Igor Huayck** - *2019-2020* - [Flaigor](https://github.com/Flaigor)
 
 ## Testadores
 
-* **Marcos "Coppola" Gonçalves** - *2019-2019* - [Coppolaop](https://github.com/coppolaop)
+* **Marcos "Coppola" Gonçalves** - *2019-2020* - [Coppolaop](https://github.com/coppolaop)
 * **Vitor Abel** - *2019-2019* - [vitor-abel](https://github.com/vitor-abel)
 
 ## Licença
